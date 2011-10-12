@@ -43,7 +43,7 @@
   % (value of the observation just inside the inner fence). 
   and the expected number of ``outliers'' and ``far-out'' 
   values for a Gaussian sample of size $n$ is often
-  less than 10 \citet{dchbox}.
+  less than 10 \citep{dchbox}.
   Larger data sets ($n \approx 10,000-100,000$)
   afford more precise estimates of quantiles in the
   tails beyond the quartiles. Yet conventional boxplots
@@ -74,19 +74,19 @@
 
 \section{Introduction}
 
-Since John Tukey introduced box plots \citet{tukey72}, various 
+Since John Tukey introduced box plots \citep{tukey72}, various 
 modifications to them have been proposed, some by Tukey himself;
 e.g., the whisker definition changed from ``quartiles to extremes'' 
-\citet{tukey72} to ``quartiles to adjacent values'' \citet{eda}.
+\citep{tukey72} to ``quartiles to adjacent values'' \citep{eda}.
 In \textit{Exploratory Data Analysis} (\textit{EDA}), 
-\citep{eda} recommended as estimates of the quartiles the
+\citet{eda} recommended as estimates of the quartiles the
 % $([\frac{n}{2}] + 1)/2$-th and $(n + 1 ([\frac{n}{2}] + 1)/2)$-th 
 $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th 
 order statistics, later called ``lower fourth'' and 
-``upper fourth'' in \citep{ureda}; their \textit{depth} 
+``upper fourth'' in \citet{ureda}; their \textit{depth} 
 is defined as $([n/2] + 1)/2$ because they lie that
 many observations in from the extremes.
-\citep{variations.boxplots} enhanced box plots with 
+\citet{variations.boxplots} enhanced box plots with 
 variable widths (where box widths are proportional to the square 
 root of the sample sizes) and notches (which indicate half-lengths 
 of approximate intervals for comparing medians). 
@@ -96,7 +96,7 @@ notions of the distributions of the data beyond location,
 spread, and tail length, through the use
 of nonparametric density estimates; such added detail can be
 especially useful for larger sample sizes.  However, as
-\citep{vase} acknowledged, these later displays depend 
+\citet{vase} acknowledged, these later displays depend 
 on the specific estimation procedure
 (e.g., kernel density estimate, nearest-neighbor, spline, etc.)
 as well as on a bandwidth or other smoothing parameter.
@@ -110,7 +110,7 @@ unambiguously
 Despite this virtue, boxplots can be inadequate for 
 extremely large samples, because the larger the sample 
 size, the more labeled outliers.
-The conventional boxplot \citet{eda, emerson83}  labels an observation as ``outside'' if it lies 
+The conventional boxplot \citep{eda, emerson83}  labels an observation as ``outside'' if it lies 
 beyond the ``inner fences,'' defined by the pair of 
 numbers $[L_F - k(U_F - L_F), U_F + k(U_F - L_F)]$ 
 where $L_F$ and $U_F$ denote the lower and upper
@@ -122,9 +122,9 @@ approximately linearly with $n$, namely
 0.4 + 0.007$n$ 
 % (approximation due to Hoaglin, Iglewicz, and Tukey 1986), 
 % KK: actually, this approx appears in Ch2 of UREDA 1983
-(cf.~\citep{dchlv}) %%% cite Ch2 in UREDA
+(cf.~\citet{dchlv}) %%% cite Ch2 in UREDA
 which can be quite large when $n$ is large.  
-\citep[1148]{dchbox} demonstrated that the
+\citet[1148]{dchbox} demonstrated that the
 conventional boxplot (using a slightly improved definition
 of the fourths, namely that order statistic (or average of
 adjacent order statistics) having depth $n/4 + 5/12$,
@@ -149,7 +149,7 @@ observations that lie beyond each fourth.
 Figure~\ref{kkewbox} illustrates this phenomenon with a boxplot 
 of 135,605 Internet session durations (transformed via logs), 
 stratified into 32 groups based on the logarithms of the number 
-of bytes transferred during the session (see \citep{kw06}
+of bytes transferred during the session (see \citet{kw06}
 for further details about the data and the transformations
 that were applied).  The box widths are proportional to the
 square roots of the sample sizes \citep{variations.boxplots} and the sample sizes in the 32 boxes range from 1341
@@ -269,7 +269,7 @@ so the box and whiskers can be expected to cover
 at least than 99.3\% of the distribution --- leaving 
 about 0.7\% of the points to be labeled as outliers 
 (and $2.34 \cdot 10^{-04}$\% ``far outliers'') -- hence the
-approximation in \citep[34]{dchlv} for the expected 
+approximation in \citet[34]{dchlv} for the expected 
 number of labeled outliers (0.4 + 0.007$n$).
 In the setting of an exponential distribution with unit mean, 
 the theoretical hinges lie at 0.2877 and 1.3863, so the fourth
@@ -277,7 +277,7 @@ spread will be roughly 1.0986.  The box and whiskers therefore
 cover less area, roughly 0.9519, and an ``outlier'' rate
 of almost 5\% and a ``far-out'' rate of almost 1\%.
 
-The approach of \citep{dchbi}, which
+The approach of \citet{dchbi}, which
 labels a fixed number of ``outliers'' (``fixed outside rate'')
 using a rule that is based on the fourths, avoids this dependence 
 of the expected outside rate on the underlying distribution.
@@ -326,7 +326,7 @@ is that the median of the sampling distribution for
 this sample quantile from a
 continuous distribution $F(\cdot)$ is very close to
 $F^{-1} ((i - \frac{1}{3})/(n + \frac{1}{3})$, for a 
-wide range of $F$, $n$, and $i$ (Hoaglin 1983).
+wide range of $F$, $n$, and $i$ \citep{dchlv}.
 Because each depth is roughly half the previous depth,
 the letter values approximate the quantiles corresponding
 to tail areas $2^{-i}$.
@@ -338,7 +338,7 @@ Along with the letter values are shown the midsummaries
 (average of the upper and lower letter values, denoted ``mids''
 in Table 2), 
 the midspreads (spread between the letter values, denoted
-``spread''), and ``pseudo-sigma'' citet[40]{dchlv}, 
+``spread''), and ``pseudo-sigma'' citep[40]{dchlv}, 
 the sample letter-value spread divided by the theoretical
 letter-value spread for a standard Gaussian
 distribution (e.g., pseudo-sigma based on the fourths is 
@@ -439,9 +439,9 @@ Letter values are particularly useful for large data sets,
 because (a) much of the most valuable information, especially
 for inference purposes, is contained in the tails
 (cf.~Winsor's principle, ``All distributions are normal
-in the middle'';  \citet[457]{tukey60} ; and (b) adjacent
+in the middle'';  \citep[457]{tukey60} ; and (b) adjacent
 letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707
-(Mosteller 1946, cited by Hoaglin 1983, p.51--52).
+(Mosteller 1946, cited by \citet[51--52]{dchlv}.
 Thus, rather little information concerning tail behavior
 is lost by considering only the letter values.  Figure \ref{qqpop4}
 illustrates this retention of tail information in visualizing the
@@ -567,7 +567,7 @@ Figure \ref{kkewbox} shows a boxplot of a measure of the
 duration of 135,000 Internet sessions, stratified
 into 32 groups based on the logarithms of
 the number of bytes transferred during the
-session (cf.~\citep{kk06}, for a similar plot).
+session (cf.~\citet{kk06}, for a similar plot).
 The sample sizes in the 32 boxes range from 1341 (Box\#32)
 to 7865 (Box\#13), with an average sample size of 4238.
 With so many observations in each category,
