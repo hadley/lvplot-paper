@@ -363,28 +363,11 @@ Figure~\ref{lvpops} shows the letter-value boxplots and the conventional boxplot
 \section{Extent of letter-value boxplots}
 \label{sec:extent}
 
-As indicated in the introduction, a serious
-drawback to the conventional boxplot for large
-data sets is the tendency for a very large number
-of labeled outliers, roughly 0.7\% of the sample size.  
-Figure \ref{kkewbox} shows a boxplot of a measure of the 
-duration of 135,000 Internet sessions, stratified
-into 32 groups based on the logarithms of
-the number of bytes transferred during the
-session (cf.~\citet{kw06}, for a similar plot).
-The sample sizes in the 32 boxes range from 1341 (Box\#32)
-to 7865 (Box\#13), with an average sample size of 4238.
-With so many observations in each category,
-the number of labeled outliers is huge --- far too 
-many to investigate individually.  This large number
-makes it difficult to distinguish between genuine
-``outliers'' (observations from a different distribution)
-and merely extreme observations from a distribution with
-longer tails than the Gaussian.
+As indicated in the introduction, a serious drawback to the conventional boxplot for large data sets is the tendency for a very large number of labeled outliers, roughly 0.7\% of the sample size. Figure~\ref{kkewbox} shows a boxplot of a measure of the duration of 135,000 Internet sessions, stratified into 32 groups based on the logarithms of the number of bytes transferred during the session (cf.~\citet{kw06}, for a similar plot). The sample sizes in the 32 boxes range from 1341 (Box\#32) to 7865 (Box\#13), with an average sample size of 4238. With so many observations in each category, the number of labeled outliers is huge --- far too many to investigate individually. This large number makes it difficult to distinguish between genuine ``outliers'' (observations from a different distribution) and merely extreme observations from a distribution with longer tails than the Gaussian.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=6.5cm,angle=270]{lvbox2}
+  \includegraphics[width = 0.75\linewidth]{lvbox2}
 
   \caption{Letter value plots of the boxplots shown in Figure \ref{kkewbox}
   (transformed durations of 135,000 Internet sessions, grouped by ranges of
@@ -393,150 +376,32 @@ longer tails than the Gaussian.
 
 \end{figure}
 
+The standard letter value display stops with that letter value having depth = 1 (i.e., the extremes). In many cases, these extremes could lie far from the rest of the sample, particularly if they are outliers. Just as the whiskers in the conventional boxplot extend only to the adjacent values (observations just inside the inner fences, which can be the extremes in samples with no labeled outliers), the number of boxes in a letter-value boxplot need not extend to the last box corresponding to the extremes. We need a rule to determine the number of boxes to show in a letter-value boxplot, which will determine the number of labeled outliers. In this section, we consider four proposals for such a rule.
 
-The standard letter value display (cf.~Table 2) stops with
-that letter value having depth=1 (i.e., the extremes).
-In many cases, these extremes could lie far from the
-rest of the sample, particularly if they are outliers.
-Just as the whiskers in the conventional boxplot 
-extend only to the adjacent values (observations just
-inside the inner fences, which can be the extremes
-in samples with no labeled outliers), the number
-of boxes in a letter-value boxplot need not
-extend to the last box corresponding to the extremes.
-We need a rule to determine the number of boxes to
-show in a letter-value boxplot, which will determine
-the number of labeled outliers.
-In this section, we consider four proposals for
-such a rule.
+In many of the displays in \textit{Exploratory Data Analysis}, Tukey identified 5--8 extreme points. As a rough guideline, we can choose the extent of the letter-value boxplot display so that the last set of boxes encompasses all but the 5--8 most extreme observations. Recall that the depth of the $k^{th}$ letter value, $d_k$, is defined in terms of the previous depth: $d_k = (1 + \lfloor d_{k-1} \rfloor)/2$, which implies that $2 d_{k} -1 \leq d_{k-1} \leq 2 d_k - (1/2)$. If we stop the letter-value boxplot display at $LV_k$ where $k = \lfloor \log_2 n \rfloor - 3$, then we can expect to label 5--8 observations in each tail. For samples of size 10,000 as in Figure~\ref{stackbox}, $k = \lfloor log_2 10000 \rfloor - 4$ = 13 -- 4 = 9, so 9 letter values beyond the median are shown (F, E, D, C, B, A, Z, Y, X -- i.e., down to tail area of roughly 1/1024 $\approx$ 0.001). For the 3068 continental U.S.~county populations, $k = \lfloor log_2 3068 \rfloor - 4$ = 11 -- 4 = 7, so Figure \ref{kkewbox} shows 7 letter values (M, F, E, D, C, B, A).
 
-In many of the displays in \textit{Exploratory
-Data Analysis}, Tukey identified 5--8 extreme points.
-As a rough guideline, we can choose the extent
-of the letter-value boxplot display so that
-the last set of boxes encompasses all but
-the 5--8 most extreme observations.
-Recall that the depth of the $k^{th}$ letter value,
-$d_k$, is defined in terms of the previous depth:
-$d_k = (1 + \lfloor d_{k-1} \rfloor)/2$, which
-implies that 
-$2 d_{k} -1 \leq d_{k-1} \leq 2 d_k - (1/2)$.
-If we stop the letter-value boxplot display at
-$LV_k$ where $k = \lfloor \log_2 n \rfloor - 3$,
-then we can expect to label 5--8 observations
-in each tail.  For samples of size
-10,000 as in Figure \ref{stackbox},
-$k = \lfloor log_2 10000 \rfloor - 4$ = 13 -- 4 = 9,
-so 9 letter values beyond the median are shown
-(F, E, D, C, B, A, Z, Y, X -- i.e., down to
-tail area of roughly 1/1024 $\approx$ 0.001).
-For the 3068 continental U.S.~county populations,
-$k = \lfloor log_2 3068 \rfloor - 4$ = 11 -- 4 = 7,
-so Figure \ref{kkewbox} shows
-7 letter values (M, F, E, D, C, B, A).
 % \textbf{Heike, please check!  something not consistent here.}
 
+An alternative criterion fixes the number of labeled outliers as a percentage of the overall sample size. Letting $p$ denote this proportion, the last set of boxes to be drawn ends with depths
 
-An alternative criterion fixes the number of
-labeled outliers as a percentage of
-the overall sample size.  Letting $p$ denote
-this proportion, the last set of boxes to be
-drawn ends with depths
-\begin{center}
-$k = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor + 1$
-\end{center}
-In effect, conventional box plots use this rule, with $p = 0.007$.
-This criterion results in the same rule 
-as the previous rule for the samples in
-Figure \ref{stackbox} ($n = 10,000$) when 
-$p$ lies between 0.004 and 0.006 (0.4\% -- 0.6\%), 
-and in Figure \ref{lvpops} ($n = 3068$) when
-$p$ lies between 0.011 and 0.020 (1.1\% -- 2.0\%).
+\begin{equation}
+k = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor + 1
+\end{equation}
 
-% A third approach is to base the final $k$ on 
-% the ``trustworthiness'' of the $k^{th}$ letter value 
-% as an estimate of the corresponding population quantile.
-% 
-% Let us assume, that the $k$th letter-value statistic is the 
-% minimal letter-value statistic with depth 1, i.e. $d_k = 1$. 
-% This implies  $d_{k-1} = 1.5$ (the median of two observations). 
-% For $d_{k-2}$ we have a minimum of 2 and a maximum of 2.5, 
-% based on at least 3 observations and at most 4. From this, 
-% the $k-3$ letter-value statistics has a depth of at least 3 
-% and at most 4.5. $d_{k-4}$ is at least 5 and at most 8.5, 
-% $d_{k-5}$ is at least 9 and at most 16.5.
-% For $d_{k} \ge 1.5$ the general rule holds, that 
-% $2d_{k} - 1 \le d_{k-1} \le 2d_{k} -0.5$. 
-% 
-% Based on these considerations, we can now try to come up with 
-% a default percentage or default number of points, which we 
-% want to draw and identify individually. This will also determine 
-% the number of  boxes we have to draw.
-% 
-% In almost all of his publications, Tukey made sure to identify 
-% and label the five most extreme points in a boxplot at each end 
-% of the scale. We could use this value as a guideline and show 
-% five to eight points individually. For $n$ observations, 
-% using $k$ letter-value statistics with $k$ given as
-% \[
-% k = \lceil \log_2 (n) \rceil - 4,
-% \]
-% ensures between 5 and 8 individual points on each side. 
-% 
-% Another alternative is, to fix the number of individually drawn 
-% points in terms of a percentage of the overall sample size. 
-% Assuming, we want to have $p$ percent points marked as outliers, 
-% we will use $k$ letter-value statistics with $k$:
-% \[
-% k = \lceil \log_2 (n) \rceil - \lceil \log_2 (0.01 n p) \rceil + 1.
-% \]
+\noindent In effect, conventional box plots use this rule, with $p = 0.007$. This criterion results in the same rule as the previous rule for the samples in Figure~\ref{stackbox} ($n = 10,000$) when $p$ lies between 0.004 and 0.006 (0.4--0.6\%), and in Figure \ref{lvpops} ($n = 3068$) when $p$ lies between 0.011 and 0.020 (1.1--2.0\%).
 
-A third approach is a rule in which the final $k$ is based on 
-the ``trustworthiness'' of the $k^{th}$ letter value as an 
-estimate of the corresponding population quantile. 
-``Trustworthiness'' can be characterized by the %% extent of an
-approximate 95\% confidence interval around a given letter value:
-if the interval overlaps that for the subsequent letter value, then 
-the uncertainty for the given letter value is high enough that we
-will not display it.  Thus, boxes are shown for those
-letter values whose approximate 95\% confidence intervals
-exclude the neighboring letter values. 
-Since a letter value can be viewed as the median between the
-extreme the previous letter value, and since an approximate
-$1-\alpha$ confidence interval for the median of $m$ values 
-(with $n > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ 
-observations on both sides of the sample median (rounding to 
-the nearest integer), where $z_{1-\alpha/2}$ is the 
-${1-\alpha/2}$ quantile of a standard Gaussian distribution 
-(\citet[161]{ha.order}, based on the Gaussian
-approximation to the binomial distribution), this third
-criterion leads to a particularly straightforward rule.
+A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps that for the subsequent letter value, then the uncertainty for the given letter value is high enough that we will not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $n > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule.
 
-%%% KK made changes.  No need for $n_k$ notation as $d_k$ is the depth.
-Denote the $k$th letter value by $LV_k$. 
-% Let $n_k$ be the number of observations in the tail beyond
-The depth of $LV_k$, $d_k$, is the number of observations in the tail beyond
-and including $LV_{k}$ (with $n_0 \equiv n$ and $n_1 \equiv (n+1)/2$ for the
-first letter value, namely the median), 
-so $LV_{k+1} \equiv X_{(d_{k+1})}$ is the median
-of $n_k$ observations.
+Denote the $k$th letter value by $LV_k$. The depth of $LV_k$, $d_k$, is the number of observations in the tail beyond and including $LV_{k}$ (with $n_0 \equiv n$ and $n_1 \equiv (n+1)/2$ for the first letter value, namely the median), so $LV_{k+1} \equiv X_{(d_{k+1})}$ is the median of $n_k$ observations.
+
 %%% I LEFT THIS (changed n_k to d_k) BUT I DO NOT THINK IT IS RIGHT.
 %%% prev paragraph says that approx CI for $LV_k$ would have $d_k/2$
 %%% observations on (right) side of it, so approx CI for $LV_{k+1} would 
 %%% have $d_{k+1}/2 \approx d_k/4$ observations on (left) side.
 %%% so we need to have $sqrt(d_k)/2 + sqrt(d_k/2)/2 < (d_k/2 - d_k/4)$
 %%% i.e., $d_k < 11.6$.
-If the confidence interval of $LV_{k+1}$ does not extend beyond 
-$d_k/4$, then we proceed to letter value $k+1$. 
-If the confidence interval around $LV_{k+1}$ does extend beyond $d_k/4$, 
-we return to $LV_{k}$ as the last letter value shown.
-For an approximate confidence level of $\alpha= 0.05$, the first property 
-leads to $\sqrt{d_k} < d_k/4$; i.e., we proceed to $k+1$ as long as 
-$d_k > 16$. 
-We return to $k-1$ if  $\sqrt{d_k} \ge d_k/2$; i.e., if $d_k \le 4$. 
-A rule such as this one with 95\% confidence level often leads to
-labeling 5--8 of the most extreme observations on each side,
-surprisingly consistent with many of the displays in \textit{EDA}.
+
+If the confidence interval of $LV_{k+1}$ does not extend beyond $d_k/4$, then we proceed to letter value $k+1$. If the confidence interval around $LV_{k+1}$ does extend beyond $d_k/4$, we return to $LV_{k}$ as the last letter value shown. For an approximate confidence level of $\alpha= 0.05$, the first property leads to $\sqrt{d_k} < d_k/4$; i.e., we proceed to $k+1$ as long as $d_k > 16$. We return to $k-1$ if $\sqrt{d_k} \ge d_k/2$; i.e., if $d_k \le 4$. A rule such as this one with 95\% confidence level often leads to labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \textit{EDA}.
 
 Generally, the third rule suggests showing $k$  ``trustworthy'' LVs where
 %\begin{eqnarray*}
@@ -550,99 +415,61 @@ k =  \left \lfloor \log_2 (n) - \log_2
    \left(4  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
 \end{equation}
 
-This third stopping rule has the obvious advantage that it provides a 
-simple, distribution-free solution. Neither the overall sample size,
-nor any distribution-related characteristic such as skewness or 
-kurtosis, affects the rule.
-When $\alpha = 0.05$ (95\% point-wise confidence), the rule
-leads to showing only those letter values whose depths are
-at least 10 (i.e., labeling 5--8 observations on each side).
-Because the first rule is a special case of this third rule,
-we will consider the use of only stopping rules 2 and 3.
-Note that $k = 7$ when $n$ is
-between 492 and 983, which corresponds to letter value A
-(Gaussian tail area 0.78\%).  When $n$ is between 984 and 1966, 
-$k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%),
-which is very close to the expected percentage of outliers 
-from a Gaussian sample that are labeled by the conventional
-boxplot rule (Gaussian tail area 0.35\%).
-% For this reason, the default number of letter values in the code
-% for the letter value plot is 8, unless the user specifies otherwise.
+\noindent This third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side). Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3. Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
 
 % KK: I think we need more discussion about the differences 
 % between rules 2 and 3, esp since they give diff answers
 % depending on $p$.  I also think we'd better number those 2 eqns 
 % for $k$ for later reference.
 
-A fourth rule is a variant of the previous rule, but assesses
-``trustworthiness'' in terms of the standard error of the
-letter value.  Table 1 shows \texttt{SEfactor}, the factor
-used for the asymptotic standard error of the letter value
-for a Gaussian population:
+A fourth rule is a variant of the previous rule, but assesses ``trustworthiness'' in terms of the standard error of the letter value. Table 1 shows \texttt{SEfactor}, the factor used for the asymptotic standard error of the letter value for a Gaussian population:
+
 \begin{equation}
 SE(LV_i) \approx \sigma \sqrt{p_i \cdot (1 - p_i)/ n} / \phi(\Phi^{-1}(p_i)) 
  = (SEfactor) \sigma / \sqrt{n} \, ,
  \, \, \, p_i = 2^{-i} \, .
 \label{SELV}
 \end{equation}
-When $i = 2$ ($p_i = 0.25$, fourths) and $n = 120$,
-this standard error is approximately 0.125$\sigma$; when
-$n = 186$, it is 0.10$\sigma$, and when $n = 743$, 
-it is 0.05$\sigma$.  Thus, a rough 2-SE interval around
-the fourth is roughly 0.25$\sigma$, 0.2$\sigma$, or 0.1$\sigma$,
-respectively, as $n$ increases from 120 to 186 to 743.
-How many more letter values can be shown with the same
-level of uncertainty when $n$ increases?  For illustration,
-consider only the last (and most stringent) criterion,
-where 2$SE$ $\approx$ 0.1$\sigma$.  If $n \geq 1032$, 
-the asymptotic 2-SE uncertainty in $LV_3$, the eighth (E), 
-using the formula in (\ref{SELV}), does not exceed 0.1$\sigma$.
-For the same precision in $LV_4$ (sixteenth), one needs
-$n \geq 1550$.
-Table 4 lists the letter values and the ranges on $n$
-for which the uncertainty displayed up to a given letter
-value does not exceed 0.5$\sigma$, 0.25$\sigma$,
-0.20$\sigma$, and 0.10$\sigma$.  
-For example, when $n$ = 10,000 and a 2-SD uncertainty
-around the letter value no greater than 0.20$\sigma$, 
-one can show up to letter value 10 (X, 1/1024), but only
-up to letter value 7 (A, 1/128) for uncertainty of that
-does not exceed 0.10$\sigma$.
-Figure \ref{figyy} plots the columns in Table 4 on a $\log_10$
-scale, which shows that the logarithm of the sample size is
-approximately linear in the letter value number.  This rule
-is very similar to rule (1) when the desired uncertainty
-in the letter values does not exceed 0.25$\sigma$.
 
-The different rules provide the user with choices depending
-on the desired precision in the letter values shown.
-The current implementation of the letter-value box plot 
-display uses rule 3 as a default option.
+\noindent When $i = 2$ ($p_i = 0.25$, fourths) and $n = 120$, this standard error is approximately 0.125$\sigma$; when $n = 186$, it is 0.10$\sigma$, and when $n = 743$, it is 0.05$\sigma$. Thus, a rough 2-SE interval around the fourth is roughly 0.25$\sigma$, 0.2$\sigma$, or 0.1$\sigma$, respectively, as $n$ increases from 120 to 186 to 743. How many more letter values can be shown with the same level of uncertainty when $n$ increases? For illustration, consider only the last (and most stringent) criterion, where 2$SE$ $\approx$ 0.1$\sigma$. If $n \geq 1032$, the asymptotic 2-SE uncertainty in $LV_3$, the eighth (E), using the formula in (\ref{SELV}), does not exceed 0.1$\sigma$. For the same precision in $LV_4$ (sixteenth), one needs $n \geq 1550$.
 
-\begin{verbatim}
-                    Table 4
-       i    0.5     .25     0.2      0.1
-    M  1     25     101     157      628
-    F  2     30     119     186      743
-    E  3     41     165     258     1032
-    D  4     62     248     387     1550
-    C  5     98     391     611     2445
-    B  6    160     640    1000     3999
-    A  7    269    1077    1682     6728
-    Z  8    463    1851    2893    11570
-    Y  9    810    3240    5063    20251
-    X 10   1438    5752    8988    35953
-    W 11   2583   10333   16146    64584
-    V 12   4686   18744   29288   117152
-    U 13   8570   34282   53565   214260
-    T 14  15784   63137   98652   394609
-    S 15  29246  116983  182785   731141
-    R 16  54470  217880  340437  1361748
-    Q 17 101914  407654  636960  2547840
-    P 18 191449  765796 1196557  4786227
-    O 19 360931 1443726 2255822  9023287
-    N 20 682624 2730498 4266403 17065610
-\end{verbatim}
+Table~\ref{tbl:lv-error} lists the letter values and the ranges on $n$ for which the uncertainty displayed up to a given letter value does not exceed 0.5$\sigma$, 0.25$\sigma$, 0.20$\sigma$, and 0.10$\sigma$. For example, when $n$ = 10,000 and a 2-SD uncertainty around the letter value no greater than 0.20$\sigma$, one can show up to letter value 10 (X, 1/1024), but only up to letter value 7 (A, 1/128) for uncertainty of that does not exceed 0.10$\sigma$. Figure~\ref{figyy} plots the columns in Table~\ref{tbl:lv-error} on a $\log_10$ scale, which shows that the logarithm of the sample size is approximately linear in the letter value number. This rule is very similar to rule (1) when the desired uncertainty in the letter values does not exceed 0.25$\sigma$.
+
+The different rules provide the user with choices depending on the desired precision in the letter values shown. The current implementation of the letter-value box plot display uses rule 3 as a default option.
+
+\begin{table}
+  \begin{center}
+  \begin{tabular}{lrrrrr}
+    \toprule
+      &  i &    0.5 &     .25 &     0.2 &      0.1 \\
+    \midrule
+    M &  1 &     25 &     101 &     157 &      628 \\
+    F &  2 &     30 &     119 &     186 &      743 \\
+    E &  3 &     41 &     165 &     258 &     1032 \\
+    D &  4 &     62 &     248 &     387 &     1550 \\
+    C &  5 &     98 &     391 &     611 &     2445 \\
+    B &  6 &    160 &     640 &    1000 &     3999 \\
+    A &  7 &    269 &    1077 &    1682 &     6728 \\
+    Z &  8 &    463 &    1851 &    2893 &    11570 \\
+    Y &  9 &    810 &    3240 &    5063 &    20251 \\
+    X & 10 &   1438 &    5752 &    8988 &    35953 \\
+    W & 11 &   2583 &   10333 &   16146 &    64584 \\
+    V & 12 &   4686 &   18744 &   29288 &   117152 \\
+    U & 13 &   8570 &   34282 &   53565 &   214260 \\
+    T & 14 &  15784 &   63137 &   98652 &   394609 \\
+    S & 15 &  29246 &  116983 &  182785 &   731141 \\
+    R & 16 &  54470 &  217880 &  340437 &  1361748 \\
+    Q & 17 & 101914 &  407654 &  636960 &  2547840 \\
+    P & 18 & 191449 &  765796 & 1196557 &  4786227 \\
+    O & 19 & 360931 & 1443726 & 2255822 &  9023287 \\
+    N & 20 & 682624 & 2730498 & 4266403 & 17065610 \\
+    \bottomrule
+    
+  \end{tabular}
+  \end{center}
+  \caption{caption}
+  \label{tbl:lv-error}
+\end{table}
 
 
 \begin{figure}[hbtp]
@@ -654,18 +481,6 @@ display uses rule 3 as a default option.
   (3, red), 0.20 (green, 2), 0.10 (blue, 1). Fitted lines have slopes 0.25 and
   intercepts 0.754, 1.356, 1.550, and 2.152, respectively. Data from Table 4.}
   \label{figyy} 
-\end{figure}
-
-
-\begin{figure}[hbtp]
-  \centering
-  \includegraphics[scale=.6,angle=270]{lvbox2}
-
-  \caption{Letter value box plots of log-transformed duration for 135,605
-  internet sessions, grouped by ranges of log-transformed byte lengths for the
-  sessions; compare with the boxplot display of the same data in Figure
-  \ref{kkewbox}.}
-  \label{lvplot2} 
 \end{figure}
 
 \section{Bivariate letter value plots}
