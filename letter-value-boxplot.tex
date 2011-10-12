@@ -2,6 +2,7 @@
 \usepackage{fullpage}
 
 \usepackage{hyperref}
+\usepackage{booktabs}
 \usepackage[format=plain,font=small]{caption}
 \usepackage[small]{titlesec}
 \usepackage[round,sectionbib]{natbib}
@@ -127,35 +128,6 @@ actual values that occur in the sample. The rules for constructing the letter
 value box plot result in the conventional box plot for moderate sized data
 sets.
 
-The ``labeled outlier rule'' for conventional boxplots relies on the fourths
-because the rule is then ``unlikely to be adversely affected by extreme
-observations'' and ``to minimize the difficulties of masking'' \citep[pg.
-992]{dchbox}. Hence, the breakdown point of default box plots is 25\%; i.e.,
-only if 25\% or more of the data values, all unfavorably located in one of the
-tails, are contaminated, will the summary statistics and outlier
-identification change. This high breakdown is one of the valuable features of
-boxplots. Moreover, the relatively low uncertainty in the fourths as estimates
-of the quartiles argues for using the fourths in the rule for labeling
-``outliers'': the standard deviation of the fourths in a Gaussian population
-equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$
-= $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for
-Gaussian samples of size 120 \citep{ha.order}. Estimates of the population
-quantiles beyond the quartiles, when based on order statistics, are
-increasingly variable; e.g., for the same $n = 100$ sample, the 2-SD
-uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is
-approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and $ 2
-\times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively.
-Table~\ref{tbl:letter-values} shows these factors for the standard error
-formula, \texttt{SEfactor}, for the first 20 letter values, as well as the
-factor in increase in sample size needed for successive letter values to have
-the same uncertainty as the fourth. (For example, the fourths in a sample of
-size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of
-size 1.4$\cdot$120 = 168 for the eighth to have this same level of
-uncertainty.) For small samples, then, restricting attention to estimates of
-only the population median and quartiles, with some general indication of the
-tail length beyond the quartiles, is likely to be about all the information
-that the data can reliably support.
-
 The situation is quite different for large sample sizes. Estimates with
 quantiles corresponding to some of the smaller tail areas may be more
 reliable, so displays of large data sets can afford to indicate more
@@ -189,176 +161,165 @@ The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fi
 \section{Letter values}
 \label{sec:letter-values}
 
-Let $X_{(1)}$, ...  $X_{(n)}$ denote the order statistics
-from a sample of size $n$.
-Per conventional notation, let $\lfloor y \rfloor$ and
-$\lceil y \rceil$ denote the greatest integer in $y$ and
-the next greatest integer above $y$, respectively.
-The letter values are those order statistics having specific
-depths, defined recursively starting with the median.
-The depth of the median, $d_1$, of a sample of size $n$
-% is defined as $d_1 = (1 + \lfloor n \rfloor)/2$; the depths
-% KK -- no, for median, it is just (1+n)/2
-is defined as $d_1 = (1 +  n )/2$; the depths
-of successive letter values (F=fourths, E=eighths, 
-D=sixteenths, C=thirty-seconds, ...) are defined recursively 
-as $d_i = (1 + \lfloor d_{i-1} \rfloor)/2$.  
-(We also will use the letter value itself as the subscript
-to the notation for depth; e.g., both $d_1$ and $d_M$ denote
-the depth of the median.)
-The $i^{th}$ lower and upper letter values  ($LV_i$) 
-are thus defined as $L_i = X_{(d_i)}$ and
-$U_i = X_{(n-d_i+1)}$.
-(If the depth is an integer plus $\frac{1}{2}$, then the lower 
-letter value is defined as the average of the two adjacent order
-statistics, $X_{(\lfloor d_i \rfloor)}$ and
-$X_{(\lceil d_i \rceil)}$, and similarly for the upper
-letter value.)
-The advantage of this definition for the letter values
-is that the median of the sampling distribution for
-this sample quantile from a
-continuous distribution $F(\cdot)$ is very close to
-$F^{-1} ((i - \frac{1}{3})/(n + \frac{1}{3})$, for a 
-wide range of $F$, $n$, and $i$ \citep{dchlv}.
-Because each depth is roughly half the previous depth,
-the letter values approximate the quantiles corresponding
-to tail areas $2^{-i}$.
+Let $X_{(1)}$, ... $X_{(n)}$ denote the order statistics from a sample of size
+$n$. Per conventional notation, let $\lfloor y \rfloor$ and $\lceil y \rceil$
+denote the greatest integer below $y$ and the next integer above $y$,
+respectively. The letter values are those order statistics having specific
+depths, defined recursively starting with the median. The depth of the median,
+$d_1$, of a sample of size $n$ is defined as $d_1 = (1 + n )/2$; the depths of
+successive letter values (F = fourths, E = eighths, D = sixteenths, C =
+thirty-seconds, ...) are defined recursively as $d_i = (1 + \lfloor d_{i-1}
+\rfloor)/2$. (We also will use the letter value itself as the subscript to the
+notation for depth; e.g., both $d_1$ and $d_M$ denote the depth of the
+median.) The $i^{th}$ lower and upper letter values ($LV_i$) are thus defined
+as $L_i = X_{(d_i)}$ and $U_i = X_{(n - d_i + 1)}$. (If the depth is an
+integer plus $\frac{1}{2}$, then the lower letter value is defined as the
+average of the two adjacent order statistics, $X_{(\lfloor d_i \rfloor)}$ and
+$X_{(\lceil d_i \rceil)}$, and similarly for the upper letter value.) The
+advantage of this definition for the letter values is that the median of the
+sampling distribution for this sample quantile from a continuous distribution
+$F(\cdot)$ is very close to $F^{-1} ((i - \frac{1}{3})/(n + \frac{1}{3})$, for
+a wide range of $F$, $n$, and $i$ \citep{dchlv}. Because each depth is roughly
+half the previous depth, the letter values approximate the quantiles
+corresponding to tail areas $2^{-i}$.
 
-Table 2 illustrates the letter value display for the 1980 
-populations and the log populations of the 3068 counties in 
-the continential United States (plus the District of Columbia).
-Along with the letter values are shown the midsummaries
-(average of the upper and lower letter values, denoted ``mids''
-in Table 2), 
-the midspreads (spread between the letter values, denoted
-``spread''), and ``pseudo-sigma'' citep[40]{dchlv}, 
-the sample letter-value spread divided by the theoretical
-letter-value spread for a standard Gaussian
-distribution (e.g., pseudo-sigma based on the fourths is 
-the fourth spread divided by 1.3490).
-For a symmetric population, the midsummaries should
-be constant, and, for a distribution with Gaussian-like
-tails, the pseudo-sigmas also should be fairly stable.
-Both the midsummaries and the pseudo-sigmas are much more
-nearly constant for the log populations than for the
-untransformed populations.
+The ``labeled outlier rule'' for conventional boxplots relies on the fourths
+because the rule is then ``unlikely to be adversely affected by extreme
+observations'' and ``to minimize the difficulties of masking'' \citep[pg.
+992]{dchbox}. Hence, the breakdown point of default box plots is 25\%; i.e.,
+only if 25\% or more of the data values, all unfavorably located in one of the
+tails, are contaminated, will the summary statistics and outlier
+identification change. This high breakdown is one of the valuable features of
+boxplots. Moreover, the relatively low uncertainty in the fourths as estimates
+of the quartiles argues for using the fourths in the rule for labeling
+``outliers'': the standard deviation of the fourths in a Gaussian population
+equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$
+= $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for
+Gaussian samples of size 120 \citep{ha.order}. Estimates of the population
+quantiles beyond the quartiles, when based on order statistics, are
+increasingly variable; e.g., for the same $n = 100$ sample, the 2-SD
+uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is
+approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and $ 2
+\times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively.
+Table~\ref{tbl:letter-values} shows these factors for the standard error
+formula, \texttt{SEfactor}, for the first 20 letter values, as well as the
+factor in increase in sample size needed for successive letter values to have
+the same uncertainty as the fourth. (For example, the fourths in a sample of
+size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of
+size 1.4$\cdot$120 = 168 for the eighth to have this same level of
+uncertainty.) For small samples, then, restricting attention to estimates of
+only the population median and quartiles, with some general indication of the
+tail length beyond the quartiles, is likely to be about all the information
+that the data can reliably support.
 
-\begin{table}
-\begin{tabular}{llr@{.}lrrr}\hline
-LV & tail area & \multicolumn{2}{l}{rough \%} & $2^j$ & SEfactor & n-equiv*\\ \hline
- M & .50 & 50&0\% & 2 & 1.253314 \\
- F & .25 & 25& 0\% & 4 & 1.362633 & 1.0\\
- E & .125 & 12& 5\% & 8 & 1.606574 & 1.4\\
- D & .0625 & 6& 25\% & 16 & 1.968236 & 2.1\\
- C & .03125 & 3&13\% & 32 & 2.472133 & 3.3\\
- B & .015625 & 1&56\% & 64 & 3.162020 & 5.4\\
- A & .0078125 & 0&8\% & 128 & 4.101274 & 9.1\\
- Z & .00390625 & 0&4\% & 256 & 5.378300 & 15.6\\
- Y & .001953125 & 0&2\% & 512 & 7.115270 & 27.3\\
- X & .0009765625 & 0&1\% & 1,024 & 9.480641 & 48.4\\
- W & .00048828125 & 0&05\% & 2,048 & 12.706667 & 87.0  \\
- V & .000244140625 & 0&024\% & 4,096 & 17.113727 & 157.7\\
- U & .0001220703125 & 0&012\% & 8,192 & 23.144119 & 288.5\\
- T & .00006103515625 & 0&006\% & 16,384 & 31.408968 & 531.3\\
- S & .000030517578125 & 0&003\% & 32,768 & 42.753381 & 984.4\\
- R & .0000152587890625 & 0&0015\% & 65,536 & 58.346982 & 1833.5\\
- Q & .00000762939453125 & 0&0008\% & 131,072 & 79.808978 & 3430.5\\
- P & .000003814697265625 & 0&0004\% & 252,144 & 109.387241 & 6444.3\\
- O & .0000019073486328125 & 0&0002\% & 504,288 & 150.193933 & 12149.2\\
- N & .00000095367431640625 & 0&0001\% &1,008,576 & 206.552719 & 22977.6\\\hline
-\end{tabular}
-\caption{First 20 Letter Values \newline
-{\small Note: \texttt{tail area} is $2 ^{-i}$, $i = 1, ..., 20$; 
-% \texttt{percent} gives exact value of $\frac{1}{2} ^j$; 
-\texttt{rough}\% rounds $2 ^{-i} \times 100$\%
-   to the first 1 or 2 nonzero digits; 
-\texttt{odds} expresses tail area as \texttt{1 in} $2^i$; `
-\texttt{SEfactor} gives the factor for the asymptotic standard error
-of the order statistic (from a Gaussian population, variance $\sigma^2$) 
-corresponding to \texttt{tail area}, i.e., 
-  $SE(LV) \approx$ \texttt{SEfactor} $\times \sigma / \sqrt{n}$,
-where \texttt{SEfactor} = $\sqrt{p_i (1-p_i)} / \phi(\Phi^{-1}(p_i))$,
-$p_i$ = \texttt{tail area} = $2^{-i}$.
-\texttt{n-equiv} = (\texttt{SEfactor}/1.362633)$^2$ which gives
-the factor of increase in sample size for the uncertainty in
-that letter value to be the same as that for the fourth
-(e.g., need 1.4$n$ (respectively, 2.1$n$) observations for the 
-eighth (respectively, sixteenth) to have 
-the same uncertainty as that of a fourth from a sample of size $n$.
-}}
-\label{tbl:letter-values}
+\begin{table}[htpb]
+  \centering
+  \begin{tabular}{llr@{.}lrrr}
+  \toprule
+  LV & tail area & \multicolumn{2}{l}{rough \%} & $2^j$ & SEfactor & n-equiv*\\ \midrule
+   M & .50 & 50&0\% & 2 & 1.253314 \\
+   F & .25 & 25& 0\% & 4 & 1.362633 & 1.0\\
+   E & .125 & 12& 5\% & 8 & 1.606574 & 1.4\\
+   D & .0625 & 6& 25\% & 16 & 1.968236 & 2.1\\
+   C & .03125 & 3&13\% & 32 & 2.472133 & 3.3\\
+   B & .015625 & 1&56\% & 64 & 3.162020 & 5.4\\
+   A & .0078125 & 0&8\% & 128 & 4.101274 & 9.1\\
+   Z & .00390625 & 0&4\% & 256 & 5.378300 & 15.6\\
+   Y & .001953125 & 0&2\% & 512 & 7.115270 & 27.3\\
+   X & .0009765625 & 0&1\% & 1,024 & 9.480641 & 48.4\\
+   W & .00048828125 & 0&05\% & 2,048 & 12.706667 & 87.0  \\
+   V & .000244140625 & 0&024\% & 4,096 & 17.113727 & 157.7\\
+   U & .0001220703125 & 0&012\% & 8,192 & 23.144119 & 288.5\\
+   T & .00006103515625 & 0&006\% & 16,384 & 31.408968 & 531.3\\
+   S & .000030517578125 & 0&003\% & 32,768 & 42.753381 & 984.4\\
+   R & .0000152587890625 & 0&0015\% & 65,536 & 58.346982 & 1833.5\\
+   Q & .00000762939453125 & 0&0008\% & 131,072 & 79.808978 & 3430.5\\
+   P & .000003814697265625 & 0&0004\% & 252,144 & 109.387241 & 6444.3\\
+   O & .0000019073486328125 & 0&0002\% & 504,288 & 150.193933 & 12149.2\\
+   N & .00000095367431640625 & 0&0001\% &1,008,576 & 206.552719 & 22977.6\\
+  \bottomrule
+  \end{tabular}
+
+  \caption{First 20 letter values. Note: \texttt{tail area} is $2 ^{-i}$, $i =
+  1, ..., 20$; \texttt{rough}\% rounds $2 ^{-i} \times 100$\% to the first 1
+  or 2 nonzero digits; \texttt{odds} expresses tail area as \texttt{1 in}
+  $2^i$; ` \texttt{SEfactor} gives the factor for the asymptotic standard
+  error of the order statistic (from a Gaussian population, variance
+  $\sigma^2$) corresponding to \texttt{tail area}, i.e., $SE(LV) \approx$
+  \texttt{SEfactor} $\times \sigma / \sqrt{n}$, where \texttt{SEfactor} =
+  $\sqrt{p_i (1-p_i)} / \phi(\Phi^{-1}(p_i))$, $p_i$ = \texttt{tail area} =
+  $2^{-i}$. \texttt{n-equiv} = (\texttt{SEfactor}/1.362633)$^2$ which gives
+  the factor of increase in sample size for the uncertainty in that letter
+  value to be the same as that for the fourth (e.g., need 1.4$n$
+  (respectively, 2.1$n$) observations for the eighth (respectively, sixteenth)
+  to have the same uncertainty as that of a fourth from a sample of size $n$.
+  }
+  \label{tbl:letter-values}
 \end{table}
 
+% Table~\ref{tbl:counties} illustrates the letter values of the 1980 populations
+% and the log populations of the 3068 counties in the continental United States.
+% Along with the letter values are shown the midsummaries (average of the upper
+% and lower letter values, denoted ``mids'' in Table 2), the midspreads (spread
+% between the letter values, denoted ``spread''), and ``pseudo-sigma''
+% \citep[pg. 40]{dchlv}, the sample letter-value spread divided by the
+% theoretical letter-value spread for a standard Gaussian distribution (e.g.,
+% pseudo-sigma based on the fourths is the fourth spread divided by 1.3490). For
+% a symmetric population, the midsummaries should be constant, and, for a
+% distribution with Gaussian-like tails, the pseudo-sigmas also should be fairly
+% stable. Both the midsummaries and the pseudo-sigmas are much more nearly
+% constant for the log populations than for the untransformed populations.
+% 
+% \begin{verbatim}
+%                      Table 2
+%            Letter value display for 1980
+%          populations in 3068 U.S. counties
+% 
+%     Depth  Lower   Upper      Mid  Spread   pseudo-s
+% M  1534.5  218.0   218.0   218.00     0.0     0.0000
+% F   767.5  105.0   511.0   308.00   406.0   601.9365
+% E   384.0   65.0  1082.0   573.50  1017.0   884.0792
+% D   192.5   39.0  2280.0  1159.50  2241.0  1460.7718
+% C    96.5   25.0  4572.0  2298.50  4547.0  2441.0384
+% B    48.5   17.5  6641.5  3329.50  6624.0  3075.3878
+% A    24.5   10.5  9694.5  4852.50  9684.0  4005.6933
+% Z    12.5    8.0 14742.5  7375.25 14734.5  5539.1452
+% Y     6.5    6.5 18972.5  9489.50 18966.0  6572.5570
+% X     3.5    4.5 38316.0 19160.25 38311.5 12369.4452
+% W     2.0    4.0 70716.0 35360.00 70712.0 21446.1187
+% V     1.5    2.5 72745.5 36374.00 72743.0 20860.5759
+% U     1.0    1.0 74775.0 37388.00 74774.0 20383.6663
+% 
+%              Letter value display for 1980
+%          log populations in 3068 U.S. counties
+% 
+%     Depth  Lower   Upper      Mid  Spread   pseudo-s
+% M  1534.5 2.3385  2.3385   2.3385  0.0000     0.0000
+% F   767.5 2.0212  2.7084   2.3648  0.6872     1.0189
+% E   384.0 1.8129  3.0342   2.4236  1.2213     1.0617
+% D   192.5 1.5911  3.3579   2.4745  1.7669     1.1517
+% C    96.5 1.3979  3.6601   2.5290  2.2622     1.2144
+% B    48.5 1.2429  3.8223   2.5326  2.5794     1.1976
+% A    24.5 1.0207  3.9865   2.5036  2.9658     1.2268
+% Z    12.5 0.9031  4.1685   2.5358  3.2654     1.2276
+% Y     6.5 0.8116  4.2780   2.5448  3.4664     1.2013
+% X     3.5 0.6505  4.5512   2.6009  3.9007     1.2594
+% W     2.0 0.6021  4.8495   2.7258  4.2475     1.2882
+% V     1.5 0.3010  4.8616   2.5813  4.5606     1.3078
+% U     1.0 0.0000  4.8738   2.4369  4.8738     1.3286
+% \end{verbatim}
 
-
-
-\begin{verbatim}
-                     Table 2
-           Letter value display for 1980
-         populations in 3068 U.S. counties
-
-    Depth  Lower   Upper      Mid  Spread   pseudo-s
-M  1534.5  218.0   218.0   218.00     0.0     0.0000
-F   767.5  105.0   511.0   308.00   406.0   601.9365
-E   384.0   65.0  1082.0   573.50  1017.0   884.0792
-D   192.5   39.0  2280.0  1159.50  2241.0  1460.7718
-C    96.5   25.0  4572.0  2298.50  4547.0  2441.0384
-B    48.5   17.5  6641.5  3329.50  6624.0  3075.3878
-A    24.5   10.5  9694.5  4852.50  9684.0  4005.6933
-Z    12.5    8.0 14742.5  7375.25 14734.5  5539.1452
-Y     6.5    6.5 18972.5  9489.50 18966.0  6572.5570
-X     3.5    4.5 38316.0 19160.25 38311.5 12369.4452
-W     2.0    4.0 70716.0 35360.00 70712.0 21446.1187
-V     1.5    2.5 72745.5 36374.00 72743.0 20860.5759
-U     1.0    1.0 74775.0 37388.00 74774.0 20383.6663
-
-             Letter value display for 1980
-         log populations in 3068 U.S. counties
-
-    Depth  Lower   Upper      Mid  Spread   pseudo-s
-M  1534.5 2.3385  2.3385   2.3385  0.0000     0.0000
-F   767.5 2.0212  2.7084   2.3648  0.6872     1.0189
-E   384.0 1.8129  3.0342   2.4236  1.2213     1.0617
-D   192.5 1.5911  3.3579   2.4745  1.7669     1.1517
-C    96.5 1.3979  3.6601   2.5290  2.2622     1.2144
-B    48.5 1.2429  3.8223   2.5326  2.5794     1.1976
-A    24.5 1.0207  3.9865   2.5036  2.9658     1.2268
-Z    12.5 0.9031  4.1685   2.5358  3.2654     1.2276
-Y     6.5 0.8116  4.2780   2.5448  3.4664     1.2013
-X     3.5 0.6505  4.5512   2.6009  3.9007     1.2594
-W     2.0 0.6021  4.8495   2.7258  4.2475     1.2882
-V     1.5 0.3010  4.8616   2.5813  4.5606     1.3078
-U     1.0 0.0000  4.8738   2.4369  4.8738     1.3286
-\end{verbatim}
-
-Letter values are particularly useful for large data sets,
-because (a) much of the most valuable information, especially
-for inference purposes, is contained in the tails
-(cf.~Winsor's principle, ``All distributions are normal
-in the middle'';  \citep[457]{tukey60}; and (b) adjacent
-letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707
-(\citep{mosteller46} cited by \citet[51--52]{dchlv}.
-Thus, rather little information concerning tail behavior
-is lost by considering only the letter values.  Figure \ref{qqpop4}
-illustrates this retention of tail information in visualizing the
-distribution of the populations and their logarithms
-in 3068 continental U.S. counties in 1980 via
-normal quantile-quantile (QQ) plots (panels A and B, respectively)
-versus using only the 25 letter values shown in Tables 1 and 2 above
-(panels C and D, respectively); the bottom panels (letter values only)
-reveal the advantage of logarithms as well as the top panels (full data set).
+Letter values are particularly useful for large data sets, because (a) much of the most valuable information, especially for inference purposes, is contained in the tails (cf.\ Winsor's principle, ``All distributions are normal in the middle''; \citep[pg. 457]{tukey60}; and (b) adjacent letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707 (\citep{mosteller46} cited by \citet[pg. 51--52]{dchlv}. Thus, rather little information concerning tail behavior is lost by considering only the letter values. Figure~\ref{qqpop4} illustrates this retention of tail information in visualizing the distribution of the populations and their logarithms in 3068 continental U.S. counties in 1980 via normal quantile-quantile (QQ) plots (panels A and B, respectively) versus using only the 25 letter values shown in Tables 1 and 2 above (panels C and D, respectively); the bottom panels (letter values only) reveal the advantage of logarithms as well as the top panels (full data set).
 
 \begin{figure}[hbtp]
   \centering
-  \includegraphics[scale=.5,angle=270]{qqpop4}
+  \includegraphics[width = 0.75 \linewidth]{qqpop4}
 
   \caption{QQ plots on 3068 Continental U.S. county populations (A) and their
   logarithms (B), versus QQ plots (C), (D) using only their 25 letter values
   (see Tables 1 and 2).}
   \label{qqpop4}
 \end{figure}
-
-
 
 \section{Letter-value box plots}
 \label{sec:lv-boxplots}
