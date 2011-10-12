@@ -350,33 +350,32 @@ Both the midsummaries and the pseudo-sigmas are much more
 nearly constant for the log populations than for the
 untransformed populations.
 
-\begin{verbatim}
-                      Table 1
-                First 20 Letter values 
-LV  tail area            rough %         2^j    SEfactor     n-equiv*
- M   .50                   50%              2   1.253314 
- F   .25                   25%              4   1.362633       1.0
- E   .125                  12.5%            8   1.606574       1.4
- D   .0625                  6.25%          16   1.968236       2.1
- C   .03125                 3.13%          32   2.472133       3.3
- B   .015625                1.56%          64   3.162020       5.4
- A   .0078125               0.8%          128   4.101274       9.1
- Z   .00390625              0.4%          256   5.378300      15.6
- Y   .001953125             0.2%          512   7.115270      27.3
- X   .0009765625            0.1%        1,024   9.480641      48.4
- W   .00048828125           0.05%       2,048  12.706667      87.0  
- V   .000244140625          0.024%      4,096  17.113727     157.7
- U   .0001220703125         0.012%      8,192  23.144119     288.5
- T   .00006103515625        0.006%     16,384  31.408968     531.3
- S   .000030517578125       0.003%     32,768  42.753381     984.4
- R   .0000152587890625      0.0015%    65,536  58.346982    1833.5
- Q   .00000762939453125     0.0008%   131,072  79.808978    3430.5
- P   .000003814697265625    0.0004%   252,144  109.387241   6444.3
- O   .0000019073486328125   0.0002%   504,288  150.193933  12149.2
- N   .00000095367431640625  0.0001% 1,008,576  206.552719  22977.6
-\end{verbatim}
-
-Note: \texttt{tail area} is $2 ^{-i}$, $i = 1, ..., 20$; 
+\begin{table}
+\begin{tabular}{llr@{.}lrrr}\hline
+LV & tail area & \multicolumn{2}{l}{rough \%} & $2^j$ & SEfactor & n-equiv*\\ \hline
+ M & .50 & 50&0\% & 2 & 1.253314 \\
+ F & .25 & 25& 0\% & 4 & 1.362633 & 1.0\\
+ E & .125 & 12& 5\% & 8 & 1.606574 & 1.4\\
+ D & .0625 & 6& 25\% & 16 & 1.968236 & 2.1\\
+ C & .03125 & 3&13\% & 32 & 2.472133 & 3.3\\
+ B & .015625 & 1&56\% & 64 & 3.162020 & 5.4\\
+ A & .0078125 & 0&8\% & 128 & 4.101274 & 9.1\\
+ Z & .00390625 & 0&4\% & 256 & 5.378300 & 15.6\\
+ Y & .001953125 & 0&2\% & 512 & 7.115270 & 27.3\\
+ X & .0009765625 & 0&1\% & 1,024 & 9.480641 & 48.4\\
+ W & .00048828125 & 0&05\% & 2,048 & 12.706667 & 87.0  \\
+ V & .000244140625 & 0&024\% & 4,096 & 17.113727 & 157.7\\
+ U & .0001220703125 & 0&012\% & 8,192 & 23.144119 & 288.5\\
+ T & .00006103515625 & 0&006\% & 16,384 & 31.408968 & 531.3\\
+ S & .000030517578125 & 0&003\% & 32,768 & 42.753381 & 984.4\\
+ R & .0000152587890625 & 0&0015\% & 65,536 & 58.346982 & 1833.5\\
+ Q & .00000762939453125 & 0&0008\% & 131,072 & 79.808978 & 3430.5\\
+ P & .000003814697265625 & 0&0004\% & 252,144 & 109.387241 & 6444.3\\
+ O & .0000019073486328125 & 0&0002\% & 504,288 & 150.193933 & 12149.2\\
+ N & .00000095367431640625 & 0&0001\% &1,008,576 & 206.552719 & 22977.6\\\hline
+\end{tabular}
+\caption{First 20 Letter Values \newline
+{\small Note: \texttt{tail area} is $2 ^{-i}$, $i = 1, ..., 20$; 
 % \texttt{percent} gives exact value of $\frac{1}{2} ^j$; 
 \texttt{rough}\% rounds $2 ^{-i} \times 100$\%
    to the first 1 or 2 nonzero digits; 
@@ -393,6 +392,9 @@ that letter value to be the same as that for the fourth
 (e.g., need 1.4$n$ (respectively, 2.1$n$) observations for the 
 eighth (respectively, sixteenth) to have 
 the same uncertainty as that of a fourth from a sample of size $n$.
+}}
+\end{table}
+
 
 
 
@@ -441,7 +443,7 @@ for inference purposes, is contained in the tails
 (cf.~Winsor's principle, ``All distributions are normal
 in the middle'';  \citep[457]{tukey60} ; and (b) adjacent
 letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707
-(Mosteller 1946, cited by \citet[51--52]{dchlv}.
+(\citep{mosteller46} cited by \citet[51--52]{dchlv}.
 Thus, rather little information concerning tail behavior
 is lost by considering only the letter values.  Figure \ref{qqpop4}
 illustrates this retention of tail information in visualizing the
@@ -567,7 +569,7 @@ Figure \ref{kkewbox} shows a boxplot of a measure of the
 duration of 135,000 Internet sessions, stratified
 into 32 groups based on the logarithms of
 the number of bytes transferred during the
-session (cf.~\citet{kk06}, for a similar plot).
+session (cf.~\citet{kw06}, for a similar plot).
 The sample sizes in the 32 boxes range from 1341 (Box\#32)
 to 7865 (Box\#13), with an average sample size of 4238.
 With so many observations in each category,
@@ -868,7 +870,7 @@ display uses rule 3 as a default option.
 
 \citet{bagplots} proposed the ``bagplot''
 as a two-dimensional version of the boxplot, using location 
-depths (introduced by Tukey 1975)
+depths (introduced by \citet{tukey75})
 to define analogues of the median and fourths, and then
 connecting the points corresponding to the fourth-depths 
 via linear segments.  An example is given in Figure ...
