@@ -29,46 +29,33 @@
 
 \begin{abstract}
 
-  Conventional boxplots \citep{eda}
-   are useful
-  displays for conveying rough information about the
-  central 50\% of the data and the extent of the data.
-  For small-sized data sets ($n < 200$), detailed 
-  estimates of tail behavior beyond the quartiles may 
-  not be trustworthy, so the information provided by 
-  boxplots is appropriately somewhat vague beyond 
-  the quartiles,
-  % with only a ``whisker'' that shows the distance 
-  % between the quartile and the ``adjacent value'' 
-  % (value of the observation just inside the inner fence). 
-  and the expected number of ``outliers'' and ``far-out'' 
-  values for a Gaussian sample of size $n$ is often
-  less than 10 \citep{dchbox}.
-  Larger data sets ($n \approx 10,000-100,000$)
-  afford more precise estimates of quantiles in the
-  tails beyond the quartiles. Yet conventional boxplots
-  do not show such information about the tails, and,
-  in addition, will indicate a larger numbers of extreme, 
-  though not unexpected, observations (about 0.4 + 0.007$n$ 
-  for a sample from a Gaussian population).  
-  The letter-value plot (LVplot)
-  addresses both these shortcomings:  (1) it conveys more 
-  detailed information in the tails using letter values, 
-  only to only the depths where the letter values are 
-  reliable estimates of their corresponding quantiles 
-  (corresponding to tail areas of roughly $2^{-i}$);
-  and (2) ``outliers'' are labeled as those observations
-  beyond the most extreme letter value shown.  All aspects 
-  shown on the letter-value boxplot are actual observations, 
-  thus remaining faithful to the principles that governed
-  Tukey's original boxplot.  We illustrate 
-  letter-value boxplots with some actual examples that
-  demonstrate their usefulness, particularly for
-  large data sets, 
-  and describe extensions for multivariate data.  
+  Conventional boxplots \citep{eda} are useful displays for conveying rough
+  information about the central 50\% of the data and the extent of the data.
+  For small-sized data sets ($n < 200$), detailed estimates of tail behavior
+  beyond the quartiles may not be trustworthy, so the information provided by
+  boxplots is appropriately somewhat vague beyond the quartiles, and the
+  expected number of ``outliers'' and ``far-out'' values for a Gaussian sample
+  of size $n$ is often less than 10 \citep{dchbox}. Larger data sets ($n
+  \approx 10,000-100,000$) afford more precise estimates of quantiles in the
+  tails beyond the quartiles. Conventional boxplots do not show such
+  information about the tails, and, in addition, will show large numbers of
+  extreme, but not unexpected, observations (about $0.4 + 0.007n$ for a sample
+  from a Gaussian population).
 
-  \noindent \textit{Key words}: boxplots, quantiles, letter value display, 
-  fourth, order statistic, tail area
+  The letter-value box plot (LVplot) addresses both these shortcomings: (1) it
+  conveys more detailed information in the tails using letter values, only to
+  only the depths where the letter values are reliable estimates of their
+  corresponding quantiles (corresponding to tail areas of roughly $2^{-i}$);
+  and (2) ``outliers'' are labeled as those observations beyond the most
+  extreme letter value shown. All features shown on the letter-value boxplot
+  are actual observations, thus remaining faithful to the principles that
+  governed Tukey's original boxplot. We illustrate letter-value boxplots with
+  some actual examples that demonstrate their usefulness, particularly for
+  large data sets. All graphics are created using R \citep{R}, and code is
+  made available in the supplementary materials.
+
+  \textbf{Key words}: boxplots, quantiles, letter value display, 
+  fourth, order statistics, tail area.
   
 \end{abstract}
 
