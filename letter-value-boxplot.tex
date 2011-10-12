@@ -472,148 +472,48 @@ The different rules provide the user with choices depending on the desired preci
 \section{Bivariate letter value plots}
 \label{sec:bivariate}
 
-\citet{bagplots} proposed the ``bagplot''
-as a two-dimensional version of the boxplot, using location 
-depths (introduced by \citet{tukey75})
-to define analogues of the median and fourths, and then
-connecting the points corresponding to the fourth-depths 
-via linear segments.  An example is given in Figure ...
-The location depth $ldepth(p,Z)$ is defined for an arbitrary 
-point $p \in \Reals^2$, relative to a set of $n$ points
-$Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as 
-the smallest number of $z_i$'s contained in
-any closed halfplane with boundary line through $p$.
-That is, if one were to pass a line in the plane through $p$
-and keep track of the smaller of the two numbers of $z_i$ on 
-either side of the line as the line is rotated through every
-angle to its opposite side ($180^o$), then the location depth
-of that point $p$ relative to $Z$ is the smallest of all the
-numbers.  The analog of the one-dimension median in two
-dimensions using location depth would thus be that point
-$p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$).
-If such a $p$ is not unique, then the ``depth median'' is
-defined as the ``center of gravity'' of all points $p$ for
-which $ldepth(p,Z)$ is largest.  Recall that a property
-of the fourths for a univariate sample is that the 
-interval between the lower and upper fourth contains
-one-half of the data.  Thus, an analog of the box for
-the bagplot was defined as the set of points for which
-$ldepth(p,Z) = \lfloor n/2 \rfloor$ (more precisely,...)
-Algorithms for conveniently fast computation of bivariate letter values 
-for a bivariate letter value box plot 
-is currently under development.
- 
-
-
+\citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the set of points for which $ldepth(p,Z) = \lfloor n/2 \rfloor$ (more precisely,...) Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter value box plot is currently under development.
 
 \section{Summary}
 \label{sec:summary}
 
 The advantages of the letter value box plot are:
+
 \begin{itemize}
-\item 
-they are based on actual data values 
-\item
-they are simple to compute from the letter value display
-\item 
-they convey further information about tail behavior beyond the whiskers
-\item
-for large data sets, fewer observations are labeled as ``outliers''
+\item they are based on actual data values 
+\item they are simple to compute from the letter value display
+\item they convey further information about tail behavior beyond the whiskers
+\item for large data sets, fewer observations are labeled as ``outliers'' 
 compared to a conventional boxplot (roughly 0.7\%)
 \item their construction does not depend on a smoothing parameter.
 \end{itemize} 
 
-% \subsection*{Examples}
-% Figure \ref{series} shows a series of letter-value box plots of 
-% random normal samples of increasing size. Using the third stopping 
-% rule described above on a significance level of 0.8, the plots 
-% adapt to the varying sample sizes by showing more details for 
-% increasing numbers of data points. Sample sizes approximately 
-% double in size (from left to right sample sizes are 
-% $2^{5+k}-1, k = 1, ..., 8$), which yields one additional letter 
-% value for each increase in $k$.
+% \appendix
+% \section{Implementation}
 % 
-% \begin{figure*}[hbt]
-% \begin{center}
-% % \includegraphics[width=6in]{boxplot-series.ps}
-% \includegraphics[scale=.4]{boxplot-series.ps}
-% \caption{\it \label{series} Series of 8 letter-value box plots showing 
-% normally distributed random samples. From left to right sample sizes 
-% doubles in each plot from $2^6-1 = 63$ to $2^{13}-1=8191$.}
-% \end{center}
-% \end{figure*}
+% The Appendix contains the R code for implementing these letter-value boxplots. The code has been posted also on \texttt{http://statlib.cmu.edu}. Further information about the code and its implementation are available from the first author.
 % 
-% \clearpage
+% \begin{verbatim}
+% LVboxplot <- function(x, k = NULL, perc = NULL, alpha = 0.95, horizontal = T,
+%   col = T, ...) 
+% \end{verbatim}
 % 
-% Figure \ref{biotin} shows letter-value box plots of raw gene 
-% expression values from eight chips in a  microrarray experiment. 
-% Every second plot gives the values from a biological replicate 
-% of the previous plot.  
-% One typical question that has yet to be addressed
-% these kinds of studies is whether the expression 
-% levels can be compared across chips; i.e., whether 
-% using means or gene profiles will valid inferences from the experiment.   
-% The letter-value box plots in figure \ref{biotin} help to compare the 
-% distributions between chips. In this case, it might be necessary 
-% to look more closely at the third and fourth chips, 
-% $B T_1$ and $B T_2$, as their distributions seem to be 
-% quite different from the other six replicates.
+% \begin{itemize}
+% \item[x] vector of data values to be displayed
+% \item[k] number of letter-value statistics shown.
+% \item[perc] percentage of data points to be shown individually (as outliers) outside the letter-value boxes.  {\tt perc} is used only if {\tt k} is not specified.
+% \item[alpha] significance level, if neither {\tt k} nor {\tt perc} is specified.  {\tt alpha} is used in Rule 3 for the number of boxes to show.  If used, confidence intervals around each letter value  excludes neighboring letter value at significance level {\tt alpha}.
+% \end{itemize}
 % 
-% \begin{figure*}[hbt]
-% \begin{center}
-% % \includegraphics[width=6in]{biotin.ps}
-% \includegraphics[scale=.4]{biotin.ps}
-% \caption{\it \label{biotin} Letter-value box plots of gene expressions from a microarray experiment. Raw values from eight chips are displayed side by side.}
-% \end{center}
-% \end{figure*}
-
-\section{Appendix: Implementation}
-
-The Appendix contains the R code for implementing these
-letter-value boxplots.  The code has been posted also on
-\texttt{http://statlib.cmu.edu}.
-Further information about the code and its implementation
-are available from the first author.
-
-{\tt
-\begin{verbatim}
-LVboxplot <- function(x, k=NULL, 
-  perc=NULL, alpha=0.95, horizontal=T, 
-  col=T,...) 
-\end{verbatim}}
-
-\noindent
-\textbf{Arguments}
-
-\medskip \noindent
-% \begin{tabular}{lp{2.5in}}
-\begin{tabular}{l l }
-\tt x & vector of data values to be displayed \\
-\tt k & number of letter-value statistics shown. \\
-\tt perc & percentage of data points to be shown individually 
-            (as outliers) outside the letter-value \\
-         & boxes.  {\tt perc} is used only if {\tt k} is not specified.\\
-\tt alpha & significance level, if neither {\tt k} 
-            nor {\tt perc} is specified.  {\tt alpha} is used in Rule 3 \\
-          & for the number of boxes to show.  If used, confidence intervals \\
-          & around each letter value  excludes neighboring letter value 
-          at significance level {\tt alpha}. 
-\end{tabular}
-
-\bigskip \noindent
-\textbf{Value}
-
-\medskip \noindent
-% \begin{tabular}{lp{2.2in}}
-\begin{tabular}{l l}
-\tt letter.val & matrix of values (lower and upper) of all {\tt k}  \\
-               & letter values, including depth of each.\\
-\tt conf.int & $2k-1 \times 2$ matrix of confidence intervals for 
-                         all letter values using \\
-             & significance level as specified in {\tt alpha}.\\ 
-\tt outliers & list all identified points (outliers 
-in standard box plot).\\
-\end{tabular}
+% \noindent The function returns a list with three components:
+% 
+% \begin{itemize}
+% \item[letter.val] matrix of values (lower and upper) of all {\tt k}
+%   letter values, including depth of each.
+% \item[conf.int] $2k-1 \times 2$ matrix of confidence intervals for 
+%   all letter values using significance level as specified in {\tt alpha}.
+% \item[outliers] list all identified points (outliers in standard box plot).
+% \end{itemize}
 
 \bibliographystyle{asa}
 \bibliography{references}
