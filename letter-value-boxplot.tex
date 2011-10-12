@@ -7,7 +7,7 @@
 \usepackage[round,sectionbib]{natbib}
 \usepackage{setspace}
 \renewcommand\rmdefault{bch}
-\linespread{1.07} 
+\linespread{1.1} 
 \usepackage{amssymb}
 \newcommand{\Reals}{{\rm I\kern-.1667em{}R}}
 \usepackage[pdftex]{graphicx}
@@ -66,7 +66,7 @@
   large data sets, 
   and describe extensions for multivariate data.  
 
-  \textit{Key words}: boxplots, quantiles, letter value display, 
+  \noindent \textit{Key words}: boxplots, quantiles, letter value display, 
   fourth, order statistic, tail area
   
 \end{abstract}
@@ -453,15 +453,15 @@ versus using only the 25 letter values shown in Tables 1 and 2 above
 (panels C and D, respectively); the bottom panels (letter values only)
 reveal the advantage of logarithms as well as the top panels (full data set).
 
-\begin{figure*}[hbt]
-\begin{center}
-% \includegraphics[width=6in]{boxplots}
-\includegraphics[scale=.5,angle=270]{qqpop4}
-\caption{\it \label{qqpop4} QQ plots on 3068 Continental U.S. county
-populations (A) and their logarithms (B), versus QQ plots (C), (D) 
-using only their 25 letter values (see Tables 1 and 2).}
-\end{center}
-\end{figure*}
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=.5,angle=270]{qqpop4}
+
+  \caption{QQ plots on 3068 Continental U.S. county populations (A) and their
+  logarithms (B), versus QQ plots (C), (D) using only their 25 letter values
+  (see Tables 1 and 2).}
+  \label{qqpop4}
+\end{figure}
 
 
 
@@ -512,27 +512,27 @@ degrees of freedom (top rows) and the corresponding boxplots
 (bottom rows).
 %%% KK changed to 3 so the plot matched the previous figure (also 3).
 
-\begin{figure*}[hbt]
-\begin{center}
-% \includegraphics[width=6in]{boxplots}
-\includegraphics[scale=.5,angle=270]{boxplots}
-\caption{\it \label{stackbox} Letter-value box plots (top row) and standard 
-box plots (bottom row) for data from three different distributions. Each plot 
-shows 10,000 data points.  From left to right, samples come from 
-$N(0,1)$, $Exp_1$, and $U[0,1]$. }
-\end{center}
-\end{figure*}
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=.5,angle=270]{boxplots}
+
+  \caption{Letter-value box plots (top row) and standard box plots (bottom
+  row) for data from three different distributions. Each plot shows 10,000
+  data points. From left to right, samples come from $N(0,1)$, $Exp_1$, and
+  $U[0,1]$. }
+  \label{stackbox}
+\end{figure}
 
 
-\begin{figure*}[hbt]
-\begin{center}
-% \includegraphics[scale=.4]{t-distribution}
-\includegraphics[scale=.5,angle=270]{tplot2kk}
-\caption{\it \label{t-dist} Letter-Value boxplots and standard boxplots 
-for samples of 10,000 for $t$ distributions on 2, 3, 9 degrees of freedom. 
-Top row: Letter value boxplots.  Bottom row: Conventional boxplots.}
-\end{center}
-\end{figure*}
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=.5,angle=270]{tplot2kk}
+
+  \caption{Letter-Value boxplots and standard boxplots for samples of 10,000
+  for $t$ distributions on 2, 3, 9 degrees of freedom. Top row: Letter value
+  boxplots. Bottom row: Conventional boxplots.}
+  \label{t-dist}
+\end{figure}
 
 Figure \ref{lvpops} shows the letter-value boxplots
 and the conventional boxplots for the data in Table 2,
@@ -548,15 +548,15 @@ the median are slightly longer than those to the
 left of the median).
 
 
-\begin{figure*}[hbt]
-\begin{center}
-% \includegraphics[scale=.5]{lvpops}
-\caption{\it \label{lvpops} Letter-Value Box Plots and standard 
-box plots for the 1980 populations and log populations of 3068
-counties in the continental United States.}
-\end{center}
-\end{figure*}
+\begin{figure}[hbtp]
+  \centering
+  % \includegraphics[scale=.5]{lvpops}
 
+  \caption{Letter-Value Box Plots and standard box plots for the 1980
+  populations and log populations of 3068 counties in the continental United
+  States.}
+  \label{lvpops} 
+\end{figure}
 
 \section{Extent of letter-value boxplots}
 
@@ -580,13 +580,15 @@ and merely extreme observations from a distribution with
 longer tails than the Gaussian.
 
 \begin{figure}[htbp]
-  \begin{center}
-\includegraphics[width=6.5cm,angle=270]{lvbox2}
-\caption{\it \label{kkewlv} Letter value plots of the boxplots
-shown in Figure \ref{kkewbox} (transformed durations of 135,000
-Internet sessions, grouped by ranges of (transformed) byte lengths).}
-  \end{center}
- \end{figure}
+  \centering
+  \includegraphics[width=6.5cm,angle=270]{lvbox2}
+
+  \caption{Letter value plots of the boxplots shown in Figure \ref{kkewbox}
+  (transformed durations of 135,000 Internet sessions, grouped by ranges of
+  (transformed) byte lengths).}
+  \label{kkewlv}
+
+\end{figure}
 
 
 The standard letter value display (cf.~Table 2) stops with
@@ -840,32 +842,29 @@ display uses rule 3 as a default option.
 \end{verbatim}
 
 
-\begin{figure*}[hbt]
-\begin{center}
-% \includegraphics[scale=.6,angle=270]{figyy}
-\caption{\it \label{figyy} Plot of $\log_10 n$ versus
-letter value number to ensure a 2-SD uncertainty in
-displayed letter values of no more than 0.50 (5, black),
-0.25 (3, red), 0.20 (green, 2), 0.10 (blue, 1).  
-Fitted lines have slopes 0.25 and intercepts 
-0.754, 1.356, 1.550, and 2.152, respectively.
-Data from Table 4.}
-\end{center}
-\end{figure*}
+\begin{figure}[hbtp]
+  \centering
+  % \includegraphics[scale=.6,angle=270]{figyy}
+
+  \caption{Plot of $\log_10 n$ versus letter value number to ensure a 2-SD
+  uncertainty in displayed letter values of no more than 0.50 (5, black), 0.25
+  (3, red), 0.20 (green, 2), 0.10 (blue, 1). Fitted lines have slopes 0.25 and
+  intercepts 0.754, 1.356, 1.550, and 2.152, respectively. Data from Table 4.}
+  \label{figyy} 
+\end{figure}
 
 
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[scale=.6,angle=270]{lvbox2}
 
-\begin{figure*}[hbt]
-\begin{center}
-\includegraphics[scale=.6,angle=270]{lvbox2}
-\caption{\it \label{lvplot2} Letter value box plots of log-transformed
-duration for 135,605 internet sessions, grouped by 
-ranges of log-transformed byte lengths for the sessions; compare
-with the boxplot display of the same data in Figure \ref{kkewbox}.}
-\end{center}
-\end{figure*}
+  \caption{Letter value box plots of log-transformed duration for 135,605
+  internet sessions, grouped by ranges of log-transformed byte lengths for the
+  sessions; compare with the boxplot display of the same data in Figure
+  \ref{kkewbox}.}
+  \label{lvplot2} 
+\end{figure}
 
-\vspace{-14mm}
 \section{Bivariate letter value plots}
 
 Rousseeeuw, Ruts, and Tukey (1999) proposed the ``bagplot''
@@ -902,7 +901,6 @@ is currently under development.
 
 
 
-\vspace{-14mm}
 \section{Summary}
 
 The advantages of the letter value box plot are:
