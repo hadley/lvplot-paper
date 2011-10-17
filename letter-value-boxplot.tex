@@ -100,9 +100,11 @@ range from 1341 (box \#32) to 7865 (Box \#13), with a median sample size of
 outliers is huge --- far too many to investigate individually, and making it
 difficult to distinguish between ``genuine outliers'' (observations from a
 different distribution) and merely extreme observations from a distribution
-with longer tails than the Gaussian. Figure~\ref{kkewlv} shows the same data
-as a letter value boxplot, which better shows the skewed tails (even with the
-logarithmic transformations) and far fewer ``labeled'' outliers.
+with longer tails than the Gaussian. 
+
+%Figure~\ref{kkewlv} shows the same data
+%as a letter value boxplot, which better shows the skewed tails (even with the
+%logarithmic transformations) and far fewer ``labeled'' outliers.
 
 \begin{figure}[hbtp]
   \centering
@@ -127,6 +129,54 @@ addition, its construction resembles the original boxplot by displaying only
 actual values that occur in the sample. The rules for constructing the letter
 value box plot result in the conventional box plot for moderate sized data
 sets.
+
+The ``labeled outlier rule'' for conventional boxplots relies 
+on the fourths because the rule is then
+``unlikely to be adversely affected by extreme
+observations'' and ``to minimize the difficulties of masking'' 
+(Hoaglin, Iglewicz, Tukey 1986, p.992).
+Conventional boxplots rely on the fourths to ensure
+insensitivity to the rule governing outlier labeling.
+% ``relative insensitivity of summaries and subsequent calculations 
+% to unusual observations.'' (citation for this quotation?)  
+Hence, the breakdown point of default box plots is 25\%; 
+i.e., only if 25\% or more of the data values, all unfavorably
+located in one of the tails, are contaminated,
+will the summary statistics and outlier identification change.
+This high breakdown is one of the valuable features of boxplots.  
+Moreover, the relatively low uncertainty in the fourths as 
+estimates of the quartiles argues for using the fourths 
+in the rule for labeling ``outliers'': the standard deviation 
+of the fourths in a Gaussian population equals roughly 
+$[(0.25 \cdot 0.75) / (n  \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$
+= $1.362 \sigma / \sqrt{n}$ 
+% for a standard Gaussian distribution with
+% probability density function $\phi(\cdot)$, 
+or a 2-SD uncertainty
+of roughly 0.25$\sigma$ for Gaussian samples of size 120 
+(David and Nagaraja 2003).
+Estimates of the population quantiles beyond the quartiles, when
+based on order statistics, are increasingly variable; e.g., for
+the same $n = 100$ sample, the 2-SD uncertainty in the eighths
+(depth = 13) and sixteenths (depth = 7) is approximately
+$ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and
+$ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively.
+Table 1 shows these factors for the standard error formula,
+\texttt{SEfactor}, for the first 20 letter values, as well as
+the factor in increase in sample size needed for successive
+letter values to have the same uncertainty as the fourth.
+(For example, the fourths in a sample of size 120 have
+a 2-SD uncertainty of 0.25$\sigma$; we would need a sample
+of size 1.4$\cdot$120 = 168 for the eighth to have this
+same level of uncertainty.)
+% by 20--30\% for each subsequent tail area for tail areas 
+% 1/8 = 0.125, 1/16 = 0.0625, ..., 1/128 = 0.008, and more beyond
+For small samples, then, restricting attention to estimates of only
+the population median and quartiles, with some general indication of 
+the tail length beyond the quartiles, is likely to be about all the
+information that the data can reliably support.
+
+
 
 The situation is quite different for large sample sizes. Estimates with
 quantiles corresponding to some of the smaller tail areas may be more
@@ -363,18 +413,18 @@ Figure~\ref{lvpops} shows the letter-value boxplots and the conventional boxplot
 \section{Extent of letter-value boxplots}
 \label{sec:extent}
 
-As indicated in the introduction, a serious drawback to the conventional boxplot for large data sets is the tendency for a very large number of labeled outliers, roughly 0.7\% of the sample size. Figure~\ref{kkewbox} shows a boxplot of a measure of the duration of 135,000 Internet sessions, stratified into 32 groups based on the logarithms of the number of bytes transferred during the session (cf.~\citet{kw06}, for a similar plot). The sample sizes in the 32 boxes range from 1341 (Box\#32) to 7865 (Box\#13), with an average sample size of 4238. With so many observations in each category, the number of labeled outliers is huge --- far too many to investigate individually. This large number makes it difficult to distinguish between genuine ``outliers'' (observations from a different distribution) and merely extreme observations from a distribution with longer tails than the Gaussian.
+%As indicated in the introduction, a serious drawback to the conventional boxplot for large data sets is the tendency for a very large number of labeled outliers, roughly 0.7\% of the sample size. Figure~\ref{kkewbox} shows a boxplot of a measure of the duration of 135,000 Internet sessions, stratified into 32 groups based on the logarithms of the number of bytes transferred during the session (cf.~\citet{kw06}, for a similar plot). The sample sizes in the 32 boxes range from 1341 (Box\#32) to 7865 (Box\#13), with an average sample size of 4238. With so many observations in each category, the number of labeled outliers is huge --- far too many to investigate individually. This large number makes it difficult to distinguish between genuine ``outliers'' (observations from a different distribution) and merely extreme observations from a distribution with longer tails than the Gaussian.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width = 0.75\linewidth]{lvbox2}
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[width = 0.75\linewidth]{lvbox2}
 
-  \caption{Letter value plots of the boxplots shown in Figure \ref{kkewbox}
-  (transformed durations of 135,000 Internet sessions, grouped by ranges of
-  (transformed) byte lengths).}
-  \label{kkewlv}
+%  \caption{Letter value plots of the boxplots shown in Figure \ref{kkewbox}
+%  (transformed durations of 135,000 Internet sessions, grouped by ranges of
+%  (transformed) byte lengths).}
+%  \label{kkewlv}
 
-\end{figure}
+%\end{figure}
 
 The standard letter value display stops with that letter value having depth = 1 (i.e., the extremes). In many cases, these extremes could lie far from the rest of the sample, particularly if they are outliers. Just as the whiskers in the conventional boxplot extend only to the adjacent values (observations just inside the inner fences, which can be the extremes in samples with no labeled outliers), the number of boxes in a letter-value boxplot need not extend to the last box corresponding to the extremes. We need a rule to determine the number of boxes to show in a letter-value boxplot, which will determine the number of labeled outliers. In this section, we consider four proposals for such a rule.
 
@@ -472,7 +522,9 @@ The different rules provide the user with choices depending on the desired preci
 \section{Bivariate letter value plots}
 \label{sec:bivariate}
 
-\citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the set of points for which $ldepth(p,Z) = \lfloor n/2 \rfloor$ (more precisely,...) Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter value box plot is currently under development.
+\citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. 
+Example here [Heike]
+The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the set of points for which $ldepth(p,Z) = \lfloor n/2 \rfloor$ (more precisely,...) Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter value box plot is currently under development.
 
 \section{Summary}
 \label{sec:summary}
