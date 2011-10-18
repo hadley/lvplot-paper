@@ -206,7 +206,7 @@ hinges lie at 0.2877 and 1.3863, so the fourth spread will be roughly 1.0986.
 The box and whiskers therefore cover less area, roughly 0.9519, and an
 ``outlier'' rate of almost 5\% and a ``far-out'' rate of almost 1\%.
 
-The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fixed outside rate'') using a rule that is based on the fourths, avoids this dependence of the expected outside rate on the underlying distribution. Although it avoids the linear dependence of number of ``outliers'' on $n$, it also fails to display any interesting features in the tails. The letter value plot displays such features using data-determined letter values. We review letter value display in Section~\ref{sec:letter-values} and describe letter value box plots in Section~\ref{sec:lv-boxplots}. Section~\ref{sec:extent} addresses issues of construction (including number of letter values to display). Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
+The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fixed outside rate'') using a rule that is based on the fourths, avoids this dependence of the expected outside rate on the underlying distribution. Although it avoids the linear dependence of number of ``outliers'' on $n$, it also fails to display any interesting features in the tails. The letter value plot displays such features using data-determined letter values. We review letter value displays in Section~\ref{sec:letter-values} and describe letter value box plots in Section~\ref{sec:lv-boxplots}. Section~\ref{sec:extent} addresses issues of construction (including number of letter values to display). Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
 
 \section{Letter values}
 \label{sec:letter-values}
@@ -359,7 +359,7 @@ that the data can reliably support.
 % U     1.0 0.0000  4.8738   2.4369  4.8738     1.3286
 % \end{verbatim}
 
-Letter values are particularly useful for large data sets, because (a) much of the most valuable information, especially for inference purposes, is contained in the tails (cf.\ Winsor's principle, ``All distributions are normal in the middle''; \citep[pg. 457]{tukey60}; and (b) adjacent letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707 (\citep{mosteller46} cited by \citet[pg. 51--52]{dchlv}. Thus, rather little information concerning tail behavior is lost by considering only the letter values. Figure~\ref{qqpop4} illustrates this retention of tail information in visualizing the distribution of the populations and their logarithms in 3068 continental U.S. counties in 1980 via normal quantile-quantile (QQ) plots (panels A and B, respectively) versus using only the 25 letter values shown in Tables 1 and 2 above (panels C and D, respectively); the bottom panels (letter values only) reveal the advantage of logarithms as well as the top panels (full data set).
+Letter values are particularly useful for large data sets, because (a) much of the most valuable information, especially for inference purposes, is contained in the tails (cf.\ Winsor's principle, ``All distributions are normal in the middle''; \citep[pg. 457]{tukey60}); and (b) adjacent letter values have asymptotic correlation $\sqrt{1/2}$ = 0.707 (\citet{mosteller46} cited by \citet[pg. 51--52]{dchlv}. Thus, rather little information concerning tail behavior is lost by considering only the letter values. Figure~\ref{qqpop4} illustrates this retention of tail information in visualizing the distribution of the populations and their logarithms in 3068 continental U.S. counties in 1980 via normal quantile-quantile (QQ) plots (panels A and B, respectively) versus using only the 25 letter values shown in Tables 1 and 2 above (panels C and D, respectively); the bottom panels (letter values only) reveal the advantage of logarithms as well as the top panels (full data set).
 
 \begin{figure}[hbtp]
   \centering
@@ -438,18 +438,38 @@ k = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor + 1
 
 \noindent In effect, conventional box plots use this rule, with $p = 0.007$. This criterion results in the same rule as the previous rule for the samples in Figure~\ref{stackbox} ($n = 10,000$) when $p$ lies between 0.004 and 0.006 (0.4--0.6\%), and in Figure \ref{lvpops} ($n = 3068$) when $p$ lies between 0.011 and 0.020 (1.1--2.0\%).
 
-A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps that for the subsequent letter value, then the uncertainty for the given letter value is high enough that we will not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $n > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule.
+A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps that for the subsequent letter value, then the uncertainty for the given letter value is high enough that we will not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule.
 
-Denote the $k$th letter value by $LV_k$. The depth of $LV_k$, $d_k$, is the number of observations in the tail beyond and including $LV_{k}$ (with $n_0 \equiv n$ and $n_1 \equiv (n+1)/2$ for the first letter value, namely the median), so $LV_{k+1} \equiv X_{(d_{k+1})}$ is the median of $n_k$ observations.
 
-If the confidence interval of $LV_{k+1}$ does not extend beyond $d_k/4$, then we proceed to letter value $k+1$. If the confidence interval around $LV_{k+1}$ does extend beyond $d_k/4$, we return to $LV_{k}$ as the last letter value shown. For an approximate confidence level of $\alpha= 0.05$, the first property leads to $\sqrt{d_k} < d_k/4$; i.e., we proceed to $k+1$ as long as $d_k > 16$. We return to $k-1$ if $\sqrt{d_k} \ge d_k/2$; i.e., if $d_k \le 4$. A rule such as this one with 95\% confidence level often leads to labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \textit{EDA}.
-
+Consider the upper $k^{th}$ letter value, $LV_k$.  If its
+upper 95\% confidence limit does not extend beyond the 
+lower 95\% confidence limit for the next letter value, $LV_{k+1}$,
+we continue to $LV_{k+2}$; otherwise, the box corresponding to 
+$LV_k$ is the last box shown.  
+Since approximately $d_{k+1}$ observations lie 
+between $LV_k$ and $LV_{k+1}$, 
+and the upper 95\% limit for $LV_k$ (respectively, $LV_{k+1}$) has roughly 
+$\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ (respectively, $\sqrt{d_k}$)
+observations, this principle requires
+$\sqrt{2 d_k} + \sqrt{d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 31.2$.
+A rule such as this one with 95\% confidence level often leads to
+labeling 5--8 of the most extreme observations on each side,
+surprisingly consistent with many of the displays in \textit{EDA}.
+[KK: ??? -- it would be more if my calculations are correct. And then the
+next sentence would not be right either, nor the subsequent paragraph.
+\textbf{Please check}]
 Generally, the third rule suggests showing $k$  ``trustworthy'' LVs where
+%\begin{eqnarray*}
+%0.5 \sqrt{n_k} z_{1-\alpha/2} &<& n_k/4 \\
+%\iff \ \ n_k &>&  4 z_{1-\alpha/2}^2 \\
+%\end{eqnarray*}
+%and since $n_k \approx \frac{1}{2^{k-1}} n$
+%%% KK: i think this may need to be fixed.
 \begin{equation}
-k =  \left \lfloor 
-        \log_2(n) - \log_2 \left(4 z_{1 - \alpha / 2} ^ 2 \right) 
-     \right \rfloor + 1
+k =  \left \lfloor \log_2 (n) - \log_2 
+   \left(4  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
 \end{equation}
+
 
 \noindent This third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side). Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3. Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
 
