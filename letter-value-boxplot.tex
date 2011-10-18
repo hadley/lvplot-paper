@@ -438,36 +438,48 @@ k = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor + 1
 
 \noindent In effect, conventional box plots use this rule, with $p = 0.007$. This criterion results in the same rule as the previous rule for the samples in Figure~\ref{stackbox} ($n = 10,000$) when $p$ lies between 0.004 and 0.006 (0.4--0.6\%), and in Figure \ref{lvpops} ($n = 3068$) when $p$ lies between 0.011 and 0.020 (1.1--2.0\%).
 
-A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps that for the subsequent letter value, then the uncertainty for the given letter value is high enough that we will not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule.
+A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps that for the subsequent letter value, then the uncertainty for the given letter value is high enough that we will not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme and the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule.
+
+%% this rule might be too strict for our purposes. I'll use just one CI and the letter value for rule #3 [HH]
+%Consider the upper $k^{th}$ letter value, $LV_k$.  If its
+%upper 95\% confidence limit does not extend beyond the 
+%lower 95\% confidence limit for the next letter value, $LV_{k+1}$,
+%we continue to $LV_{k+2}$; otherwise, the box corresponding to 
+%$LV_k$ is the last box shown.  
+%Since approximately $d_{k+1}$ observations lie 
+%between $LV_k$ and $LV_{k+1}$, 
+%and the upper 95\% limit for $LV_k$ (respectively, $LV_{k+1}$) has roughly 
+%$\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ (respectively, $\sqrt{d_k}$)
+%observations, this principle requires
+%$\sqrt{2 d_k} + \sqrt{d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 31.2$.
+%A rule such as this one with 95\% confidence level often leads to
+%labeling 5--8 of the most extreme observations on each side,
+%surprisingly consistent with many of the displays in \textit{EDA}.
+%[KK: ??? -- it would be more if my calculations are correct. And then the
+%next sentence would not be right either, nor the subsequent paragraph.
+%\textbf{Please check}]
 
 
 Consider the upper $k^{th}$ letter value, $LV_k$.  If its
-upper 95\% confidence limit does not extend beyond the 
-lower 95\% confidence limit for the next letter value, $LV_{k+1}$,
-we continue to $LV_{k+2}$; otherwise, the box corresponding to 
+upper 95\% confidence limit does not extend beyond the next letter value, $LV_{k+1}$,
+we continue to the next letter value, $LV_{k+1}$; otherwise, the box corresponding to 
 $LV_k$ is the last box shown.  
 Since approximately $d_{k+1}$ observations lie 
 between $LV_k$ and $LV_{k+1}$, 
-and the upper 95\% limit for $LV_k$ (respectively, $LV_{k+1}$) has roughly 
-$\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ (respectively, $\sqrt{d_k}$)
+and the upper 95\% limit for $LV_k$ has roughly 
+$\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ 
 observations, this principle requires
-$\sqrt{2 d_k} + \sqrt{d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 31.2$.
+$\sqrt{2 d_k}  < d_{k+1} \approx d_k / 2$, or $d_k > 8$.
 A rule such as this one with 95\% confidence level often leads to
-labeling 5--8 of the most extreme observations on each side,
+labeling 9 -- 15 %5--8 
+of the most extreme observations on each side,
 surprisingly consistent with many of the displays in \textit{EDA}.
-[KK: ??? -- it would be more if my calculations are correct. And then the
-next sentence would not be right either, nor the subsequent paragraph.
-\textbf{Please check}]
+
 Generally, the third rule suggests showing $k$  ``trustworthy'' LVs where
-%\begin{eqnarray*}
-%0.5 \sqrt{n_k} z_{1-\alpha/2} &<& n_k/4 \\
-%\iff \ \ n_k &>&  4 z_{1-\alpha/2}^2 \\
-%\end{eqnarray*}
-%and since $n_k \approx \frac{1}{2^{k-1}} n$
-%%% KK: i think this may need to be fixed.
+$d_k >  2 z_{1-\alpha/2}^2 $, leading to the following rule:
 \begin{equation}
 k =  \left \lfloor \log_2 (n) - \log_2 
-   \left(4  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
+   \left(2  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
 \end{equation}
 
 
