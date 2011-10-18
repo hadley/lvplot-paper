@@ -471,12 +471,12 @@ $\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$
 observations, this principle requires
 $\sqrt{2 d_k}  < d_{k+1} \approx d_k / 2$, or $d_k > 8$.
 A rule such as this one with 95\% confidence level often leads to
-labeling 9 -- 15 %5--8 
+labeling 5--8 
 of the most extreme observations on each side,
 surprisingly consistent with many of the displays in \textit{EDA}.
 
 Generally, the third rule suggests showing $k$  ``trustworthy'' LVs where
-$d_k >  2 z_{1-\alpha/2}^2 $, leading to the following rule:
+$d_k >  2 z_{1-\alpha/2}^2 $, leading to the following stopping criterion:
 \begin{equation}
 k =  \left \lfloor \log_2 (n) - \log_2 
    \left(2  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
