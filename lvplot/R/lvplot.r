@@ -32,9 +32,8 @@ LVboxplot <- function(x, ...) UseMethod("LVboxplot",x)
 # 
 # @arguments the formula has to be of the form $y \tilde x$, where $x$ is a qualitative variable. The values of $y$ will be split into groups according to their values on $x$ and separate letter value box plots of $y$ are drawn side by side in the same display.
 # @arguments significance level, if neither \code{k} nor \code{perc} is specified, \code{alpha} is used to determine how many letter values are to be used.
-# @arguments percentage of data points to be shown individually (as outliers) outside the letter-value boxes. \code{perc} is only used, if \code{k} is not specified.  If used, $k$ is determined in such a way, that confidence intervals around each letter value statistics will not include neighboring letter value statistics at a significance level of \code{alpha}.
+# @arguments percentage of data points to be shown individually (as outliers) outside the letter-value boxes. \code{perc} is only used, if \code{k} is not specified.  If used, $k$ is determined in such a way, that confidence intervals around each letter value statistics will not include neighboring letter value statistics at a significance level of \code{alpha}, if defined, aim for \code{perc} percent outliers
 # @arguments number of letter statistics to compute and draw
-# @arguments if defined, aim for \code{perc} percent outliers
 # @arguments display horizontally (TRUE) or vertically (FALSE)
 # @arguments specify base colour to use
 # @arguments unused
@@ -49,7 +48,7 @@ LVboxplot <- function(x, ...) UseMethod("LVboxplot",x)
 #X 	title(paste("Exponential, n=",length(x)))
 #X 	LVboxplot(x,col="grey", xlab="")
 #X }
-LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL,horizontal=TRUE,col="grey",...) {
+LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=TRUE, xlab=NULL, ylab=NULL, col="grey30", bg="grey90", ...) {
     deparen <- function(expr) {
         while (is.language(expr) && !is.name(expr) && deparse(expr[[1]]) == 
             "(") expr <- expr[[2]]
@@ -76,18 +75,27 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL,horizontal=T
     src.k <- k 
     src.col <- col 
 
-
     pt <- 1
 	if (horizontal) {
-	  plot(z,rep(pt,length(z)),ylim=c(0.5,length(setx)+.5),ylab="",axes=FALSE,type="n",...)
+	  if (is.null(xlab)) xlab=z.name
+	  if (is.null(ylab)) ylab=x.name
+	  plot(z,rep(pt,length(z)),ylim=c(0.5,length(setx)+.5),ylab=ylab,xlab=xlab, axes=FALSE,type="n",...)
+	  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = bg)
 	  box()
 	  axis(1)
-	  axis(2,at=1:length(setx),labels=as.character(setx))
+	  axis(2,at=1:length(setx), labels=as.character(setx))	  
+	  grid(lty=1, col="white", ny=NA)
+	  abline(h=1:length(setx), col="white")
 	} else {
-	  plot(rep(pt,length(z)),z,xlim=c(0.5,length(setx))+0.5, xlab="", axes=FALSE, type="n", ...)
+	  if (is.null(ylab)) ylab=z.name
+	  if (is.null(xlab)) xlab=x.name
+	  plot(rep(pt,length(z)),z,xlim=c(0,length(setx))+0.5, xlab=xlab, ylab=ylab, axes=FALSE, type="n", ...)
+	  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = bg)
 	  box()
 	  axis(2)
 	  axis(1,at=1:length(setx),labels=as.character(setx))
+	  grid(lty=1, col="white")
+	  abline(v=1:length(setx), col="white")
 	}
 	
 	result <- list(length(setx))
@@ -146,7 +154,7 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL,horizontal=T
 # @arguments unused
 # @keyword hplot
 # @seealso \code{\link{LVboxplot.formula}}
-LVboxplot.numeric <- function(x,alpha=0.95, k=NULL, perc=NULL,horizontal=TRUE,col="grey",...) {
+LVboxplot.numeric <- function(x,alpha=0.95, k=NULL, perc=NULL, horizontal=TRUE, xlab="", col="grey30", bg="grey90", ...) {
 # extension of standard boxplots
 # draws k letter statistics
 
@@ -154,20 +162,18 @@ LVboxplot.numeric <- function(x,alpha=0.95, k=NULL, perc=NULL,horizontal=TRUE,co
   k <- determineDepth(n,k,alpha,perc) 
   src.col <- col 
 
-  if (! is.na(src.col)) { #col <- c(brewer.pal(k-1,"Blues"),"Black") 
- 	   		
-	   		colrgb <- col2rgb(src.col)
-	   		colhsv <- rgb2hsv(colrgb)
-			if (colhsv[2,1] == 0) {
-	   			val <- seq(0.9,colhsv[3,1], length.out=k)
-	   			colrgb <- col2rgb(hsv(colhsv[1,1], colhsv[2,1], val))
-			} else {
-	   			sat <- seq(0.1,colhsv[2,1], length.out=k)
-	   			colrgb <- col2rgb(hsv(colhsv[1,1], sat, colhsv[3,1]))
-			}
-	   		col <- rgb(colrgb[1,],colrgb[2,],colrgb[3,], maxColorValue=255) 	
-  }
-  else { col <- rep("grey",k) }
+  if (! is.na(src.col)) { #col <- c(brewer.pal(k-1,"Blues"),"Black")  	   		
+	colrgb <- col2rgb(src.col)
+	colhsv <- rgb2hsv(colrgb)
+	if (colhsv[2,1] == 0) {
+	  val <- seq(0.9,colhsv[3,1], length.out=k)
+	  colrgb <- col2rgb(hsv(colhsv[1,1], colhsv[2,1], val))
+	} else {
+	  sat <- seq(0.1,colhsv[2,1], length.out=k)
+	  colrgb <- col2rgb(hsv(colhsv[1,1], sat, colhsv[3,1]))
+	}
+	col <- rgb(colrgb[1,],colrgb[2,],colrgb[3,], maxColorValue=255) 	
+  } else { col <- rep("grey",k) }
   
 # compute letter values based on depth  
   depth    <- rep(0,k)
@@ -188,11 +194,11 @@ LVboxplot.numeric <- function(x,alpha=0.95, k=NULL, perc=NULL,horizontal=TRUE,co
 
   pt <- 0.5
   if (horizontal) {
-    plot(x,rep(pt,length(x)),ylim=c(pt-0.5,pt+0.5),ylab="",axes=FALSE,type="n",...)
+    plot(x,rep(pt,length(x)),ylim=c(pt-0.5,pt+0.5),ylab="",axes=FALSE,type="n",bg="grey80",...)
 	box()
 	axis(1)
   } else {
-	plot(rep(pt,length(x)),x,xlim=c(pt-0.5,pt+0.5), xlab="", axes=FALSE, type="n", ...)
+	plot(rep(pt,length(x)),x,xlim=c(pt-0.5,pt+0.5), xlab="", axes=FALSE, type="n",bg="grey80", ...)
 	box()
 	axis(2)
   }
