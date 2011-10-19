@@ -97,28 +97,30 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=
 	  grid(lty=1, col="white")
 	  abline(v=1:length(setx), col="white")
 	}
+
+# compute one set of colours for the rectangles
+	xtable <- xtabs(z~x)
+	kmax <- determineDepth(max(xtable),src.k,alpha,perc)
+    if (! is.na(src.col)) { 
+   		#col <- c(brewer.pal(k-1,"Blues"),"Black") # break dependency of ColorBrewer package
+   		
+   		colrgb <- col2rgb(src.col)
+   		colhsv <- rgb2hsv(colrgb)
+		if (colhsv[2,1] == 0) {
+   			val <- seq(0.9,colhsv[3,1], length.out=kmax)
+   			colrgb <- col2rgb(hsv(colhsv[1,1], colhsv[2,1], val))
+		} else {
+   			sat <- seq(0.1,colhsv[2,1], length.out=kmax)
+   			colrgb <- col2rgb(hsv(colhsv[1,1], sat, colhsv[3,1]))
+		}
+   		col <- rgb(colrgb[1,],colrgb[2,],colrgb[3,], maxColorValue=255) 	
+   	 } else { col <- rep("grey",kmax) }
 	
 	result <- list(length(setx))
     for (i in setx) {
        xx <- z[x==i]
 	   n <- length(xx)
 	   k <- determineDepth(n,src.k,alpha,perc) 
-
-	   if (! is.na(src.col)) { 
-	   		#col <- c(brewer.pal(k-1,"Blues"),"Black") # break dependency of ColorBrewer package
-	   		
-	   		colrgb <- col2rgb(src.col)
-	   		colhsv <- rgb2hsv(colrgb)
-			if (colhsv[2,1] == 0) {
-	   			val <- seq(0.9,colhsv[3,1], length.out=k)
-	   			colrgb <- col2rgb(hsv(colhsv[1,1], colhsv[2,1], val))
-			} else {
-	   			sat <- seq(0.1,colhsv[2,1], length.out=k)
-	   			colrgb <- col2rgb(hsv(colhsv[1,1], sat, colhsv[3,1]))
-			}
-	   		col <- rgb(colrgb[1,],colrgb[2,],colrgb[3,], maxColorValue=255) 	
-	   	}
-	   else { col <- rep("grey",k) }
 	   
 	 # compute letter values based on depth  
 	   depth    <- rep(0,k)
@@ -136,7 +138,7 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=
 	 # determine outliers
 	   out <- (xx<qu[1]) | (xx>qu[2*k])            
 		  
-	   drawLVplot(xx,pt,k,out,qu,horizontal,col,...)
+	   drawLVplot(xx,pt,k,out,qu,horizontal,col=col[(kmax-k) +1:k],...)
 	   result[[pt]] <- outputLVplot(xx,qu,k,out,depth,alpha)      
 	   pt <- pt+1
     }
