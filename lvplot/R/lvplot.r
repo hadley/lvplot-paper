@@ -75,6 +75,12 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=
     src.k <- k 
     src.col <- col 
 
+# don't know what to do with missing data - for right now, we will delete
+	dft <- data.frame(x=x,z=z)
+	dft <- na.omit(dft)
+	x <- dft$x
+	z <- dft$z
+
     pt <- 1
 	if (horizontal) {
 	  if (is.null(xlab)) xlab=z.name
@@ -99,7 +105,7 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=
 	}
 
 # compute one set of colours for the rectangles
-	xtable <- xtabs(z~x)
+	xtable <- table(x, useNA="ifany")
 	kmax <- determineDepth(max(xtable),src.k,alpha,perc)
     if (! is.na(src.col)) { 
    		#col <- c(brewer.pal(k-1,"Blues"),"Black") # break dependency of ColorBrewer package
@@ -137,7 +143,7 @@ LVboxplot.formula <- function(formula,alpha=0.95, k=NULL, perc=NULL, horizontal=
 	   
 	 # determine outliers
 	   out <- (xx<qu[1]) | (xx>qu[2*k])            
-		  
+
 	   drawLVplot(xx,pt,k,out,qu,horizontal,col=col[(kmax-k) +1:k],...)
 	   result[[pt]] <- outputLVplot(xx,qu,k,out,depth,alpha)      
 	   pt <- pt+1

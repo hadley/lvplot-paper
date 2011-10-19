@@ -59,8 +59,7 @@ outputLVplot <- function(x,qu,k,out,depth,alpha) {
 # @arguments display horizontally (TRUE) or vertically (FALSE)
 # @arguments vector of colours to use
 # @keyword internal
-drawLVplot <- function(x,y,k,out,qu,horizontal,col,...) {
-    
+drawLVplot <- function(x,y,k,out,qu,horizontal,col,...) {   
   if (horizontal) { 
 	points(x[out],rep(y,length(x[out])),pch=8)		
 	# draw boxes:
