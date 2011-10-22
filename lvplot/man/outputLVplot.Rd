@@ -32,4 +32,5 @@
 \description{
   Compute letter value summary table.
 }
+\keyword{internal}
 

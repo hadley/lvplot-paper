@@ -23,4 +23,5 @@
 \description{
   Draw an LV plot.
 }
+\keyword{internal}
 
