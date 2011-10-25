@@ -116,6 +116,7 @@ with longer tails than the Gaussian.
   \label{kkewbox} 
 \end{figure}
 
+
 The conventional box plot is very useful for small or moderate-sized data
 sets, but is somewhat inadequate for very large data sets, in two ways. First,
 although estimates of quantiles in the tails of a distribution beyond the
@@ -389,8 +390,15 @@ Letter-value boxplots for three different distributions are shown in Figure~\ref
 
 \begin{figure}[hbtp]
   \centering
-  \includegraphics[width = 0.75\linewidth]{tplot2kk}
+%  \includegraphics[width = 0.75\linewidth]{tplot2kk}
+  \includegraphics[width = 0.32\linewidth]{t2}
+  \includegraphics[width = 0.32\linewidth]{t3}
+  \includegraphics[width = 0.32\linewidth]{t9}
 
+  \includegraphics[width = 0.32\linewidth]{t2-b}
+  \includegraphics[width = 0.32\linewidth]{t3-b}
+  \includegraphics[width = 0.32\linewidth]{t9-b}
+  
   \caption{Letter-Value boxplots and standard boxplots for samples of 10,000
   for $t$ distributions on 2, 3, 9 degrees of freedom. Top row: Letter value
   boxplots. Bottom row: Conventional boxplots.}
@@ -401,8 +409,12 @@ Figure~\ref{lvpops} shows the letter-value boxplots and the conventional boxplot
 
 \begin{figure}[hbtp]
   \centering
-  % \includegraphics[scale=.5]{lvpops}
-
+%  \includegraphics[scale=.5]{lvpops}
+ 	\includegraphics[scale=.5]{counties-lvpop-a.pdf}
+ 	\includegraphics[scale=.5]{counties-lvpop-c.pdf}
+ 	\includegraphics[scale=.5]{counties-lvpop-b.pdf}
+ 	\includegraphics[scale=.5]{counties-lvpop-d.pdf}
+ 
   \caption{Letter-Value Box Plots and standard box plots for the 1980
   populations and log populations of 3068 counties in the continental United
   States.}
@@ -554,22 +566,37 @@ The different rules provide the user with choices depending on the desired preci
 \label{sec:bivariate}
 
 \citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. 
-Example here [Heike]
-The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the set of points for which $ldepth(p,Z) = \lfloor n/2 \rfloor$ (more precisely,...) Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter value box plot is currently under development.
+
+The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the convex hull of all points $p$ for which $ldepth(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth(p_M, Z) \rfloor$. Similarly,  successive letter areas are defined based purely on their depth as the convex hull of all points in the sample with $ldepth_i(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth_{i-1}(p, Z) \rfloor$.
+Figure \ref{counties-bag} shows a side-by side comparison of a standard bagplot (left, \citet{bagplots}, implemented in \citet{aplpack}) of average temperatures in January by degree latitude of each of 3,068 US counties and a letter-value bagplot on the right..
+
+Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter value box plot is currently under development.
+
+\begin{figure}[hbtp]
+  \centering
+   \includegraphics[scale=0.45]{images/counties-bag}
+   \includegraphics[scale=0.45]{images/counties-lvbag}
+  \caption{Bagplot (left) and letter-value bagplot (right) of average January temperatures by degree latitude for 3,068 US counties. }
+  \label{counties-bag} 
+\end{figure}
 
 \section{Summary}
 \label{sec:summary}
 
-The advantages of the letter value box plot are:
+Letter value boxplots provide a natural extension of boxplots in situations where we are dealing with large amounts of data: just as boxplots, they are based on actual data values, rather than smoothed values or estimated densities. Letter value boxplots convey further information about tail behavior beyond the whiskers. Simple stopping rules that do neither depend on the number of points nor their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: rule \# 3 will ensure to only then draw a box for quartiles, if there are at least 16 data points present in the data. This is particularly useful in situations, such as shown in figure \ref{lvbox2}, where we are dealing with groups of very different sizes. On the other hand, for large data situations, fewer observations will be labeled as  as ``outliers'' 
+compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%.
+Letter values can naturally be extended to two dimensions by making use of the half-space depth. This gives rise to letter value bagplots as a two dimensional extension of letter value boxplots, providing a robust, data-based assessment of data concentration. 
 
-\begin{itemize}
-\item they are based on actual data values 
-\item they are simple to compute from the letter value display
-\item they convey further information about tail behavior beyond the whiskers
-\item for large data sets, fewer observations are labeled as ``outliers'' 
-compared to a conventional boxplot (roughly 0.7\%)
-\item their construction does not depend on a smoothing parameter.
-\end{itemize} 
+%The advantages of the letter value box plot are:
+%
+%\begin{itemize}
+%\item they are based on actual data values 
+%\item they are simple to compute from the letter value display
+%\item they convey further information about tail behavior beyond the whiskers
+%\item for large data sets, fewer observations are labeled as ``outliers'' 
+%compared to a conventional boxplot (roughly 0.7\%)
+%\item their construction does not depend on a smoothing parameter.
+%\end{itemize} 
 
 % \appendix
 % \section{Implementation}
