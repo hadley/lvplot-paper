@@ -2,7 +2,7 @@ library(lvplot)
 library(RColorBrewer)
 cols <- c("white", brewer.pal(9, "Blues"),"black")
 
-sessions <- read.csv("../data/sessions.csv")
+sessions <- read.csv("sessions.csv")
 
 names(sessions) <- c("time","length","SIP","DIP","Dport","Sport","Npacket","Nbyte")
 sessions[,3:6] <- round(65536*sessions[,3:6])
@@ -46,7 +46,7 @@ dev.off()
 
 ###################
 
-census <- read.csv("../data/counties.csv")
+census <- read.csv("counties.csv")
 
 pdf("../images/counties-lvpop-a.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
