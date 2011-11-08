@@ -105,159 +105,32 @@ with longer tails than the Gaussian.
 
 \begin{figure}[hbtp]
   \centering
+  \includegraphics[width=\linewidth]{box2}
   \includegraphics[width=\linewidth]{lvbox2}
 
-  \caption{Boxplots of (log-transformed) duration for
-  135,605 Internet sessions, grouped by ranges of (log-transformed) byte
-  lengths for the sessions.}
+  \caption{(Top) Boxplots of (log-transformed) duration for 135,605 Internet
+  sessions, grouped by ranges of (log-transformed) byte lengths for the
+  sessions. (Bottom) The equivalent letter-value plots.}
+
   \label{kkewbox} 
 \end{figure}
 
+The conventional boxplot is very useful for small or moderate-sized data sets, but is somewhat inadequate for very large data sets, in two ways. First, although estimates of quantiles in the tails of a distribution beyond the quartiles may be imprecise for smaller data sets (and thus probably better not shown), large data sets afford somewhat more reliable estimates of tail behavior. Second, because the expected ``some outside rate per sample'' already exceeds 99\% when $n = 700$, the conventional boxplot can be expected to label increasing numbers of observations as ``outliers''. The letter-value boxplot that we propose addresses both shortcomings for large data sets. In addition, its construction resembles the original boxplot by displaying only actual values that occur in the sample. The rules for constructing the letter value boxplot result in the conventional boxplot for moderate sized data sets.
 
-The conventional boxplot is very useful for small or moderate-sized data
-sets, but is somewhat inadequate for very large data sets, in two ways. First,
-although estimates of quantiles in the tails of a distribution beyond the
-quartiles may be imprecise for smaller data sets (and thus probably better not
-shown), large data sets afford somewhat more reliable estimates of tail
-behavior. Second, because the expected ``some outside rate per sample''
-already exceeds 99\% when $n = 700$, the conventional boxplot can be expected
-to label increasing numbers of observations as ``outliers''. The letter-value
-boxplot that we propose addresses both shortcomings for large data sets. In
-addition, its construction resembles the original boxplot by displaying only
-actual values that occur in the sample. The rules for constructing the letter
-value boxplot result in the conventional boxplot for moderate sized data
-sets.
+The ``labeled outlier rule'' for conventional boxplots relies on the fourths because the rule is then ``unlikely to be adversely affected by extreme observations'' and ``to minimize the difficulties of masking'' \citep{dchbox, page=992}. Conventional boxplots rely on the fourths to ensure insensitivity to the rule governing outlier labeling. Hence, the breakdown point of default boxplots is 25\%; i.e., only if 25\% or more of the data values, all unfavorably located in one of the tails, are contaminated, will the summary statistics and outlier identification change. This high breakdown is one of the valuable features of boxplots. Moreover, the relatively low uncertainty in the fourths as estimates of the quartiles argues for using the fourths in the rule for labeling ``outliers'': the standard deviation of the fourths in a Gaussian population equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$ = $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for Gaussian samples of size 120 \citep{ha.order}. Estimates of the population quantiles beyond the quartiles, when based on order statistics, are increasingly variable; e.g., for the same $n = 100$ sample, the 2-SD uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and $ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively. Table 1 shows these factors for the standard error formula, \texttt{SEfactor}, for the first 20 letter values, as well as the factor in increase in sample size needed for successive letter values to have the same uncertainty as the fourth. (For example, the fourths in a sample of size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of size 1.4$\cdot$120 = 168 for the eighth to have this same level of uncertainty.) For small samples, then, restricting attention to estimates of only the population median and quartiles, with some general indication of the tail length beyond the quartiles, is likely to be about all the information that the data can reliably support.
 
-The ``labeled outlier rule'' for conventional boxplots relies 
-on the fourths because the rule is then
-``unlikely to be adversely affected by extreme
-observations'' and ``to minimize the difficulties of masking'' \citep{dchbox, page=992}.
-Conventional boxplots rely on the fourths to ensure
-insensitivity to the rule governing outlier labeling.
-% ``relative insensitivity of summaries and subsequent calculations 
-% to unusual observations.'' (citation for this quotation?)  
-Hence, the breakdown point of default boxplots is 25\%; 
-i.e., only if 25\% or more of the data values, all unfavorably
-located in one of the tails, are contaminated,
-will the summary statistics and outlier identification change.
-This high breakdown is one of the valuable features of boxplots.  
-Moreover, the relatively low uncertainty in the fourths as 
-estimates of the quartiles argues for using the fourths 
-in the rule for labeling ``outliers'': the standard deviation 
-of the fourths in a Gaussian population equals roughly 
-$[(0.25 \cdot 0.75) / (n  \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$
-= $1.362 \sigma / \sqrt{n}$ 
-% for a standard Gaussian distribution with
-% probability density function $\phi(\cdot)$, 
-or a 2-SD uncertainty
-of roughly 0.25$\sigma$ for Gaussian samples of size 120 
-\citep{ha.order}.
-Estimates of the population quantiles beyond the quartiles, when
-based on order statistics, are increasingly variable; e.g., for
-the same $n = 100$ sample, the 2-SD uncertainty in the eighths
-(depth = 13) and sixteenths (depth = 7) is approximately
-$ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and
-$ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively.
-Table 1 shows these factors for the standard error formula,
-\texttt{SEfactor}, for the first 20 letter values, as well as
-the factor in increase in sample size needed for successive
-letter values to have the same uncertainty as the fourth.
-(For example, the fourths in a sample of size 120 have
-a 2-SD uncertainty of 0.25$\sigma$; we would need a sample
-of size 1.4$\cdot$120 = 168 for the eighth to have this
-same level of uncertainty.)
-% by 20--30\% for each subsequent tail area for tail areas 
-% 1/8 = 0.125, 1/16 = 0.0625, ..., 1/128 = 0.008, and more beyond
-For small samples, then, restricting attention to estimates of only
-the population median and quartiles, with some general indication of 
-the tail length beyond the quartiles, is likely to be about all the
-information that the data can reliably support.
+The situation is quite different for large sample sizes. Estimates with quantiles corresponding to some of the smaller tail areas may be more reliable, so displays of large data sets can afford to indicate more confidently estimates of quantiles in the tails. The letter value boxplot incorporates a rule that dictates the number of letter values into the tail that can be shown with a degree of confidence. In addition, the number of ``labeled outliers'' is based on a function of the last quantile which can be estimated reliably, which usually limits the number of ``labeled outliers'' to a reasonable number of observations that can be investigated. ``Outliers'' can be either (a) genuine, but extreme, observations from the distribution represented by the bulk of the data; or (b) ``typical'' observations from a different distribution. The letter-value plot provides a display of the data that allows one to better distinguish these two types of observations.
 
-
-
-The situation is quite different for large sample sizes. Estimates with
-quantiles corresponding to some of the smaller tail areas may be more
-reliable, so displays of large data sets can afford to indicate more
-confidently estimates of quantiles in the tails. The letter value boxplot
-incorporates a rule that dictates the number of letter values into the tail
-that can be shown with a degree of confidence. In addition, the number of
-``labeled outliers'' is based on a function of the last quantile which can be
-estimated reliably, which usually limits the number of ``labeled outliers'' to
-a reasonable number of observations that can be investigated. ``Outliers'' can
-be either (a) genuine, but extreme, observations from the distribution
-represented by the bulk of the data; or (b) ``typical'' observations from a
-different distribution. The letter-value plot provides a display of the
-data that allows one to better distinguish these two types of observations.
-
-We recall that the theoretical fourths from a sample of \textit{independent}
-observations from a single Gaussian population are $\pm 0.6745\sigma$,
-yielding an interquartile range, as estimated by the fourth-spread, of
-1.3490$\sigma$. Adjacent values (ends of whiskers) therefore lie at $\pm
-(0.6745 + 1.5 \cdot 1.3490)\sigma = \pm 2.6980\sigma$, so the box and whiskers
-can be expected to cover at least than 99.3\% of the distribution --- leaving
-about 0.7\% of the points to be labeled as outliers (and $2.34 \cdot
-10^{-04}$\% ``far outliers'') -- hence the approximation in \citet[pg.
-34]{dchlv} for the expected number of labeled outliers ($0.4 + 0.007n$). In
-the setting of an exponential distribution with unit mean, the theoretical
-hinges lie at 0.2877 and 1.3863, so the fourth spread will be roughly 1.0986.
-The box and whiskers therefore cover less area, roughly 0.9519, and an
-``outlier'' rate of almost 5\% and a ``far-out'' rate of almost 1\%.
+We recall that the theoretical fourths from a sample of \textit{independent} observations from a single Gaussian population are $\pm 0.6745\sigma$, yielding an interquartile range, as estimated by the fourth-spread, of 1.3490$\sigma$. Adjacent values (ends of whiskers) therefore lie at $\pm (0.6745 + 1.5 \cdot 1.3490)\sigma = \pm 2.6980\sigma$, so the box and whiskers can be expected to cover at least than 99.3\% of the distribution --- leaving about 0.7\% of the points to be labeled as outliers (and $2.34 \cdot 10^{-04}$\% ``far outliers'') -- hence the approximation in \citet[pg. 34]{dchlv} for the expected number of labeled outliers ($0.4 + 0.007n$). In the setting of an exponential distribution with unit mean, the theoretical hinges lie at 0.2877 and 1.3863, so the fourth spread will be roughly 1.0986. The box and whiskers therefore cover less area, roughly 0.9519, and an ``outlier'' rate of almost 5\% and a ``far-out'' rate of almost 1\%.
 
 The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fixed outside rate'') using a rule that is based on the fourths, avoids this dependence of the expected outside rate on the underlying distribution. Although it avoids the linear dependence of number of ``outliers'' on $n$, it also fails to display any interesting features in the tails. The letter value plot displays such features using data-determined letter values. We review letter value displays in Section~\ref{sec:letter-values} and describe letter value boxplots in Section~\ref{sec:lv-boxplots}. Section~\ref{sec:extent} addresses issues of construction (including number of letter values to display). Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
 
 \section{Letter values}
 \label{sec:letter-values}
 
-Let $X_{(1)}$, ... $X_{(n)}$ denote the order statistics from a sample of size
-$n$. Per conventional notation, let $\lfloor y \rfloor$ and $\lceil y \rceil$
-denote the greatest integer below $y$ and the next integer above $y$,
-respectively. The letter values are those order statistics having specific
-depths, defined recursively starting with the median. The depth of the median,
-$d_1$, of a sample of size $n$ is defined as $d_1 = (1 + n )/2$; the depths of
-successive letter values (F = fourths, E = eighths, D = sixteenths, C =
-thirty-seconds, ...) are defined recursively as $d_i = (1 + \lfloor d_{i-1}
-\rfloor)/2$. (We also will use the letter value itself as the subscript to the
-notation for depth; e.g., both $d_1$ and $d_M$ denote the depth of the
-median.) The $i^{th}$ lower and upper letter values ($LV_i$) are thus defined
-as $L_i = X_{(d_i)}$ and $U_i = X_{(n - d_i + 1)}$. (If the depth is an
-integer plus $\frac{1}{2}$, then the lower letter value is defined as the
-average of the two adjacent order statistics, $X_{(\lfloor d_i \rfloor)}$ and
-$X_{(\lceil d_i \rceil)}$, and similarly for the upper letter value.) The
-advantage of this definition for the letter values is that the median of the
-sampling distribution for this sample quantile from a continuous distribution
-$F(\cdot)$ is very close to $F^{-1} ((i - \frac{1}{3})/(n + \frac{1}{3})$, for
-a wide range of $F$, $n$, and $i$ \citep{dchlv}. Because each depth is roughly
-half the previous depth, the letter values approximate the quantiles
-corresponding to tail areas $2^{-i}$.
+Let $X_{(1)}$, ... $X_{(n)}$ denote the order statistics from a sample of size $n$. Per conventional notation, let $\lfloor y \rfloor$ and $\lceil y \rceil$ denote the greatest integer below $y$ and the next integer above $y$, respectively. The letter values are those order statistics having specific depths, defined recursively starting with the median. The depth of the median, $d_1$, of a sample of size $n$ is defined as $d_1 = (1 + n )/2$; the depths of successive letter values (F = fourths, E = eighths, D = sixteenths, C = thirty-seconds, ...) are defined recursively as $d_i = (1 + \lfloor d_{i-1} \rfloor)/2$. (We also will use the letter value itself as the subscript to the notation for depth; e.g., both $d_1$ and $d_M$ denote the depth of the median.) The $i^{th}$ lower and upper letter values ($LV_i$) are thus defined as $L_i = X_{(d_i)}$ and $U_i = X_{(n - d_i + 1)}$. (If the depth is an integer plus $\frac{1}{2}$, then the lower letter value is defined as the average of the two adjacent order statistics, $X_{(\lfloor d_i \rfloor)}$ and $X_{(\lceil d_i \rceil)}$, and similarly for the upper letter value.) The advantage of this definition for the letter values is that the median of the sampling distribution for this sample quantile from a continuous distribution $F(\cdot)$ is very close to $F^{-1} ((i - \frac{1}{3})/(n + \frac{1}{3})$, for a wide range of $F$, $n$, and $i$ \citep{dchlv}. Because each depth is roughly half the previous depth, the letter values approximate the quantiles corresponding to tail areas $2^{-i}$.
 
-The ``labeled outlier rule'' for conventional boxplots relies on the fourths
-because the rule is then ``unlikely to be adversely affected by extreme
-observations'' and ``to minimize the difficulties of masking'' \citep[pg.
-992]{dchbox}. Hence, the breakdown point of default boxplots is 25\%; i.e.,
-only if 25\% or more of the data values, all unfavorably located in one of the
-tails, are contaminated, will the summary statistics and outlier
-identification change. This high breakdown is one of the valuable features of
-boxplots. Moreover, the relatively low uncertainty in the fourths as estimates
-of the quartiles argues for using the fourths in the rule for labeling
-``outliers'': the standard deviation of the fourths in a Gaussian population
-equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$
-= $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for
-Gaussian samples of size 120 \citep{ha.order}. Estimates of the population
-quantiles beyond the quartiles, when based on order statistics, are
-increasingly variable; e.g., for the same $n = 100$ sample, the 2-SD
-uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is
-approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and $ 2
-\times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively.
-Table~\ref{tbl:letter-values} shows these factors for the standard error
-formula, \texttt{SEfactor}, for the first 20 letter values, as well as the
-factor in increase in sample size needed for successive letter values to have
-the same uncertainty as the fourth. (For example, the fourths in a sample of
-size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of
-size 1.4$\cdot$120 = 168 for the eighth to have this same level of
-uncertainty.) For small samples, then, restricting attention to estimates of
-only the population median and quartiles, with some general indication of the
-tail length beyond the quartiles, is likely to be about all the information
-that the data can reliably support.
+The ``labeled outlier rule'' for conventional boxplots relies on the fourths because the rule is then ``unlikely to be adversely affected by extreme observations'' and ``to minimize the difficulties of masking'' \citep[pg. 992]{dchbox}. Hence, the breakdown point of default boxplots is 25\%; i.e., only if 25\% or more of the data values, all unfavorably located in one of the tails, are contaminated, will the summary statistics and outlier identification change. This high breakdown is one of the valuable features of boxplots. Moreover, the relatively low uncertainty in the fourths as estimates of the quartiles argues for using the fourths in the rule for labeling ``outliers'': the standard deviation of the fourths in a Gaussian population equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$ = $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for Gaussian samples of size 120 \citep{ha.order}. Estimates of the population quantiles beyond the quartiles, when based on order statistics, are increasingly variable; e.g., for the same $n = 100$ sample, the 2-SD uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.32 \sigma$ and $ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.40 \sigma$, respectively. Table~\ref{tbl:letter-values} shows these factors for the standard error formula, \texttt{SEfactor}, for the first 20 letter values, as well as the factor in increase in sample size needed for successive letter values to have the same uncertainty as the fourth. (For example, the fourths in a sample of size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of size 1.4$\cdot$120 = 168 for the eighth to have this same level of uncertainty.) For small samples, then, restricting attention to estimates of only the population median and quartiles, with some general indication of the tail length beyond the quartiles, is likely to be about all the information that the data can reliably support.
 
 \begin{table}[htpb]
   \centering
@@ -462,28 +335,14 @@ A third approach is a rule in which the final $k$ is based on the ``trustworthin
 %\textbf{Please check}]
 
 
-Consider the upper $k^{th}$ letter value, $LV_k$.  If its
-upper 95\% confidence limit does not extend beyond the next letter value, $LV_{k+1}$,
-we continue to the next letter value, $LV_{k+1}$; otherwise, the box corresponding to 
-$LV_k$ is the last box shown.  
-Since approximately $d_{k+1}$ observations lie 
-between $LV_k$ and $LV_{k+1}$, 
-and the upper 95\% limit for $LV_k$ has roughly 
-$\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ 
-observations, this principle requires
-$\sqrt{2 d_k}  < d_{k+1} \approx d_k / 2$, or $d_k > 8$.
-A rule such as this one with 95\% confidence level often leads to
-labeling 5--8 
-of the most extreme observations on each side,
-surprisingly consistent with many of the displays in \textit{EDA}.
+Consider the upper $k^{th}$ letter value, $LV_k$. If its upper 95\% confidence limit does not extend beyond the next letter value, $LV_{k+1}$, we continue to the next letter value, $LV_{k+1}$; otherwise, the box corresponding to $LV_k$ is the last box shown. Since approximately $d_{k+1}$ observations lie between $LV_k$ and $LV_{k+1}$, and the upper 95\% limit for $LV_k$ has roughly $\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ observations, this principle requires $\sqrt{2 d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 8$. A rule such as this one with 95\% confidence level often leads to labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \textit{EDA}.
 
-Generally, the third rule suggests showing $k$  ``trustworthy'' LVs where
-$d_k >  2 z_{1-\alpha/2}^2 $, leading to the following stopping criterion:
+Generally, the third rule suggests showing $k$ ``trustworthy'' LVs where $d_k > 2 z_{1-\alpha/2}^2 $, leading to the following stopping criterion:
+
 \begin{equation}
 k =  \left \lfloor \log_2 (n) - \log_2 
    \left(2  z_{1-\alpha/2}^2 \right) \right \rfloor + 1
 \end{equation}
-
 
 \noindent This third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side). Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3. Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
 
