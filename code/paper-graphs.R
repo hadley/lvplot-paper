@@ -8,10 +8,13 @@ names(sessions) <- c("time","length","SIP","DIP","Dport","Sport","Npacket","Nbyt
 sessions[,3:6] <- round(65536*sessions[,3:6])
 
 cut2.byte <- cut(log(1+sqrt(sessions[,8])), c(-1,0,seq(3,5.4,by=.1),5.6, 5.8, 6.0, 6.5, 9.0))
+
+pdf("../images/box2.pdf", width = 10, height = 5)
 boxplot(split(log(1+sqrt(sessions[,2])),cut2.byte),varwidth=T,notch=T)
 title("Message Duration and Length",xlab="log(1 + sqrt{Nbyte})", ylab="log(1 + sqrt({duration})")
+dev.off()
 
-pdf("../images/lvbox2.pdf", width=10)
+pdf("../images/lvbox2.pdf", width = 10, height = 5)
 with(sessions, LVboxplot(log(1+sqrt(length))~cut2.byte, horizontal=FALSE, xlab="log(1 + sqrt{Nbyte})", ylab="log(1 + sqrt({duration})", col=cols))
 dev.off()
 
