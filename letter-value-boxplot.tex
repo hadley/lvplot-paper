@@ -15,7 +15,7 @@
 \DeclareGraphicsExtensions{.png,.pdf}
 \graphicspath{{images/}}
 
-\title{Letter-value boxplots: Boxplots for large data}
+\title{Letter-value plots: Boxplots for large data}
 \author{\begin{tabular}[t]{c c c }
   Heike Hofmann         & Karen Kafadar         & Hadley Wickham \\
   Dept of Statistics    & Dept of Statistics    & Dept of Statistics \\
@@ -41,13 +41,13 @@
   extreme, but not unexpected, observations (about $0.4 + 0.007n$ for a sample
   from a Gaussian population).
 
-  The letter-value boxplot addresses both these shortcomings: (1) it conveys
+  The letter-value plot addresses both these shortcomings: (1) it conveys
   more detailed information in the tails using letter values, only to the
   depths where the letter values are reliable estimates of their corresponding
   quantiles and (2) ``outliers'' are labeled as those observations beyond the
   most extreme letter value shown. All features shown on the letter-value
   boxplot are actual observations, thus remaining faithful to the principles
-  that governed Tukey's original boxplot. We illustrate letter-value boxplots
+  that governed Tukey's original boxplot. We illustrate letter-value plots
   with some actual examples that demonstrate their usefulness, particularly
   for large data sets. All graphics are created using R \citep{R2011}, and
   code is made available in the supplementary materials.
@@ -186,7 +186,7 @@ estimated reliably, which usually limits the number of ``labeled outliers'' to
 a reasonable number of observations that can be investigated. ``Outliers'' can
 be either (a) genuine, but extreme, observations from the distribution
 represented by the bulk of the data; or (b) ``typical'' observations from a
-different distribution. The letter-value boxplot provides a display of the
+different distribution. The letter-value plot provides a display of the
 data that allows one to better distinguish these two types of observations.
 
 We recall that the theoretical fourths from a sample of \textit{independent}
@@ -367,18 +367,18 @@ Letter values are particularly useful for large data sets, because (a) much of t
   \label{qqpop4}
 \end{figure}
 
-\section{Letter-value boxplots}
+\section{Letter-value plots}
 \label{sec:lv-boxplots}
 
-Letter-value boxplots are based on the letter-value statistics, with one box for each pair of lower and upper letter-values. The median is shown by a vertical line segment, and the innermost box is drawn at the lower and upper fourths, as in the conventional boxplot. An incrementally narrower box is drawn between at the lower and upper eighths, and narrower one still at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section; beyond the most extreme box, all observations beyond these limits are identified as individual points. In practice, the software for creating this display proceeds from the outermost box to the innermost (``fourths'') box, so the innermost boxes are shaded more heavily, indicating a higher data density. Boxes with matching heights correspond to the same depths. With this definition, the expected proportion of the sample beyond the end of a box (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - \frac{1}{2})$ = $1 / 2^i$). When $d_i$ reaches $\log_2 n$, the letter values are the extremes (minimum and maximum).
+Letter-value plots are based on the letter-value statistics, with one box for each pair of lower and upper letter-values. The median is shown by a vertical line segment, and the innermost box is drawn at the lower and upper fourths, as in the conventional boxplot. An incrementally narrower box is drawn between at the lower and upper eighths, and narrower one still at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section; beyond the most extreme box, all observations beyond these limits are identified as individual points. In practice, the software for creating this display proceeds from the outermost box to the innermost (``fourths'') box, so the innermost boxes are shaded more heavily, indicating a higher data density. Boxes with matching heights correspond to the same depths. With this definition, the expected proportion of the sample beyond the end of a box (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - \frac{1}{2})$ = $1 / 2^i$). When $d_i$ reaches $\log_2 n$, the letter values are the extremes (minimum and maximum).
 
-Letter-value boxplots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (top = standard Gaussian, middle = exponential with mean 1, bottom = standard uniform), first using the proposed letter-value boxplot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (top row), and then with the the conventional boxplot (bottom row). Comparing the left (Gaussian) and right (Uniform) letter value displays, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} with letter-value boxplot for three heavy-tailed distributions: 10,000 samples from a $t$ distribution with 2, 3, 9 degrees of freedom (top rows) and the corresponding boxplots (bottom rows).
+Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (top = standard Gaussian, middle = exponential with mean 1, bottom = standard uniform), first using the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (top row), and then with the the conventional boxplot (bottom row). Comparing the left (Gaussian) and right (Uniform) letter value displays, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} with letter-value plot for three heavy-tailed distributions: 10,000 samples from a $t$ distribution with 2, 3, 9 degrees of freedom (top rows) and the corresponding boxplots (bottom rows).
 
 \begin{figure}[hbtp]
   \centering
   \includegraphics[width = \linewidth]{boxplots}
 
-  \caption{Letter-value boxplots (top row) and standard boxplots (bottom
+  \caption{Letter-value plots (top row) and standard boxplots (bottom
   row) for data from three different distributions. Each plot shows 10,000
   data points. From left to right, samples come from $N(0,1)$, $Exp_1$, and
   $U[0,1]$. }
@@ -390,13 +390,13 @@ Letter-value boxplots for three different distributions are shown in Figure~\ref
 %  \includegraphics[width = 0.75\linewidth]{tplot2kk}
   \includegraphics[width = \linewidth]{t-dist}
   
-  \caption{Letter-Value boxplots and standard boxplots for samples of 10,000
+  \caption{Letter-value plots and standard boxplots for samples of 10,000
   for $t$ distributions on 2, 3, 9 degrees of freedom. Top row: Letter-value
   boxplots. Bottom row: Conventional boxplots.}
   \label{t-dist}
 \end{figure}
 
-Figure~\ref{lvpops} shows the letter-valuelue boxplots and the conventional boxplots for the 1980 populations and log populations of the 3068 counties in the United States. While the skewness in the distribution of the populations is evident from both the letter-value boxplot and the conventional boxplot, the former shows more clearly that the right tail of the log populations above the median is somewhat more extended than the left tail below the median (i.e., the boxes to the right of the median are slightly longer than those to the left of the median).
+Figure~\ref{lvpops} shows the letter-valuelue boxplots and the conventional boxplots for the 1980 populations and log populations of the 3068 counties in the United States. While the skewness in the distribution of the populations is evident from both the letter-value plot and the conventional boxplot, the former shows more clearly that the right tail of the log populations above the median is somewhat more extended than the left tail below the median (i.e., the boxes to the right of the median are slightly longer than those to the left of the median).
 
 \begin{figure}[hbtp]
   \centering
@@ -406,13 +406,13 @@ Figure~\ref{lvpops} shows the letter-valuelue boxplots and the conventional boxp
  	\includegraphics[scale=.5]{counties-lvpop-b.pdf}
  	\includegraphics[scale=.5]{counties-lvpop-d.pdf}
  
-  \caption{Letter-Value boxplots and standard boxplots for the 1980
+  \caption{Letter-value plots and standard boxplots for the 1980
   populations and log populations of 3068 counties in the continental United
   States.}
   \label{lvpops} 
 \end{figure}
 
-\section{Extent of letter-value boxplots}
+\section{Extent of letter-value plots}
 \label{sec:extent}
 
 %As indicated in the introduction, a serious drawback to the conventional boxplot for large data sets is the tendency for a very large number of labeled outliers, roughly 0.7\% of the sample size. Figure~\ref{kkewbox} shows a boxplot of a measure of the duration of 135,000 Internet sessions, stratified into 32 groups based on the logarithms of the number of bytes transferred during the session (cf.~\citet{kw06}, for a similar plot). The sample sizes in the 32 boxes range from 1341 (Box\#32) to 7865 (Box\#13), with an average sample size of 4238. With so many observations in each category, the number of labeled outliers is huge --- far too many to investigate individually. This large number makes it difficult to distinguish between genuine ``outliers'' (observations from a different distribution) and merely extreme observations from a distribution with longer tails than the Gaussian.
@@ -428,9 +428,9 @@ Figure~\ref{lvpops} shows the letter-valuelue boxplots and the conventional boxp
 
 %\end{figure}
 
-The standard letter value display stops with that letter value having depth = 1 (i.e., the extremes). In many cases, these extremes could lie far from the rest of the sample, particularly if they are outliers. Just as the whiskers in the conventional boxplot extend only to the adjacent values (observations just inside the inner fences, which can be the extremes in samples with no labeled outliers), the number of boxes in a letter-value boxplot need not extend to the last box corresponding to the extremes. We need a rule to determine the number of boxes to show in a letter-value boxplot, which will determine the number of labeled outliers. In this section, we consider four proposals for such a rule.
+The standard letter value display stops with that letter value having depth = 1 (i.e., the extremes). In many cases, these extremes could lie far from the rest of the sample, particularly if they are outliers. Just as the whiskers in the conventional boxplot extend only to the adjacent values (observations just inside the inner fences, which can be the extremes in samples with no labeled outliers), the number of boxes in a letter-value plot need not extend to the last box corresponding to the extremes. We need a rule to determine the number of boxes to show in a letter-value plot, which will determine the number of labeled outliers. In this section, we consider four proposals for such a rule.
 
-In many of the displays in \textit{Exploratory Data Analysis}, Tukey identified 5--8 extreme points. As a rough guideline, we can choose the extent of the letter-value boxplot display so that the last set of boxes encompasses all but the 5--8 most extreme observations. Recall that the depth of the $k^{th}$ letter value, $d_k$, is defined in terms of the previous depth: $d_k = (1 + \lfloor d_{k-1} \rfloor)/2$, which implies that $2 d_{k} -1 \leq d_{k-1} \leq 2 d_k - (1/2)$. If we stop the letter-value boxplot display at $LV_k$ where $k = \lfloor \log_2 n \rfloor - 3$, then we can expect to label 5--8 observations in each tail. For samples of size 10,000 as in Figure~\ref{stackbox}, $k = \lfloor log_2 10000 \rfloor - 4$ = 13 -- 4 = 9, so 9 letter values beyond the median are shown (F, E, D, C, B, A, Z, Y, X -- i.e., down to tail area of roughly 1/1024 $\approx$ 0.001). For the 3068 continental U.S.\ county populations, $k = \lfloor log_2 3068 \rfloor - 4$ = 11 -- 4 = 7, so Figure~\ref{kkewbox} shows 7 letter values (M, F, E, D, C, B, A).
+In many of the displays in \textit{Exploratory Data Analysis}, Tukey identified 5--8 extreme points. As a rough guideline, we can choose the extent of the letter-value plot display so that the last set of boxes encompasses all but the 5--8 most extreme observations. Recall that the depth of the $k^{th}$ letter value, $d_k$, is defined in terms of the previous depth: $d_k = (1 + \lfloor d_{k-1} \rfloor)/2$, which implies that $2 d_{k} -1 \leq d_{k-1} \leq 2 d_k - (1/2)$. If we stop the letter-value plot display at $LV_k$ where $k = \lfloor \log_2 n \rfloor - 3$, then we can expect to label 5--8 observations in each tail. For samples of size 10,000 as in Figure~\ref{stackbox}, $k = \lfloor log_2 10000 \rfloor - 4$ = 13 -- 4 = 9, so 9 letter values beyond the median are shown (F, E, D, C, B, A, Z, Y, X -- i.e., down to tail area of roughly 1/1024 $\approx$ 0.001). For the 3068 continental U.S.\ county populations, $k = \lfloor log_2 3068 \rfloor - 4$ = 11 -- 4 = 7, so Figure~\ref{kkewbox} shows 7 letter values (M, F, E, D, C, B, A).
 
 An alternative criterion fixes the number of labeled outliers as a percentage of the overall sample size. Letting $p$ denote this proportion, the last set of boxes to be drawn ends with depths
 
@@ -505,7 +505,7 @@ SE(LV_i) \approx \sigma \sqrt{p_i \cdot (1 - p_i)/ n} / \phi(\Phi^{-1}(p_i))
 
 Table~\ref{tbl:lv-error} lists the letter values and the ranges on $n$ for which the uncertainty displayed up to a given letter value does not exceed 0.5$\sigma$, 0.25$\sigma$, 0.20$\sigma$, and 0.10$\sigma$. For example, when $n$ = 10,000 and a 2-SD uncertainty around the letter value no greater than 0.20$\sigma$, one can show up to letter value 10 (X, 1/1024), but only up to letter value 7 (A, 1/128) for uncertainty of that does not exceed 0.10$\sigma$. Figure~\ref{figyy} plots the columns in Table~\ref{tbl:lv-error} on a $\log_10$ scale, which shows that the logarithm of the sample size is approximately linear in the letter value number. This rule is very similar to rule (1) when the desired uncertainty in the letter values does not exceed 0.25$\sigma$.
 
-The different rules provide the user with choices depending on the desired precision in the letter values shown. The current implementation of the letter-value boxplot display uses rule 3 as a default option.
+The different rules provide the user with choices depending on the desired precision in the letter values shown. The current implementation of the letter-value plot display uses rule 3 as a default option.
 
 \begin{table}
   \begin{center}
@@ -561,7 +561,7 @@ The different rules provide the user with choices depending on the desired preci
 The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the convex hull of all points $p$ for which $ldepth(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth(p_M, Z) \rfloor$. Similarly,  successive letter areas are defined based purely on their depth as the convex hull of all points in the sample with $ldepth_i(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth_{i-1}(p, Z) \rfloor$.
 Figure \ref{counties-bag} shows a side-by side comparison of a standard bagplot (left, \citet{bagplots}, implemented in \citet{aplpack}) of average temperatures in January by degree latitude of each of 3,068 US counties and a letter-value bagplot on the right..
 
-Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter-value boxplot is currently under development.
+Algorithms for conveniently fast computation of bivariate letter values for a bivariate letter-value plot is currently under development.
 
 \begin{figure}[hbtp]
   \centering
@@ -574,9 +574,9 @@ Algorithms for conveniently fast computation of bivariate letter values for a bi
 \section{Summary}
 \label{sec:summary}
 
-Letter-value boxplots provide a natural extension of boxplots in situations where we are dealing with large amounts of data: just as boxplots, they are based on actual data values, rather than smoothed values or estimated densities. Letter-value boxplots convey further information about tail behavior beyond the whiskers. Simple stopping rules that do neither depend on the number of points nor their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: rule \# 3 will ensure to only then draw a box for quartiles, if there are at least 16 data points present in the data. This is particularly useful in situations, such as shown in figure \ref{lvbox2}, where we are dealing with groups of very different sizes. On the other hand, for large data situations, fewer observations will be labeled as  as ``outliers'' 
+Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data: just as boxplots, they are based on actual data values, rather than smoothed values or estimated densities. Letter-value plots convey further information about tail behavior beyond the whiskers. Simple stopping rules that do neither depend on the number of points nor their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: rule \# 3 will ensure to only then draw a box for quartiles, if there are at least 16 data points present in the data. This is particularly useful in situations, such as shown in figure \ref{lvbox2}, where we are dealing with groups of very different sizes. On the other hand, for large data situations, fewer observations will be labeled as  as ``outliers'' 
 compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%.
-Letter values can naturally be extended to two dimensions by making use of the half-space depth. This gives rise to letter-value bagplots as a two dimensional extension of letter-value boxplots, providing a robust, data-based assessment of data concentration. 
+Letter values can naturally be extended to two dimensions by making use of the half-space depth. This gives rise to letter-value bagplots as a two dimensional extension of letter-value plots, providing a robust, data-based assessment of data concentration. 
 
 %The advantages of the letter value boxplot are:
 %
