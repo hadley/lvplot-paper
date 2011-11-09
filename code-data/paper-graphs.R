@@ -66,26 +66,30 @@ dev.off()
 
 census <- read.csv("counties.csv")
 
-pdf("../images/qqpop4.pdf", height=8, width=8)
+pdf("../images/counties-qq.pdf", width = 6, height = 4)
+par(mfrow = c(2,2), mar = c(4.1, 3, 2, 1))
 
-par(mfrow=c(2,2))
 # (a)
-foo <- qqnorm(census$totalpop, ylab="Total Population", main="(A) Population")
-qqline(census$totalpop)
+foo <- qqnorm(census$totalpop / 1e6, ylab="Total Population", 
+  main="(A) Population")
+qqline(census$totalpop / 1e6)
 # (b)
-logfoo <- qqnorm(log10(census$totalpop), ylab="Log10(Total Population)", main="(B) Logarithms")
+logfoo <- qqnorm(log10(census$totalpop), ylab="Log10(Total Population)",
+  main="(B) Logarithms")
 qqline(log10(census$totalpop))
 
 # (c)
-LVy <- lvtable(census$totalpop, 13)
+LVy <- lvtable(census$totalpop / 1e6, 13)
 LVx <- lvtable(foo$x, 13)
-plot(LVx[,2], LVy[,2], main="(C) Population, Letter Values", xlab="Theoretical Quantiles", ylab="Log10(Total Population)")
-qqline(census$totalpop)
+plot(LVx[,2], LVy[,2], main="(C) Population, Letter Values", 
+  xlab="Theoretical Quantiles", ylab="Log10(Total Population)")
+qqline(census$totalpop / 1e6)
 
 # (d)
 LVy <- lvtable(log10(census$totalpop), 13)
 LVx <- lvtable(logfoo$x, 13)
-plot(LVx[,2], LVy[,2], main="(D) Logarithms, Letter Values", xlab="Theoretical Quantiles", ylab="Total Population")
+plot(LVx[,2], LVy[,2], main="(D) Logarithms, Letter Values", 
+  xlab="Theoretical Quantiles", ylab="Total Population")
 qqline(log10(census$totalpop))
 dev.off()
 
@@ -107,31 +111,4 @@ dev.off()
 pdf("../images/counties-lvpop-d.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
 with(census, LVboxplot(log(totalpop), horizontal=TRUE, xlab="(log) total population", col=cols))
-dev.off()
-
-# QQplots
-
-pdf("../images/counties-qq.pdf", width = 6, height = 4)
-par(mfrow = c(2,2), mar = c(4.1, 3, 2, 1))
-
-qqnorm(census$totalpop / 1e6, 
-  ylab = "Population", main = "(A) Population (millions)")
-qqline(census$totalpop)
-
-qqnorm(log10(census$totalpop), 
-  ylab = "Log10(Population)", main = "(B) Logarithms")
-qqline(log10(census$totalpop))
-
-
-lv <- lvtable(census$totalpop, 25)
-loglv <- lvtable(log10(census$totalpop), 25)
-
-qqnorm(lv[, "LV"] / 1e6, 
-  ylab = "Population (millions)", main = "(C) Population letter values")
-qqline(lv[, "LV"])
-
-qqnorm(log10(lv[, "LV"]), 
-  ylab = "Log10(Population)", main = "(D) Log-population letter values")
-qqline(log10(lv[, "LV"]))
-
 dev.off()
