@@ -33,13 +33,12 @@
   small-sized data sets ($n < 200$), detailed estimates of tail behavior
   beyond the quartiles may not be trustworthy, so the information provided by
   boxplots is appropriately somewhat vague beyond the quartiles, and the
-  expected number of ``outliers'' and ``far-out'' values for a Gaussian sample
-  of size $n$ is often less than 10 \citep{dchbox}. Larger data sets ($n
-  \approx 10,000-100,000$) afford more precise estimates of quantiles in the
-  tails beyond the quartiles. Conventional boxplots do not show this
-  information about the tails, and, in addition, show large numbers of
-  extreme, but not unexpected, observations (about $0.4 + 0.007n$ for a sample
-  from a Gaussian population).
+  expected number of ``outliers'' of size $n$ is often less than 10
+  \citep{dchbox}. Larger data sets ($n \approx 10,000-100,000$) afford more
+  precise estimates of quantiles in the tails beyond the quartiles.
+  Conventional boxplots do not show this information about the tails, and, in
+  addition, show large numbers of extreme, but not unexpected, observations
+  (about $0.4 + 0.007n$ for a sample from a Gaussian population).
 
   The letter-value plot addresses both these shortcomings: (1) it conveys
   more detailed information in the tails using letter values, only to the
@@ -59,69 +58,57 @@
 
 \section{Introduction}
 
-Since John Tukey introduced boxplots \citep{tukey:1970,tukey72}, various modifications to them have been proposed, some by Tukey himself; e.g., the whisker definition changed from ``quartiles to extremes'' \citep{tukey72} to ``quartiles to adjacent values'' \citep{eda}. In \textit{Exploratory Data Analysis} (\textit{EDA}), \citet{eda} recommended the $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th order statistics as estimates of the quartiles, later called ``lower fourth'' and ``upper fourth'' in \citet{ureda}; their \textit{depth} is defined as $([n/2] + 1)/2$ because they lie that many observations in from the extremes. \citet{variations.boxplots} enhanced boxplots with variable widths (proportional to the square root of the sample size) and notches (indicating half-lengths of approximate intervals for comparing medians). Subsequent enhancements include vase plots \citep{vase}, violin plots \citep{violin}, and box-percentile plots \citep{box.percentiles}. These later proposals aim to display more detailed notions of the distributions of the data beyond location, spread, and tail length, through the use of nonparametric density estimates; such added detail can be especially useful for larger sample sizes. However, as \citet{vase} acknowledged, these later displays depend on the specific estimation procedure (e.g., kernel density estimate, nearest-neighbor, spline, etc.) as well as on a bandwidth or other smoothing parameter. Thus, these displays can be different for the same data set, depending on the density estimate or smoothing parameters. In contrast, one of the virtues of the boxplot is that it displays only actual observations from the sample, defined unambiguously (sample median, fourths, adjacent values, outliers).
+Boxplots \citep{tukey:1970,tukey72} give a compact graphical summary of the distribution of a variable, based around a set of order statistics called letter values. In \textit{Exploratory Data Analysis}, \citet{eda} recommended the $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th order statistics as estimates of the quartiles, the ``lower fourth'' and ``upper fourth'' in \citet{ureda} with \textit{depth} $([n/2] + 1)/2$ because they lie that many observations in from the extremes.  
 
-Despite this virtue, boxplots are inadequate for extremely large samples,
-because the larger the sample size, the more labeled outliers. The
-conventional boxplot \citep{eda, emerson83} labels an observation as
-``outside'' if it lies beyond the ``inner fences,'' defined by the pair of
-numbers $[L_F - k(U_F - L_F), U_F + k(U_F - L_F)]$ where $L_F$ and $U_F$
-denote the lower and upper fourths, respectively, and $k = 1.5$ [\citet{eda}
-actually had a different definition]. For a sample of size $n$ from a Gaussian
-distribution, the expected number of labeled ``outliers'' grows approximately
-linearly with $n$, namely $0.4 + 0.007n$ (cf.~\citet{dchlv}) which can be
-quite large when $n$ is large. \citet[pg. 1148]{dchbox} demonstrated that the
-conventional boxplot (using a slightly improved definition of the fourths,
-namely that order statistic (or average of adjacent order statistics) having
-depth $n/4 + 5/12$, has a ``some outside rate per sample'' (i.e., the
-proportion of Gaussian samples that have at least 1 labeled outlier) that
-exceeds 30\% even for samples of size $n = 50$ and 97\% for samples of size
-500. They found that values of $k$ between 2.2 and 2.4 kept the ``some outside
-rate per sample'' down to 5\% for samples of size $n$ up to 300. Much larger
-values of $k$ are needed for samples of size 100,000, from which conventional
-boxplots can be expected to label 700 observations, far too many for detailed
-inquiry, especially when, for truly Gaussian samples, such labeled
-``outliers'' are consistent with the underlying distribution. Moreover,
-identifying only the \textit{extent} of the outer quartiles fails to take
-advantage of considerable additional information about the tails offered
-through the 25,000 observations that lie beyond each fourth.
+% Since John Tukey introduced boxplots, various modifications to them have been proposed, some by Tukey himself; e.g., the whisker definition changed from ``quartiles to extremes'' \citep{tukey72} to ``quartiles to adjacent values'' \citep{eda}. 
 
-Figure~\ref{kkewbox} illustrates this phenomenon with a boxplot of 135,605
-internet (log-transformed) session durations, stratified into 32 groups based
-on the logarithm of the number of bytes transferred during the session (see
-\citet{kw06} for further details about the data and the transformations that
-were applied). The box widths are proportional to the square roots of the
-sample sizes \citep{variations.boxplots} and the sample sizes in the 32 boxes
-range from 1341 (box \#32) to 7865 (Box \#13), with a median sample size of
-4238. With so many observations in each category, the number of labeled
-outliers is huge --- far too many to investigate individually, and making it
-difficult to distinguish between ``genuine outliers'' (observations from a
-different distribution) and merely extreme observations from a distribution
-with longer tails than the Gaussian. 
+% \citet{variations.boxplots} enhanced boxplots with variable widths (proportional to the square root of the sample size) and notches (indicating half-lengths of approximate intervals for comparing medians). 
 
-%Figure~\ref{kkewlv} shows the same data
-%as a letter value boxplot, which better shows the skewed tails (even with the
-%logarithmic transformations) and far fewer ``labeled'' outliers.
+Boxplots are one of the few statistical graphics invented in the 20th century that have gained widespread adoption. Despite their widespread use, they are not without their problems, particularly for large datasets. There are two problems with boxplots when applied to large datasets: (1) the number of ``outliers'' grows linearly with the sample size and (2) estimates of tail behaviour are not displayed, despite the fact that larger sample sizes allow us to estimate reliably further out into the tails. Figure~\ref{fig:internet-bp} illustrates both problems with a boxplot of 135,605 internet (log-transformed) session durations, stratified into 32 groups based on the logarithm of the number of bytes transferred during the session. See \citet{kw06} for further details about the data and transformations. The sample sizes in the 32 boxes range from 1341 (box \#32) to 7865 (Box \#13), with a median sample size of 4238. With so many observations in each category, the number of labeled outliers is huge: far too many to investigate individually, and it is difficult to distinguish between extreme values and true outliers.
 
 \begin{figure}[hbtp]
   \centering
   \includegraphics[width=\linewidth]{box2}
-  \includegraphics[width=\linewidth]{lvbox2}
 
-  \caption{(Top) Boxplots of (log-transformed) duration for 135,605 Internet
-  sessions, grouped by ranges of (log-transformed) byte lengths for the
-  sessions. (Bottom) The equivalent letter-value plots.}
+  \caption{Notched boxplots \citep{variations.boxplots} of (log-transformed)
+  duration for 135,605 internet sessions, grouped by ranges of
+  (log-transformed) byte lengths for the sessions.}
 
-  \label{kkewbox} 
+  \label{fig:internet-bp} 
 \end{figure}
 
-% The conventional boxplot is very useful for small or moderate-sized data sets, but is somewhat inadequate for very large data sets, in two ways. First, although estimates of quantiles in the tails of a distribution beyond the quartiles may be imprecise for smaller data sets (and thus probably better not shown), large data sets afford somewhat more reliable estimates of tail behavior. Second, because the expected ``some outside rate per sample'' already exceeds 99\% when $n = 700$, the conventional boxplot can be expected to label increasing numbers of observations as ``outliers''. The letter-value boxplot that we propose addresses both shortcomings for large data sets. In addition, its construction resembles the original boxplot by displaying only actual values that occur in the sample. The rules for constructing the letter value boxplot result in the conventional boxplot for moderate sized data sets.
+An observation is labelled as an ``outlier'' and displayed individually if it lies at or beyond the inner fences \citep{eda,emerson83}, defined as $[L_F - k(U_F - L_F), U_F + k(U_F - L_F)]$ where $L_F$ and $U_F$ denote the lower and upper fourths and typically $k = 1.5$. Despite the name, these ``outliers'' may be either (a) genuine, but extreme, observations from same the distribution as the bulk of the data; or (b) true outliers, observations from a different distribution. The boxplot tends to display too many ``outliers'', as judged by looking at boxplots of Gaussian data. There the expected number of ``outliers'' grows approximately linearly with $n$: the theoretical fourths from a sample of independent Gaussian observations are $\pm 0.6745\sigma$, yielding an interquartile range of 1.35$\sigma$, and inner fences at $\pm (0.675 + 1.5 \cdot 1.35)\sigma = \pm 2.70\sigma$. Therefore the box and whiskers covers 99.3\% of the distribution, leaving about 0.7\% of the points to be labeled as ``outliers'' (cf.~\citet{dchlv}). Similarly, the probability of getting at least one ``outlier'' for Gaussian data is high: over 30\% for samples of size 50, and 97\% for samples of size 500 \citep[pg. 1148]{dchbox}. One way to reduce the number of ``outliers'' is to increase $k$, but a single value of $k$ cannot work for all sample sizes \citep[pg. 1148]{dchbox}.
 
-The situation is quite different for large sample sizes. Estimates with quantiles corresponding to some of the smaller tail areas may be more reliable, so displays of large data sets can afford to indicate more confidently estimates of quantiles in the tails. The letter value boxplot incorporates a rule that dictates the number of letter values into the tail that can be shown with a degree of confidence. In addition, the number of ``labeled outliers'' is based on a function of the last quantile which can be estimated reliably, which usually limits the number of ``labeled outliers'' to a reasonable number of observations that can be investigated. ``Outliers'' can be either (a) genuine, but extreme, observations from the distribution represented by the bulk of the data; or (b) ``typical'' observations from a different distribution. The letter-value plot provides a display of the data that allows one to better distinguish these two types of observations.
+Displaying only two fixed letter values (the upper and lower fourths) has two problems: (1) for very small samples sizes these estimates will have high standard error and may be misleading, (2) for large datasets, many more letter values can be reliably estimated to give more information about the tails. 
 
-We recall that the theoretical fourths from a sample of \textit{independent} observations from a single Gaussian population are $\pm 0.6745\sigma$, yielding an interquartile range, as estimated by the fourth-spread, of 1.3490$\sigma$. Adjacent values (ends of whiskers) therefore lie at $\pm (0.6745 + 1.5 \cdot 1.3490)\sigma = \pm 2.6980\sigma$, so the box and whiskers can be expected to cover at least than 99.3\% of the distribution --- leaving about 0.7\% of the points to be labeled as outliers (and $2.34 \cdot 10^{-04}$\% ``far outliers'') -- hence the approximation in \citet[pg. 34]{dchlv} for the expected number of labeled outliers ($0.4 + 0.007n$). In the setting of an exponential distribution with unit mean, the theoretical hinges lie at 0.2877 and 1.3863, so the fourth spread will be roughly 1.0986. The box and whiskers therefore cover less area, roughly 0.9519, and an ``outlier'' rate of almost 5\% and a ``far-out'' rate of almost 1\%.
+% The conventional boxplot is very useful for small or moderate-sized data sets, but is somewhat inadequate for very large data sets, in two ways. First, although estimates of quantiles in the tails of a distribution beyond the quartiles may be imprecise for smaller data sets (and thus probably better not shown), large data sets afford somewhat more reliable estimates of tail behavior. Second, because the expected ``some outside rate per sample'' already exceeds 99\% when $n = 700$, the conventional boxplot can be expected to label increasing numbers of observations as ``outliers''. The letter-value boxplot that we propose addresses both shortcomings for large data sets. In addition, its construction resembles the original boxplot by displaying only actual values that occur in the sample. The rules for constructing the letter value boxplot result in a display very similar to the conventional boxplot for moderate sized data sets.
 
-The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fixed outside rate'') using a rule that is based on the fourths, avoids this dependence of the expected outside rate on the underlying distribution. Although it avoids the linear dependence of number of ``outliers'' on $n$, it also fails to display any interesting features in the tails. The letter value plot displays such features using data-determined letter values. We review letter value displays in Section~\ref{sec:letter-values} and describe letter value boxplots in Section~\ref{sec:lv-boxplots}. Section~\ref{sec:extent} addresses issues of construction (including number of letter values to display). Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
+Letter-value plots are a variation of boxplots that replace the whiskers with a variable number of letter values, selected based on the uncertainty associated with each estimate and hence the number of observations. Any values outside the most extreme letter value are displayed individually. These two modifications reduce the number of ``outliers'' displayed for large datasets, and make letter-value plots useful over a much wider range of data sizes. Letter-value plots remain true to the spirit of boxplots by only displaying actual observations from the sample, and remaining free of tuning parameters. Figure~\ref{fig:internet-lbp} shows the same data as a letter-value plot, which better shows the skewed tails (even with the logarithmic transformations) and far fewer ``labeled'' outliers. Letter-value plots are described in detail in Section~\ref{sec:lv-boxplots}
+
+Section~\ref{sec:extent} discusses rules to proposes a number of potential rules to select the letter values based on the sample size. For the letter-value plot, we select a rule that chooses the letter values based on their associated sampling error: confidence intervals for letter values should not overlap adjacent letter values.
+
+\begin{figure}[hbtp]
+  \centering
+  \includegraphics[width=\linewidth]{lvbox2}
+
+  \caption{Letter-value plots of (log-transformed) duration for 135,605
+  internet sessions, grouped by ranges of (log-transformed) byte lengths for
+  the sessions.}
+
+  \label{fig:internet-lbp} 
+\end{figure}
+
+% In the setting of an exponential distribution with unit mean, the theoretical hinges lie at 0.2877 and 1.3863, so the fourth spread will be roughly 1.0986. The box and whiskers therefore cover less area, roughly 0.9519, and an ``outlier'' rate of almost 5\%.
+
+% \citet[pg. 1148]{dchbox} demonstrated that the conventional boxplot (using a slightly improved definition of the fourths, namely that order statistic (or average of adjacent order statistics) having depth $n/4 + 5/12$, has a ``some outside rate per sample'' (i.e., the proportion of Gaussian samples that have at least 1 labeled outlier) that exceeds 30\% even for samples of size $n = 50$ and 97\% for samples of size 500. They found that values of $k$ between 2.2 and 2.4 kept the ``some outside rate per sample'' down to 5\% for samples of size $n$ up to 300. Much larger values of $k$ are needed for samples of size 100,000, from which conventional boxplots can be expected to label 700 observations, far too many for detailed inquiry, especially when, for truly Gaussian samples, such labeled ``outliers'' are consistent with the underlying distribution.
+
+% The approach of \citet{dchbi}, which labels a fixed number of ``outliers'' (``fixed outside rate'') using a rule that is based on the fourths, avoids this dependence of the expected outside rate on the underlying distribution. Although it avoids the linear dependence of number of ``outliers'' on $n$, it also fails to display any interesting features in the tails. The letter value plot displays such features using data-determined letter values. 
+
+There have been other attempts to overcome these problems with boxplots, such as vase \citep{vase}, violin \citep{violin}, and box-percentile plots \citep{box.percentiles}. These display more detailed information about the distributions, through the use of nonparametric density estimates, which is especially useful for larger sample sizes. However, as \citet{vase} acknowledged, these displays depend on the specific estimation procedure (e.g., kernel density estimate) as additional smoothing parameters. Thus, these displays can be different for the same data set, depending on the density estimate or smoothing parameters. This makes these plots less suitable for a first exploratory visualisation as multiple tuning parameters need to be adjusted.
+
+Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
+
+We have made our implementation of letter-value plots available as an R package, \texttt{lvplot}, available from {\sc cran}. All code and data used to produce the plots in this paper is available in the online supplementary material.
 
 \section{Letter values}
 \label{sec:letter-values}
@@ -333,7 +320,7 @@ A third approach is a rule in which the final $k$ is based on the ``trustworthin
 %\textbf{Please check}]
 
 
-Consider the upper $k^{th}$ letter value, $LV_k$. If its upper 95\% confidence limit does not extend beyond the next letter value, $LV_{k+1}$, we continue to the next letter value, $LV_{k+1}$; otherwise, the box corresponding to $LV_k$ is the last box shown. Since approximately $d_{k+1}$ observations lie between $LV_k$ and $LV_{k+1}$, and the upper 95\% limit for $LV_k$ has roughly $\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ observations, this principle requires $\sqrt{2 d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 8$. A rule such as this one with 95\% confidence level often leads to labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \textit{EDA}.
+Consider the upper $k^{th}$ letter value, $LV_k$. If its upper 95\% confidence limit does not extend beyond the next letter value, $LV_{k+1}$, we continue to the next letter value, $LV_{k+1}$; otherwise, the box corresponding to $LV_k$ is the last box shown. Since approximately $d_{k+1}$ observations lie between $LV_k$ and $LV_{k+1}$, and the upper 95\% limit for $LV_k$ has roughly $\sqrt{d_{k-1}} \approx \sqrt{2 d_k }$ observations, this principle requires $\sqrt{2 d_k} < d_{k+1} \approx d_k / 2$, or $d_k > 8$. A rule such as this one with 95\% confidence level often leads to labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \citet{eda}.
 
 Generally, the third rule suggests showing $k$ ``trustworthy'' LVs where $d_k > 2 z_{1-\alpha/2}^2 $, leading to the following stopping criterion:
 
