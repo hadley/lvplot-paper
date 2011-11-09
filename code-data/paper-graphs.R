@@ -66,6 +66,30 @@ dev.off()
 
 census <- read.csv("counties.csv")
 
+pdf("../images/qqpop4.pdf", height=8, width=8)
+
+par(mfrow=c(2,2))
+# (a)
+foo <- qqnorm(census$totalpop, ylab="Total Population", main="(A) Population")
+qqline(census$totalpop)
+# (b)
+logfoo <- qqnorm(log10(census$totalpop), ylab="Log10(Total Population)", main="(B) Logarithms")
+qqline(log10(census$totalpop))
+
+# (c)
+LVy <- lvtable(census$totalpop, 13)
+LVx <- lvtable(foo$x, 13)
+plot(LVx[,2], LVy[,2], main="(C) Population, Letter Values", xlab="Theoretical Quantiles", ylab="Log10(Total Population)")
+qqline(census$totalpop)
+
+# (d)
+LVy <- lvtable(log10(census$totalpop), 13)
+LVx <- lvtable(logfoo$x, 13)
+plot(LVx[,2], LVy[,2], main="(D) Logarithms, Letter Values", xlab="Theoretical Quantiles", ylab="Total Population")
+qqline(log10(census$totalpop))
+dev.off()
+
+
 pdf("../images/counties-lvpop-a.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
 with(census, boxplot(totalpop, horizontal=TRUE, xlab="total population"))
