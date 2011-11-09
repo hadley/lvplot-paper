@@ -84,3 +84,30 @@ pdf("../images/counties-lvpop-d.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
 with(census, LVboxplot(log(totalpop), horizontal=TRUE, xlab="(log) total population", col=cols))
 dev.off()
+
+# QQplots
+
+pdf("../images/counties-qq.pdf", width = 6, height = 4)
+par(mfrow = c(2,2), mar = c(4.1, 3, 2, 1))
+
+qqnorm(census$totalpop / 1e6, 
+  ylab = "Population", main = "(A) Population (millions)")
+qqline(census$totalpop)
+
+qqnorm(log10(census$totalpop), 
+  ylab = "Log10(Population)", main = "(B) Logarithms")
+qqline(log10(census$totalpop))
+
+
+lv <- lvtable(census$totalpop, 25)
+loglv <- lvtable(log10(census$totalpop), 25)
+
+qqnorm(lv[, "LV"] / 1e6, 
+  ylab = "Population (millions)", main = "(C) Population letter values")
+qqline(lv[, "LV"])
+
+qqnorm(log10(lv[, "LV"]), 
+  ylab = "Log10(Population)", main = "(D) Log-population letter values")
+qqline(log10(lv[, "LV"]))
+
+dev.off()
