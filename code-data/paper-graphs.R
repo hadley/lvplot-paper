@@ -36,12 +36,16 @@ dev.off()
 pdf("../images/boxplots.pdf", width = 6, height = 2)
 par(mfrow = c(2,3), mar = c(4.1, 1, 0, 1))
 n <- 10000
-boxplot(rnorm(n), xlab="", horizontal=TRUE)
-boxplot(rexp(n), xlab="", horizontal=TRUE)
-boxplot(runif(n), xlab="", horizontal=TRUE)
-LVboxplot(rnorm(n), xlab="Gaussian, n=10,000", horizontal=TRUE, col=cols)
-LVboxplot(rexp(n), xlab="Exponential, n=10,000", horizontal=TRUE, col=cols)
-LVboxplot(runif(n), xlab="Uniform, n=10,000", horizontal=TRUE, col=cols)
+
+rn <- rnorm(n)
+re <- rexp(n)
+ru <- runif(n)
+boxplot(rn, xlab="", horizontal=TRUE)
+boxplot(re, xlab="", horizontal=TRUE)
+boxplot(ru, xlab="", horizontal=TRUE)
+LVboxplot(rn, xlab="Gaussian, n=10,000", horizontal=TRUE, col=cols)
+LVboxplot(re, xlab="Exponential, n=10,000", horizontal=TRUE, col=cols)
+LVboxplot(ru, xlab="Uniform, n=10,000", horizontal=TRUE, col=cols)
 dev.off()
 
 pdf("../images/t-dist.pdf", width = 6, height = 2)
@@ -70,7 +74,7 @@ pdf("../images/counties-qq.pdf", width = 6, height = 4)
 par(mfrow = c(2,2), mar = c(4.1, 3, 2, 1))
 
 # (a)
-foo <- qqnorm(census$totalpop / 1e6, ylab="Total Population", 
+foo <- qqnorm(census$totalpop / 1e6, ylab="Total Population (millions)", 
   main="(A) Population")
 qqline(census$totalpop / 1e6)
 # (b)
@@ -96,11 +100,13 @@ dev.off()
 
 pdf("../images/counties-lvpop-a.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
-with(census, boxplot(totalpop, horizontal=TRUE, xlab="total population"))
+with(census, boxplot(totalpop / 1e6, horizontal=TRUE, 
+  xlab="total population (millions)"))
 dev.off()
 pdf("../images/counties-lvpop-b.pdf", height=2, width=6)
 par(mar=c(4.1, 1, 1, 1))
-with(census, LVboxplot(totalpop, horizontal=TRUE, xlab="total population", col=cols))
+with(census, LVboxplot(totalpop  / 1e6, horizontal=TRUE, 
+  xlab="total population (millions)", col=cols))
 dev.off()
 
 pdf("../images/counties-lvpop-c.pdf", height=2, width=6)
