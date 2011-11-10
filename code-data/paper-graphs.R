@@ -25,10 +25,10 @@ title("Message Duration and Length",
 dev.off()
 
 pdf("../images/lvbox2.pdf", width = 10, height = 5)
-with(sessions, LVboxplot(log(1 + sqrt(length)) ~ cut2.byte, 
+LVboxplot(log(1 + sqrt(sessions$length)) ~ cut2.byte, 
   horizontal = FALSE, col=cols, 
   xlab = "log(1 + sqrt{Nbyte})", 
-  ylab = "log(1 + sqrt{duration}"))
+  ylab = "log(1 + sqrt{duration})")
 dev.off()
 
 # Standard distributions -----------------------------------------------------
