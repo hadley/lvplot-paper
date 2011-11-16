@@ -19,6 +19,6 @@ qplot(i, value, data = err, geom = "line", linetype = factor(sigma)) +
   theme_bw() + 
   labs(x = "Letter value", y = "Number of observations") +
   opts(legend.position = "none") +
-  xlim(1, 21)
+  xlim(1, 21) + geom_point()
   
 ggsave("../images/letter-val-errors.pdf", width = 6, height = 4)
