@@ -1,4 +1,5 @@
-\documentclass[oneside,12pth]{article}
+% zip letter-value-plot.zip *.tex *.bib code-data images
+\documentclass[12pt,oneside]{article}
 \usepackage{fullpage}
 
 \usepackage{hyperref}
@@ -167,7 +168,7 @@ The ``labeled outlier rule'' for conventional boxplots relies on the fourths bec
   \centering
   \begin{tabular}{llr@{.}lrrr}
   \toprule
-  LV & ideal tail area & \multicolumn{2}{l}{rough \%} & odds ($2^i$) & SEfactor & n-equiv* & \\
+  LV & ideal tail area & \multicolumn{2}{l}{rough \%} & odds ($2^i$) & SEfactor & n-equiv*  \\
   \midrule
    M & .50 & 50 & 0\% & 2 & 1.253314 & \\
    F & .25 & 25 & 0\% & 4 & 1.36 & 1.0\\
@@ -338,7 +339,7 @@ k = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor + 1
 
 \noindent In effect, conventional boxplots use this rule, with $p = 0.007$. This criterion results in the same rule as the previous rule for the samples in Figure~\ref{stackbox} ($n = 10,000$) when $p$ lies between 0.004 and 0.006 (0.4--0.6\%), and in Figure~\ref{lvpops} ($n = 3068$) when $p$ lies between 0.011 and 0.020 (1.1--2.0\%).
 
-A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps the subsequent letter value, then the uncertainty for the given letter value is high enough that we should not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme and the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule. (This result from \citet[161]{ha.order} assumes a random sample, which is not true of the $d_i$ observations beyond $LV_i$. A brief simulation confirmed that the result still holds sufficiently well for these purposes; details available from the authors.)
+A third approach is a rule in which the final $k$ is based on the ``trustworthiness'' of the $k^{th}$ letter value as an estimate of the corresponding population quantile. ``Trustworthiness'' can be characterized by the approximate 95\% confidence interval around a given letter value: if the interval overlaps the subsequent letter value, then the uncertainty for the given letter value is high enough that we should not display it. Thus, boxes are shown for those letter values whose approximate 95\% confidence intervals exclude the neighboring letter values. Since a letter value can be viewed as the median between the extreme and the previous letter value, and since an approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) has approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution (\citet[161]{ha.order}, based on the Gaussian approximation to the binomial distribution), this third criterion leads to a particularly straightforward rule. (This result from \citet[161]{ha.order} assumes a random sample, which is not true of the $d_i$ observations beyond $LV_i$. A brief simulation confirmed that the result still holds sufficiently well for these purposes; details available from the authors.) 
 
 %% this rule might be too strict for our purposes. I'll use just one CI and the letter value for rule #3 [HH]
 %Consider the upper $k^{th}$ letter value, $LV_k$.  If its
