@@ -17,12 +17,6 @@
 \graphicspath{{images/}}
 
 \title{Letter-value plots: Boxplots for large data}
-\author{\begin{tabular}[t]{c c c }
-  Heike Hofmann         & Karen Kafadar         & Hadley Wickham \\
-  Dept of Statistics    & Dept of Statistics    & Dept of Statistics \\
-  Iowa State University & Indiana University    & Rice University \\
-  Ames, IA 50011        & Bloomington, IN 47408 & Houston, TX 77001
-\end{tabular}}
 
 \pdfminorversion=4
 \begin{document}
@@ -71,9 +65,7 @@ the fact that larger sample sizes allow more reliable estimates further out
 into the tails. Figure~\ref{fig:internet-bp} illustrates both problems with a
 boxplot of 135,605 internet (log-transformed) session durations, stratified
 into 32 groups based on the logarithm of the number of bytes transferred
-during the session. See \citet{kw06} for further details about the data and
-transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
-to 7865 (Box \#13), with a median sample size of 4238. With so many
+during the session. The sample sizes in the 32 boxes range from 1341 (box \#32) to 7865 (Box \#13), with a median sample size of 4238. With so many
 observations in each category, the number of labeled outliers is huge, with
 far too many to investigate individually, making it difficult to distinguish
 between extreme values and true outliers.
