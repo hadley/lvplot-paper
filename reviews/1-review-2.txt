@@ -1,0 +1,13 @@
+In this paper a new boxplot-type presentation of univariate data is proposed.
+It indicates more than the median and the quartiles, as it adds letter-values which
+correspond with data points of a certain depth. This is in particular interesting for larger
+data sets as more information about the tail is provided.
+Several rules are proposed to select the number of letter values in a data-dependent way.
+The resulting procedure labels less regular observations as outliers than the classical boxplot.
+
+On one hand I'm in favor of a method that gives more information about the tail behavior of univariate data. The graphical presentation as developed in this paper is attractive (maybe because it resembles a 'croissant'). The examples presented in Figures 4 and 5 show that they lead to quite different representations for normal data, skewed data and long-tailed data.
+
+But I have one major comment on the overall approach. The selection of the extreme letter value is fully based on uncontaminated data. Throughout the paper the only goal seems to be to reduce the labeling of regular observations as outliers. This is indeed useful, but what happens when the data set is contaminated with 5%, 10% or even 25% of outliers? The standard boxplot is very helpful for detecting such groups of outlying measurements, but the current proposal lacks this positive breakdown point. This is a very important drawback.
+
+The bivariate case in Section 5 is not well developed. The definition of the bag as defined in the bagplot (Rousseeuw et al., 1999) is different from the definition given on page 18, line 16. To construct the correct bag, you should look for the largest depth contour that contains at most n/2 observations; and then interpolate with the smallest depth contour that contains at least n/2 observations. I don't think this is in general equivalent with your definition. Your Figure 8 is very similar to a plot with different depth contours, which is not a new proposal and is implemented as well (see for example the R package depth which
+contains examples). Moreover the interpretation of the differences is not finished.
