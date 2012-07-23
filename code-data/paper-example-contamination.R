@@ -1,3 +1,5 @@
+library(RColorBrewer)
+cols <- c("white", brewer.pal(9, "Blues"), "black")
 frame <- data.frame(expand.grid(k=c(1:5, 5*(2:10)), n1=1500))
 frame$n2 <- with(frame, n1/100*k)
 
@@ -10,7 +12,11 @@ for (i in 1:10) {
 
 library(ggplot2)
 qplot(data=dframe, x, geom="histogram", binwidth=0.25) + facet_wrap(facets=~k, ncol=5)
+ggsave("xpl-histogram.pdf", width=12, height=6)
 qplot(data=dframe, factor(k), x, geom="boxplot", group=k) + xlab("Amount of contaminated data (in percent)") +ylab("")
+ggsave("xpl-boxplot.pdf", width=10, height=5)
 
+pdf("../images/xpl-lvplot.pdf", width=10, height=5)
 par(mar=c(4,2,1,1))
-LVboxplot(dframe$x~dframe$k, horizontal=FALSE, xlab="Amount of contaminated data (in percent)")
+LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)")
+dev.off()
