@@ -19,28 +19,16 @@ par(mar=c(4.1, 4.1, 1, 1))
 with(census, LVbagplot(Latitude/10000, JanTmp/10, method="apl", xlab="Latitude (in degrees)", ylab="Temperatures in January (in F)", col=rev(cols)[-(1:2)]))
 dev.off()
 
+qplot(data=census,  Latitude/10000, JanTmp/10, colour=bp$hdepths)
 
 # outlier identification
-sub <- subset(data.frame(foo$outliers), (x > 35) & (y > 35))
-points(sub$x, sub$y, col=2)
+census$outlier <- with(census, (bp$hdepths < 100) & (JanTmp/10 > 20) 
+                   & (Latitude/10000>32) & 
+                     (resid(lm(I(JanTmp/10)~I(Latitude/10000), data=census)) > 1.6))
+ 
+qplot(data=census,  Latitude/10000, JanTmp/10, colour= outlier) 
 
-with(census, plot(-Longitude/10000, Latitude/10000))
-points()
+census$outlier <- factor(census$outlier, levels=c("TRUE", "FALSE"))
+qplot(data=census, -Longitude/10000, Latitude/10000, colour=outlier) + scale_colour_brewer(palette="Set1")
+ggsave("../images/map.pdf")
 
-
-
-foo <- with(census, compute.bagplot(Latitude/10000, JanTmp/10, factor = 3, na.rm = FALSE, approx.limit = 10000, 
-                dkmethod=2,precision=1,verbose=FALSE,debug.plots="no"))
-
-qplot(sort(bp$hdepth), res[,3])
-X <- sort(runif(25))
-Y <- runif(25)
-library(ggplot2)
-bp2 <- aplpack::compute.bagplot(X,Y, factor = 3, na.rm = FALSE, 
-                                dkmethod=2,precision=1,verbose=FALSE,debug.plots="no")
-qplot(X,Y, colour=factor(bp2$hdepths), size=I(3))
-qplot(X,Y, colour=factor(small$V3), size=I(3))
-table(bp2$hdepths)
-plot(bp2)
-
-LVbagplot(X,Y, col=cols)
