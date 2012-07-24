@@ -1,0 +1,6 @@
+replaced 'data' by 'datasets' in the title
+
+included an example with up to 30% contaminated data to highlight tail behavior
+
+made bagplots and lvbagplots almost identical:
+the difference between the bagplot and the letter-value bagplot in the last figure was due to a twofold approximation: the bagplot code in R from the aplpack package was computed based on a sample of size 300 instead of the whole dataset. The letter-value bagplot made use of convex hulls as an approximation of location depth. Both approximations are now gone, and the figure displays the same data. The remaining difference is -- in our opinion -- due to a smoothing of edges in the bagplot, whereas the points of the bag in the lvbagplot are  connected by straight lines, giving the bag a slightly 'edgier' look. 
