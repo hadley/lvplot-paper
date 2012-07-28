@@ -68,27 +68,43 @@ that have gained widespread adoption. Despite their widespread use, they are
 not altogether satisfactory, particularly for large data sets. Specifically,
 two problems arise with boxplots when applied to large data sets: (1) the
 number of ``outliers'' (observations beyond the whiskers) grows linearly with
-the sample size and (2) estimates of tail behaviour are not displayed, despite
+the sample size and (2) estimates of tail behavior are not displayed, despite
 the fact that larger sample sizes allow more reliable estimates further out
-into the tails. Figure~\ref{fig:internet-bp} illustrates both problems with a
-boxplot of 135,605 internet (log-transformed) session durations, stratified
-into 32 groups based on the logarithm of the number of bytes transferred
-during the session. See \citet{kw06} for further details about the data and
-transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
-to 7865 (Box \#13), with a median sample size of 4238. With so many
+into the tails. 
+
+%Figure~\ref{fig:internet-bp} illustrates both problems with a
+%boxplot of 135,605 internet (log-transformed) session durations, stratified
+%into 32 groups based on the logarithm of the number of bytes transferred
+%during the session. See \citet{kw06} for further details about the data and
+%transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
+%to 7865 (Box \#13), with a median sample size of 4238. 
+Figure \ref{fig:taxi-bp} illustrates both problems with boxplots of (square root) taxi times for 478,755 US national flights in January 2012.  Taxi times are plotted by airline carrier from left to right. Carriers are ordered according to number of flights served left to right. The largest three carriers, WN (Southwest), EV (ExpressJet)  and DL (Delta) show striking difference in the median taxi times -- Southwest is with a median taxi time of 3.74$^2$ = 14 minutes well below the overall median of 20 minutes, whereas Delta has a median taxi time of 25 minutes and is significantly above the overall median.
+
+The sample sizes in the fifteen boxes vary between 4,062 flights by VX (Virgin America) and 89,920 flights by Southwest, WN. 
+With so many
 observations in each category, the number of labeled outliers is huge, with
 far too many to investigate individually, making it difficult to distinguish
 between extreme values and true outliers.
 
+%\begin{figure}[hbtp]
+%  \centering
+%  \includegraphics[width=\linewidth]{box2}
+%
+%  \caption{Notched boxplots \citep{variations.boxplots} of (log-transformed)
+%  duration for 135,605 internet sessions, grouped by ranges of
+%  (log-transformed) byte lengths for the sessions.}
+%
+%  \label{fig:internet-bp} 
+%\end{figure}
+
 \begin{figure}[hbtp]
   \centering
-  \includegraphics[width=\linewidth]{box2}
+  \includegraphics[width=\linewidth]{taxi-bp}
 
-  \caption{Notched boxplots \citep{variations.boxplots} of (log-transformed)
-  duration for 135,605 internet sessions, grouped by ranges of
-  (log-transformed) byte lengths for the sessions.}
+  \caption{Notched boxplots \citep{variations.boxplots} of (sqrt-transformed)
+  taxi in and out times grouped by airline carrier for flights in January 2012. Airline carriers are ordered left to right in decreasing  number of flights served. }
 
-  \label{fig:internet-bp} 
+  \label{fig:taxi-bp} 
 \end{figure}
 
 An observation is labelled as an ``outside value'' (which we will denote here
@@ -138,20 +154,18 @@ two modifications reduce the number of ``outliers'' displayed for large data
 sets, and make letter-value plots useful over a much wider range of data
 sizes. Letter-value plots remain true to the spirit of boxplots by displaying
 only actual observations from the sample, and remaining free of tuning
-parameters. Figure~\ref{fig:internet-lbp} shows the same data as a
+parameters. Figure~\ref{fig:taxi-lv} shows the same data as a
 letter-value plot, which better shows the skewed tails (even with the
-logarithmic transformations) and far fewer ``labeled'' outliers. Letter-value
+square-root transformations) and far fewer ``labeled'' outliers. Letter-value
 plots are described in detail in Section~\ref{sec:lv-boxplots}
 
 \begin{figure}[hbtp]
   \centering
-  \includegraphics[width=\linewidth]{lvbox2}
+  \includegraphics[width=\linewidth]{taxi-lv}
 
-  \caption{Letter-value plots of (log-transformed) duration for 135,605
-  internet sessions, grouped by ranges of (log-transformed) byte lengths for
-  the sessions.}
+  \caption{Letter-value plots of (sqrt-transformed) taxi time for 478,755 national flights in January 2012 by airline carriers.}
 
-  \label{fig:internet-lbp} 
+  \label{fig:taxi-lv} 
 \end{figure}
 
 One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure 2 shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap the successive letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
