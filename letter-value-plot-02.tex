@@ -452,32 +452,44 @@ Consider the upper $k^{th}$ letter value, $LV_k$. If its upper 95\% confidence l
 The different rules provide the user with choices depending on the desired precision in the letter values shown. Our current implementation of the letter-value plot display uses rule 3 as a default.
 
 \section{Examples}
-I'm not quite sure about where this will fit in the paper, but we need some more examples.
-This example demonstrates the behavior of letter value boxplots with contaminated -- or rather --heterogenous data.
+This first example demonstrates the behavior of letter value boxplots in situations with contaminated -- or rather -- heterogenous data.
 The plots in figure \ref{fig:xpl:histogram} give an overview of the situation: to  standard normal random samples of size $n= 1,500$ a set of points from a normal distribution $N(4,1)$ are added, starting with 1\% contamination (of the original sample size $n$), ending with 30\%, which is resulting in an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots.  
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=\textwidth]{xpl-histogram} 
+   \includegraphics[width=.9\linewidth]{xpl-histogram} 
    \caption{Histograms as an overview of the bi-modal samples resulting from contaminating a sample from a standard normal distribution with samples from $N(4,1)$.}
    \label{fig:xpl:histogram}
 \end{figure}
 
-In the boxplots, we see that up to 5\% of contamination in the upper tail area is going by the boxplots unnoticed.  up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. Beyond 25\% the number of outliers becomes a lot smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised. 
+In the boxplots, we see that up to 5\% of contamination in the upper tail area is going by the boxplots unnoticed.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. Beyond 25\% the number of outliers becomes a lot smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised. 
 The letter value plots are more sensitive - and thereby are able to give a better summary of the actual underlying distribution.
-With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the the three outmost letter values are shifted upward - indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 30\% contamination, we see that the upper eighth is shifted into the mean of the second mode. 
+With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the  three outmost letter values are shifted upward - indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 30\% contamination, we see that the upper eighth is shifted into the mean of the second mode. 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.8\textwidth]{xpl-boxplot} 
-   \caption{boxplots - might not be necessary.}
+   \includegraphics[width=.8\linewidth]{xpl-boxplot} 
+   \caption{Boxplots of contaminated data. Boxplots are robust towards contamination of less than 25\%.}
    \label{fig:xpl:boxplot}
 \end{figure}
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.8\textwidth]{xpl-lvplot} 
-   \caption{Letter value plots.}
+   \includegraphics[width=.8\linewidth]{xpl-lvplot} 
+   \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values - indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
    \label{fig:xpl:lvplot}
 \end{figure}
+
+The second example shows again an aspect of flight data: figure \ref{fig:xpl:delays} displays all 70,908 delayed flights in January 2012. As soon as a flights is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than15 minutes can be reported as zero, leading to zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off'.
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=.8\linewidth]{carrier-lv} 
+   \includegraphics[width=.8\linewidth]{nas-lv} 
+   \includegraphics[width=.8\linewidth]{weather-lv} 
+   \caption{Letter value plots of different types of delays by airline carriers: carrier delay (top), NAS delays (middle), and weather related delays (bottom). }
+   \label{fig:xpl:delays}
+\end{figure}
+
+
 
 \section{Bivariate letter value plots}
 \label{sec:bivariate}
