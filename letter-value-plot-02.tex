@@ -478,8 +478,6 @@ With 1\% of contamination (that is fifteen additional points from a normal distr
    \label{fig:xpl:lvplot}
 \end{figure}
 
-The second example shows again an aspect of flight data: figure \ref{fig:xpl:delays} displays all 70,908 delayed flights in January 2012. As soon as a flights is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than15 minutes can be reported as zero, leading to zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off'.
-
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
    \includegraphics[width=.8\linewidth]{carrier-lv} 
@@ -489,6 +487,10 @@ The second example shows again an aspect of flight data: figure \ref{fig:xpl:del
    \label{fig:xpl:delays}
 \end{figure}
 
+
+The second example shows again an aspect of flight data: figure \ref{fig:xpl:delays} displays all 70,908 delayed flights in January 2012. As soon as a flights is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
+Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Airline Security (NAS), as we can see from the letter value boxplots in the middle of figure ~\ref{fig:xpl:delays}. The two exceptions are the two smallest airline carriers: again, Hawaiian Airlines are an exception -- there are almost no problems due to NAS delays, whereas Virgin America  (VX) seems to be affected by NAS delays often and long.
+Weather delays, as shown in the bottom row of figure~\ref{fig:xpl:delays} affect different airline carriers differently, due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal, with the exception of six very large outliers. Virgin America, on the other side is affected the most by weather delays.
 
 
 \section{Bivariate letter value plots}
