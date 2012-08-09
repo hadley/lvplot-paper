@@ -1,13 +1,23 @@
 private note to the associate editor:
-- I find reviewer one  condescending to the degree of being personally insulted.
-While a personal acquaintace with J.W Tukey is something to be proud of, exposure to modern data problems might have been a better preparation for reviewing this paper.
+Statistics is no longer (nor has it been for the last twenty years)
+just about making "a lot from a little" - as datasets have grown in
+size our methods have also grown.  No modern statistician can rely on
+just pencil and paper, but instead must harness the computer to deal
+with data sets that can contain million of observations, not tens or
+hundreds. If statistics doesn't provide tools to deal with big data,
+we are at grave risk of becoming irrelevant.
 
-Accusing our paper being 'turgid' is - particularly in light of this review - almost comical. 
+We strive for clear and concise writing, but it is not easy. We have
+done our best to improve the quality of the writing, but in the
+absence of specific comments about how to make our paper less turgid
+(tediously pompous or bombastic) there's not much we can do.
+
+###################
 
 
+re-worked language, commented out a lot of the more technical details
 
-
-
+tables are more concise - or commented out
 
 replaced 'data' by 'datasets' in the title
 
@@ -16,6 +26,8 @@ quotes removed from "outliers"
 exchanged the first example to show taxi in and out time by airline carrier
 
 included an example with up to 30% contaminated data to highlight tail behavior and compare lvboxplots to regular boxplots
+
+second example of flights data, comparing delays across carriers according to type of delay: weather, carrier and NAS
 
 
 made bagplots and lvbagplots almost identical:
