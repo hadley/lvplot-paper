@@ -1,4 +1,4 @@
-private note to the associate editor:
+Note to the associate editor:
 Statistics is no longer (nor has it been for the last twenty years)
 just about making "a lot from a little" - as datasets have grown in
 size our methods have also grown.  No modern statistician can rely on
@@ -15,22 +15,22 @@ absence of specific comments about how to make our paper less turgid
 ###################
 
 
-re-worked language, commented out a lot of the more technical details
+We re-worked the language considerably, vut a lot of the more technical details, and moved parts of the proof for the stopping rules into an appendix.
 
-tables are more concise - or commented out
+The tables are more concise now - or commented out
 
-replaced 'data' by 'datasets' in the title
+We extended the number of examples shown in the paper:
+ - the first example is now exchanged for an overview of taxi-in and out times by airline carriers
 
-quotes removed from "outliers" 
+- we included an example with up to 30% contaminated data to highlight tail behavior and compare lvboxplots to regular boxplots
 
-exchanged the first example to show taxi in and out time by airline carrier
-
-included an example with up to 30% contaminated data to highlight tail behavior and compare lvboxplots to regular boxplots
-
-second example of flights data, comparing delays across carriers according to type of delay: weather, carrier and NAS
+- a second example of flights data is added. We are comparing flight delays across carriers according to type of delay: weather, carrier and NAS
 
 
-made bagplots and lvbagplots almost identical:
-the difference between the bagplot and the letter-value bagplot in the last figure was due to a twofold approximation: the bagplot code in R from the aplpack package was computed based on a sample of size 300 instead of the whole dataset. The letter-value bagplot made use of convex hulls as an approximation of location depth. Both approximations are now gone, and the figures display the same data. The remaining difference is -- in our opinion -- due to a smoothing of edges in the bagplot, whereas the points of the bag in the lvbagplot are  connected by straight lines, giving the bags a slightly 'edgier' look. 
+We are very grateful to the reviewers for pointing out the differences between the two bagplot solutions. 
+The difference between the bagplot and the letter-value bagplot in the last figure was due to a twofold approximation: the bagplot code in R from the aplpack package was computed based on a sample of size 300 instead of the whole dataset. The letter-value bagplot made use of convex hulls as an approximation to location depth. Both approximations are now replcaed by exact results, and the figures display the same data. The remaining difference is -- in our opinion -- due to a smoothing of edges in the bagplot, whereas the points of the bag in the lvbagplot are  connected by straight lines, giving the bags a slightly 'edgier' look. 
 
-included the Hoaglin et al (1987) references 
+minor things:
+ - the Hoaglin et al (1987) references is now included 
+ - we replaced 'data' by 'datasets' in the title
+ - quotes removed from "outliers" 
