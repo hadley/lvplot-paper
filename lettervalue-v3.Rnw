@@ -67,79 +67,95 @@
 library(lvplot)
 
 library(RColorBrewer)
-cols <- c("white", brewer.pal(9, "Blues"), "black")
+cols <- c("white",brewer.pal(9, "Greys"), "Red", "Pink")
+reds <- brewer.pal(5, "Reds")[-1]
+cols <- c(cols[1:3], reds[1], cols[4:6], reds[2], cols[7:9], reds[3], cols[10:11])
 
 set.seed(14101979)
 @
-Boxplots \citep{tukey:1970,tukey72} give a compact graphical summary of the distribution of a variable, based around a set of order statistics called letter values. In \textit{Exploratory Data Analysis}, \citet{eda} recommended the $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th order statistics as estimates of the quartiles, the ``lower fourth'' and ``upper fourth'' in \citet{ureda} with \textit{depth} $([n/2] + 1)/2$ because they lie that many observations in from the extremes.  
+%Boxplots \citep{tukey:1970,tukey72} give a compact graphical summary of the distribution of a variable, based around a set of order statistics called letter values. In \textit{Exploratory Data Analysis}, \citet{eda} recommended the $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th order statistics as estimates of the quartiles, the ``lower fourth'' and ``upper fourth'' in \citet{ureda} with \textit{depth} $([n/2] + 1)/2$ because they lie that many observations in from the extremes.  
 
-Boxplots are one of the few statistical graphics invented in the 20th century
-that have gained widespread adoption. Despite \hh{being commonly} used, they are
-not altogether satisfactory, particularly for large \hh{and very small} data sets. Specifically,
+Boxplots \citep{tukey:1970,tukey72} are one of the few statistical graphics invented in the 20th century
+that have gained widespread adoption. Despite their widespread use, they are
+not altogether satisfactory, particularly for large data sets. Specifically,
 two problems arise with boxplots when applied to large data sets: (1) the
-number of ``outliers'' (observations beyond the whiskers) grows linearly with
-the sample size and (2) estimates of tail behaviour are not displayed, despite
+number of outliers (observations beyond the whiskers) grows linearly with
+the sample size and (2) estimates of tail behavior are not displayed, despite
 the fact that larger sample sizes allow more reliable estimates further out
 into the tails. 
-\hh{For very small number of values, boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.}
 
-Figure~\ref{fig:internet-bp} illustrates both \hh{large-data} problems with a
-boxplot of 135,605 internet (log-transformed) session durations, stratified
-into 32 groups based on the logarithm of the number of bytes transferred
-during the session. See \citet{kw06} for further details about the data and
-transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
-to 7865 (Box \#13), with a median sample size of 4238. With so many
-observations in each category, the number of labeled outliers is huge, with
+
+
+
+%Figure~\ref{fig:internet-bp} illustrates both problems with a
+%boxplot of 135,605 internet (log-transformed) session durations, stratified
+%into 32 groups based on the logarithm of the number of bytes transferred
+%during the session. See \citet{kw06} for further details about the data and
+%transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
+%to 7865 (Box \#13), with a median sample size of 4238. 
+Figure \ref{fig:taxi-bp} illustrates both of these problems.  (Square root) taxiing times  for 478,755 US national flights in January 2012 by airline carriers are shown in boxplots .  Carriers are ordered according to number of flights served left to right. The largest three carriers, WN (Southwest), EV (ExpressJet)  and DL (Delta) show striking differences in the median taxi times -- Southwest is with a median taxi time of 3.74$^2$ = 14 minutes well below the overall median of 20 minutes, whereas Delta has a median taxi time of 25 minutes and is significantly above the overall median.
+
+The sample sizes in the fifteen groups vary between 4,062 flights by VX (Virgin America) and 89,920 flights by Southwest, WN. 
+With so many
+observations in each group, the number of labeled outliers is huge, with
 far too many to investigate individually, making it difficult to distinguish
-between extreme values and true outliers.
+between extreme values and `true' outliers.
 
-<<sessions-data, echo=FALSE, cache=TRUE, results='hide'>>=
-sessions <- read.csv("code-data/sessions.csv")
-names(sessions) <- c("time", "length", "SIP", "DIP", "Dport", "Sport",
- "Npacket", "Nbyte")
-sessions[, 3:6] <- round(65536 * sessions[, 3:6])
 
-cut2.byte <- cut(log(1 + sqrt(sessions$Nbyte)), 
-  breaks = c(-1, 0, seq(3, 5.4, by = 0.1), 5.6, 5.8, 6.0, 6.5, 9.0))
+<<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
+ot <- read.csv("data/On_Time_On_Time_Performance_2012_1.csv")
+ot$UniqueCarrier <- with(ot, reorder(UniqueCarrier, UniqueCarrier, function(x) -length(x)))
 @
 
 \begin{figure}[hbtp]
   \centering
-<<fig-session-1, dependon='session-data', echo=FALSE, fig.width=10, fig.height=5, out.width='\\textwidth'>>=
-boxplot(split(log(1 + sqrt(sessions$length)), cut2.byte), 
-  varwidth = T,notch = T)
-title("Message Duration and Length",
-  xlab = "log(1 + sqrt{Nbyte})", 
-  ylab = "log(1 + sqrt{duration}")
-@
-\caption{Notched boxplots \citep{variations.boxplots} of (log-transformed)
-  duration for 135,605 internet sessions, grouped by ranges of
-  (log-transformed) byte lengths for the sessions.}
+<<fig-taxi-1, dependon='taxi-data', echo=FALSE, fig.width=10, fig.height=5, out.width='\\textwidth'>>=
+with(ot, boxplot(split(sqrt(TaxiOut+TaxiIn), UniqueCarrier), 
+  varwidth = T,notch = T,
+#title("Message Duration and Length",
+  xlab = "Carrier", 
+  ylab = "Square Root of Taxi Time (in minutes)"))
 
-  \label{fig:internet-bp} 
+@
+  \caption{Notched boxplots \citep{variations.boxplots} of (sqrt-transformed)
+  taxi in and out times grouped by airline carrier for flights in January 2012. Airline carriers are ordered left to right in decreasing  number of flights served. }
+
+  \label{fig:taxi-bp} 
 \end{figure}
 
-An observation is labelled as an ``outside value'' (which we will denote here
-simply as ``outlier'') and displayed individually if it lies at or beyond the
+The definition of boxplots is based around a set of order statistics called letter values -- in particular, the median, $M$, and the fourths, $F$.  
+In \textit{Exploratory Data Analysis}, \citet{eda} recommended the use of order statistics as estimates for the fourths, specifically, the $([n/2] + 1)/2$-th and $(n + 1 - ([n/2] + 1)/2)$-th order statistics for lower and upper fourths. 
+Similarly, the definition of ``outside value'' (which we will denote here
+simply as ``outlier'') depends on the range between the fourths: 
+%
+an observation is labelled as an ``outside value'' (which we will denote here
+%simply as ``outlier'') 
+and displayed individually if it lies at or beyond the
 inner fences \citep{eda,emerson83}, defined as $[L_F - k(U_F - L_F), U_F +
 k(U_F - L_F)]$ where $L_F$ and $U_F$ denote the lower and upper fourths and
-typically $k = 1.5$. Despite the name, these ``outliers'' may be either (a)
+typically $k = 1.5$. 
+
+Despite the name, these outliers may be either (a)
 genuine, but extreme, observations from same the distribution as the bulk of
 the data; or (b) true outliers, observations from a different distribution.
-The boxplot tends to display too many ``outliers'', as judged by looking at
-boxplots of Gaussian data. There the expected number of ``outliers'' grows
-approximately linearly with $n$: the theoretical fourths from a sample of
-independent Gaussian observations are $\pm 0.6745\sigma$, yielding an
-interquartile range of 1.35$\sigma$, and inner fences at $\pm (0.675 + 1.5
-\cdot 1.35)\sigma = \pm 2.70\sigma$. Therefore the box and whiskers covers
-99.3\% of the distribution, leaving about 0.7\% of the points to be labeled as
-``outliers'' (cf.~\citet{dchlv}). Similarly, the probability of getting at
-least one ``outlier'' for Gaussian data exceeds 30\% for samples of size 50,
-and 97\% for samples of size 500 \citep[pg. 1148]{dchbox}. The approach of Hoaglin and Iglewicz (1987), which labels a fixed
-number of ``outliers'' (``fixed outside rate'') using a rule based
-on the fourths, avoids this dependence of the expected outside rate on the 
-underlying distribution.  Although it avoids the linear dependence of
-number of ``outliers'' on $n$, it also fails to display any interesting
+The boxplot tends to display too many outliers, as judged by looking at
+boxplots of Gaussian data. There the expected number of outlier grows
+approximately linearly with $n$,
+%: the theoretical fourths from a sample of
+%independent Gaussian observations are $\pm 0.6745\sigma$, yielding an
+%interquartile range of 1.35$\sigma$, and inner fences at $\pm (0.675 + 1.5
+%\cdot 1.35)\sigma = \pm 2.70\sigma$. Therefore the box and whiskers covers
+%99.3\% of the distribution, 
+%leaving 
+with about 0.7\% of the points  labeled as
+outliers (cf.~\citet{dchlv}). The probability of getting at
+least one outlier for Gaussian data exceeds 30\% for samples of size 50,
+and rises to 97\% for samples of size 500 \citep[pg. 1148]{dchbox}. The approach of \citet{dchbi} (``fixed outside rate'')  labels a fixed
+number of outliers  using a rule based
+on the fourths. 
+%,  avoids this dependence of the expected outside rate on the underlying distribution.  
+Although it avoids the linear dependence of
+number of outliers on $n$, it also fails to display any interesting
 features in the tails.  Large data sets permit many more letter values
 that can be reliably estimated to provide more information about the tails.
 
@@ -158,34 +174,31 @@ data set, depending on the density estimate or smoothing parameters. As an
 initial exploratory visualization tool, this dependence on multiple tuning
 parameters is less than desirable.
 
-Letter-value plots are a variation of boxplots that replace the whiskers with
+Letter-value plots are a variation of boxplots that replace the whiskers---the values with the largest data depths within the fences----with
 a variable number of letter values, selected based on the uncertainty
 associated with each estimate and hence on the number of observations. Any
 values outside the most extreme letter value are displayed individually. These
-two modifications reduce the number of ``outliers'' displayed for large data
+two modifications reduce the number of outliers displayed for large data
 sets, and make letter-value plots useful over a much wider range of data
 sizes. Letter-value plots remain true to the spirit of boxplots by displaying
 only actual observations from the sample, and remaining free of tuning
-parameters. Figure~\ref{fig:internet-lbp} shows the same data as a
-letter-value plot, which better shows the skewed tails (even with the
-logarithmic transformations) and far fewer ``labeled'' outliers. Letter-value
-plots are described in detail in Section~\ref{sec:lv-boxplots}
+parameters. Figure~\ref{fig:taxi-lv} shows  a
+letter-value plot of the same taxi in and out times of Figure~\ref{fig:taxi-bp}. The different number of values in each group results in the use of different number of letter values. For better comparison across groups, every fourth letter value box is filled by a contrasting hue. Note the very compact distribution of taxi times for Hawaiian airlines (HA) -- less than 1/128th of the values are larger than 36 minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+Letter value boxplots are better suited to show the  skewed tails (even with the
+square-root transformations) and far fewer labeled outliers. We will describe these plots in more detail in Section~\ref{sec:lv-boxplots}. 
 
 \begin{figure}[hbtp]
   \centering
-<<fig-session-2, dependon='session-data', echo=FALSE, fig.width=10, fig.height=5, out.width='\\textwidth'>>=
-LVboxplot(log(1 + sqrt(sessions$length)) ~ cut2.byte, 
-  horizontal = FALSE, col=cols, 
-  xlab = "log(1 + sqrt{Nbyte})", 
-  ylab = "log(1 + sqrt{duration})")
+<<fig-taxi-2, dependon='taxi-data', echo=FALSE, fig.width=10, fig.height=5, out.width='\\textwidth', message=FALSE>>=
+with(ot, LVboxplot(sqrt(TaxiOut+TaxiIn)~UniqueCarrier, 
+                   col=cols, horizontal=FALSE,  xlab="Carrier", 
+                   ylab="Square Root of Taxi Time (in minutes)"))
 @
-  \caption{Letter-value plots of (log-transformed) duration for 135,605
-  internet sessions, grouped by ranges of (log-transformed) byte lengths for
-  the sessions.}
+  \caption{Letter-value plots of (sqrt-transformed) taxi time for 478,755 national flights in January 2012 by airline carriers. Colored bands among the grey-shades help to keep track of the same letter value across groups.}
 
-  \label{fig:internet-lbp} 
+  \label{fig:taxi-lv} 
 \end{figure}
-
+\hh{up to here}
 One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure 2 shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap the successive letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
 
 Our implementation of letter-value plots is available as an R package, \texttt{lvplot}, from {\sc cran}. The online supplementary material contains all code and data used for the plots in this paper.
