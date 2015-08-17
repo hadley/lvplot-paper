@@ -56,17 +56,18 @@
   code and data are available in the supplementary materials.
 
   \textbf{Key words}: boxplots, quantiles, letter value display, 
-  fourth, order statistics, tail area, location depth.
+  fourths, order statistics, tail area, location depth.
   
 \end{abstract}
 
 \section{Introduction}
-<<setup, echo=FALSE, cache=FALSE, results='hide'>>=
+<<setup, echo=FALSE, cache=FALSE, results='hide', message=FALSE, warning=FALSE>>=
 #' library(devtools)
 #' install_github("hadley/lvplot")
 library(lvplot)
 
 library(RColorBrewer)
+library(dplyr)
 cols <- c("white",brewer.pal(9, "Greys"), "Red", "Pink")
 reds <- brewer.pal(5, "Reds")[-1]
 cols <- c(cols[1:3], reds[1], cols[4:6], reds[2], cols[7:9], reds[3], cols[10:11])
@@ -84,7 +85,17 @@ the sample size and (2) estimates of tail behavior are not displayed, despite
 the fact that larger sample sizes allow more reliable estimates further out
 into the tails. 
 
+\hh{For very small number of values, boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.}
 
+<<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
+ot <- read.csv("data/On_Time_On_Time_Performance_2015_1.csv")
+ot$UniqueCarrier <- with(ot, reorder(UniqueCarrier, UniqueCarrier, function(x) -length(x)))
+bycarrier <- ot %>% group_by(UniqueCarrier) %>% summarize(
+  n=n(),
+  meantt=mean(TaxiIn+TaxiOut, na.rm=T),
+  medtt=median(TaxiIn+TaxiOut, na.rm=T)
+)
+@
 
 
 %Figure~\ref{fig:internet-bp} illustrates both problems with a
@@ -93,19 +104,15 @@ into the tails.
 %during the session. See \citet{kw06} for further details about the data and
 %transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
 %to 7865 (Box \#13), with a median sample size of 4238. 
-Figure \ref{fig:taxi-bp} illustrates both of these problems.  (Square root) taxiing times  for 478,755 US national flights in January 2012 by airline carriers are shown in boxplots .  Carriers are ordered according to number of flights served left to right. The largest three carriers, WN (Southwest), EV (ExpressJet)  and DL (Delta) show striking differences in the median taxi times -- Southwest is with a median taxi time of 3.74$^2$ = 14 minutes well below the overall median of 20 minutes, whereas Delta has a median taxi time of 25 minutes and is significantly above the overall median.
+Figure \ref{fig:taxi-bp} illustrates both of \hh{the large-data} problems.  (Square root) taxiing times  for \Sexpr{nrow(ot)} US national flights in January 2015 by airline carriers are shown in boxplots.  Carriers are ordered according to the number of flights they served from left to right. The largest three carriers, WN (Southwest), EV (ExpressJet)  and DL (Delta) show striking differences in the median taxi times -- Southwest is with a median taxi time of \Sexpr{round(sqrt(bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt),2)}$^2$ = \Sexpr{bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt} minutes well below the overall median of \Sexpr{with(ot, median(TaxiIn+TaxiOut))} minutes, whereas Delta has a median taxi time of 25 minutes and is significantly above the overall median.
 
-The sample sizes in the fifteen groups vary between 4,062 flights by VX (Virgin America) and 89,920 flights by Southwest, WN. 
+The sample sizes in the fifteen groups vary between \Sexpr{min(bycarrier$n)} flights by VX (Virgin America) and \Sexpr{max(bycarrier$n)} flights by Southwest, WN. 
 With so many
 observations in each group, the number of labeled outliers is huge, with
 far too many to investigate individually, making it difficult to distinguish
 between extreme values and `true' outliers.
 
 
-<<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
-ot <- read.csv("data/On_Time_On_Time_Performance_2012_1.csv")
-ot$UniqueCarrier <- with(ot, reorder(UniqueCarrier, UniqueCarrier, function(x) -length(x)))
-@
 
 \begin{figure}[hbtp]
   \centering
