@@ -570,77 +570,120 @@ The different rules provide the user with choices depending on the desired preci
 
 \section{Examples}\label{examples}
 This first example demonstrates the behavior of letter value boxplots in situations with contaminated/heterogenous data.
-The plots in Figure \ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $N(0,1)$, we replace values randomly by a set of points sampled  from $N(4,1)$. We start with a contamination of 1\% (of the original sample size $n$) and end at  30\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots for this data.  
+The plots in Figure \ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $N(0,1)$, we replace values randomly by a set of points sampled  from $N(4,1)$. We start with a contamination of 2\% (of the original sample size $n$) and end at  25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots for this data.  
+<<simu-data, echo=FALSE, results='hide'>>=
+frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
+frame$n2 <- with(frame, n1/100*k)
+frame$n1 <- with(frame, n1- n2)
+
+dframe <- NULL
+set.seed(20120416)
+for (i in 1:10) {
+  x <- c(rnorm(frame[i,]$n1), 4 + rnorm(frame[i,]$n2))
+  dframe <- rbind(dframe, data.frame(k=frame[i,]$k, x=x))
+}
+@
+
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.9\linewidth]{xpl-histogram} 
+%   \includegraphics[width=.9\linewidth]{xpl-histogram} 
+<<sim-hist, dependson='simu-data', echo=FALSE, fig.width=12, fig.height=6, out.width='0.9\\linewidth'>>=
+qplot(data=dframe, x, geom="histogram", binwidth=0.25) + 
+  facet_wrap(facets=~k, ncol=5) +
+  theme_bw()
+#ggsave("images/xpl-histogram.pdf", width=12, height=6)
+@
    \caption{Histograms as an overview of the bi-modal samples resulting from contaminating a sample from a standard normal distribution with samples from $N(4,1)$.}
    \label{fig:xpl:histogram}
 \end{figure}
 
-In the boxplots, we see that up to 5\% of contamination in the upper tail area goes unnoticed in the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. Beyond 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised. 
+
+
+In the boxplots, we see that up to 5\% of contamination in the upper tail area goes unnoticed in the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. At 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised. 
 The letter value plots are more sensitive, and thereby are able to give a better summary of the actual underlying distribution.
-With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the  three outmost letter values are shifted upward - indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 30\% contamination, we see that the upper eighth is shifted into the mean of the second mode. 
+With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the  three outmost letter values are shifted upward - indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 25\% contamination, we see that the upper eighth is shifted into the mean of the second mode. 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.8\linewidth]{xpl-boxplot} 
+%   \includegraphics[width=.8\linewidth]{xpl-boxplot} 
+<<sim-xpl-box, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5, out.width='0.8\\linewidth'>>=
+qplot(data=dframe, factor(k), x, geom="boxplot", group=k) + xlab("Amount of contaminated data (in percent)") +ylab("")
+# ggsave("images/xpl-boxplot.pdf", width=10, height=5)
+@
+   
    \caption{Boxplots of contaminated data. Boxplots are robust towards contamination of less than 25\%.}
    \label{fig:xpl:boxplot}
 \end{figure}
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.8\linewidth]{xpl-lvplot} 
+%   \includegraphics[width=.8\linewidth]{xpl-lvplot} 
+<<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5, out.width='0.8\\linewidth'>>=
+par(mar=c(4,2,1,1))
+LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)", ylab="")
+@   
    \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values - indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
    \label{fig:xpl:lvplot}
 \end{figure}
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=.8\linewidth]{carrier-lv} 
-   \includegraphics[width=.8\linewidth]{nas-lv} 
-   \includegraphics[width=.8\linewidth]{weather-lv} 
+%   \includegraphics[width=.8\linewidth]{carrier-lv} 
+<<carrier-lv, dependson='taxi-data', echo=FALSE, out.width='.8\\linewidth', fig.height=5, fig.width=10, message=FALSE>>=
+par(mar=c(3,4,0,0))
+with(ot, LVboxplot(sqrt(CarrierDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Carrier Delay (in minutes)", median.col="grey50"))
+@
+%   \includegraphics[width=.8\linewidth]{nas-lv} 
+<<nas-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
+par(mar=c(3,4,0,0))
+with(ot, LVboxplot(sqrt(NASDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of NAS Delay (in minutes)", median.col="grey50"))
+@
+%   \includegraphics[width=.8\linewidth]{weather-lv} 
+<<weather-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
+par(mar=c(3,4,0,0))
+with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="grey50"))
+@
    \caption{Letter value plots of different types of delays by airline carriers: carrier delay (top), NAS delays (middle), and weather related delays (bottom). }
    \label{fig:xpl:delays}
 \end{figure}
 
 
-The second example shows again an aspect of flight data: Figure \ref{fig:xpl:delays} displays all 70,908 delayed flights in January 2012. As soon as a flights is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
-Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Airline Security (NAS), as we can see from the letter value boxplots in the middle of Figure ~\ref{fig:xpl:delays}. The two exceptions are the two smallest airline carriers: again, Hawaiian Airlines are an exception -- there are almost no problems due to NAS delays, whereas Virgin America  (VX) seems to be affected by NAS delays often and long.
-Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal, with the exception of six very large outliers. Virgin America, on the other side, is affected the most by weather delays.
+The second example shows again an aspect of flight data: Figure \ref{fig:xpl:delays} displays all \Sexpr{nrow(subset(ot, ArrDelay > 15 | DepDelay > 15))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
+Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Airline Security (NAS), as we can see from the letter value boxplots in the middle of Figure ~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS, whereas the small carrier Spirit Airlines (NK)  seems to be affected by NAS delays often and long.
+Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines), on the other hand, is affected the most by weather delays.
 
 
-\section{Bivariate letter value plots}
-\label{sec:bivariate}
-
-\citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. 
-
-The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the convex hull of all points $p$ for which $ldepth(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth(p_M, Z) \rfloor$. Similarly,  successive letter areas are defined based purely on their depth as the convex hull of all points in the sample with $ldepth_i(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth_{i-1}(p, Z) \rfloor$.
-Figure~\ref{counties-bag} shows a side-by side comparison of a standard bagplot (left, \citet{bagplots}, implemented in \citet{aplpack}) of average temperatures in January by degree latitude of each of 3,068 US counties and a letter-value bagplot on the right.
-The asymmetry of the bivariate display around the principal axis,
-and the cluster of points above the upper right edge of the final contour,
-are much more evident in the letter value bagplot.  (These points
-correspond to ... ???)
-%%% KK: HW or HH: can you identify those points?
-%%% KK: single sentence should not be a paragraph on its own; add to former.
-Algorithms for fast computation of bivariate letter values for a bivariate letter-value plot are currently under development.
-
-\begin{figure}[hbtp]
-  \centering
-  \includegraphics[width=0.5\linewidth]{images/counties-bag}%
-  \includegraphics[width=0.5\linewidth]{images/counties-lvbag}
-
-  \caption{Bagplot (left) and letter-value bagplot (right) of average January
-  temperatures by degree latitude for 3,068 US counties. }
-
-  \label{counties-bag} 
-
-\end{figure}
-
-\section{Summary}
+% \section{Bivariate letter value plots}
+% \label{sec:bivariate}
+% 
+% \citet{bagplots} proposed the ``bagplot'' as a two-dimensional version of the boxplot, using location depths (introduced by \citet{tukey75}) to define analogues of the median and fourths, and then connecting the points corresponding to the fourth-depths via linear segments. 
+% 
+% The location depth $ldepth(p,Z)$ is defined for an arbitrary point $p \in \Reals^2$, relative to a set of $n$ points $Z$ = \{$z_i = (x_i, y_i)$, $i = 1,...,n$\}, as the smallest number of $z_i$'s contained in any closed halfplane with boundary line through $p$. That is, if one were to pass a line in the plane through $p$ and keep track of the smaller of the two numbers of $z_i$ on either side of the line as the line is rotated through every angle to its opposite side ($180^o$), then the location depth of that point $p$ relative to $Z$ is the smallest of all the numbers. The analog of the one-dimension median in two dimensions using location depth would thus be that point $p_M$ for which $ldepth(p_M, Z)$ is largest (e.g., $n/2$). If such a $p$ is not unique, then the ``depth median'' is defined as the ``center of gravity'' of all points $p$ for which $ldepth(p,Z)$ is largest. Recall that a property of the fourths for a univariate sample is that the interval between the lower and upper fourth contains one-half of the data. Thus, an analog of the box for the bagplot was defined as the convex hull of all points $p$ for which $ldepth(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth(p_M, Z) \rfloor$. Similarly,  successive letter areas are defined based purely on their depth as the convex hull of all points in the sample with $ldepth_i(p,Z) \ge 1 +  \lfloor 0.5 \cdot  ldepth_{i-1}(p, Z) \rfloor$.
+% Figure~\ref{counties-bag} shows a side-by side comparison of a standard bagplot (left, \citet{bagplots}, implemented in \citet{aplpack}) of average temperatures in January by degree latitude of each of 3,068 US counties and a letter-value bagplot on the right.
+% The asymmetry of the bivariate display around the principal axis,
+% and the cluster of points above the upper right edge of the final contour,
+% are much more evident in the letter value bagplot.  (These points
+% correspond to ... ???)
+% %%% KK: HW or HH: can you identify those points?
+% %%% KK: single sentence should not be a paragraph on its own; add to former.
+% Algorithms for fast computation of bivariate letter values for a bivariate letter-value plot are currently under development.
+% 
+% \begin{figure}[hbtp]
+%   \centering
+%   \includegraphics[width=0.5\linewidth]{images/counties-bag}%
+%   \includegraphics[width=0.5\linewidth]{images/counties-lvbag}
+% 
+%   \caption{Bagplot (left) and letter-value bagplot (right) of average January
+%   temperatures by degree latitude for 3,068 US counties. }
+% 
+%   \label{counties-bag} 
+% 
+% \end{figure}
+% 
+\section{Conclusions}
 \label{sec:summary}
 
-Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data. Like boxplots, they show only actual data values, rather than smoothed values or estimated densities. Letter-value plots convey further information about tail behavior beyond the whiskers. Simple stopping rules that depend on neither the number of points nor on their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: Rule 3 will ensure that a box for quartiles is drawn only if there are at least 16 data points. This rule is sensible in situations where we are dealing with groups of very different sizes, such as Figure~\ref{fig:internet-lbp}. Additionally, for large data situations, fewer observations will be labeled as as ``outliers'' compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%. Letter values can be extended to two dimensions by using the location depth, giving rise to letter-value bagplots as a two dimensional extension of letter-value plots, and providing a robust, data-based assessment of data concentration in two dimensions. Implementation details are found in the online supplementary material.
+Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data. Like boxplots, they show only actual data values, rather than smoothed values or estimated densities. Letter-value plots convey further information about tail behavior beyond the whiskers. Simple stopping rules that depend on neither the number of points nor on their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: stopping rule 3 ensures that a box for quartiles is drawn only if there are at least 16 data points. This rule is sensible in situations where we are dealing with groups of very different sizes. Additionally, for large data situations, fewer observations will be labeled as as ``outliers'' compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%. 
+Using location depths, introduced by \citet{tukey75}, letter values could be extended to two dimensions, which would allow to include letter-values in  bagplots \citep{bagplots, aplpack}.
 
 %%%% KK: 16 data points??? would you trust an eighth in a sample of only n=16?
 %%%% Presumably it should be much more?
