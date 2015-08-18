@@ -12,6 +12,7 @@
 \linespread{2} 
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{amstext}
 \newcommand{\Reals}{{\rm I\kern-.1667em{}R}}
 %\usepackage[pdftex]{graphicx}
 \DeclareGraphicsExtensions{.png,.pdf}
@@ -237,8 +238,8 @@ For small samples, then, restricting attention to estimates of only the populati
   \toprule
   LV & ideal tail area & \multicolumn{2}{l}{rough \%} & odds ($2^i$) & SEfactor & n-equiv*  \\
   \midrule
-   M & .50 & 50 & 0\% & 2 & 1.253314 & \\
-   F & .25 & 25 & 0\% & 4 & 1.36 & 1.0\\
+   M & .50 & 50 & 0\% & 2 & 1.25 & \\
+   F & .25 & 25 & 0\% & 4 & 1.362633 & 1.0\\
    E & .125 & 12 & 5\% & 8 & 1.60 & 1.4\\
    D & .0625 & 6 & 25\% & 16 & 1.96 & 2.1\\
    C & .03125 & 3 & 13\% & 32 & 2.47 & 3.3\\
@@ -260,7 +261,7 @@ For small samples, then, restricting attention to estimates of only the populati
   \bottomrule
   \end{tabular}
 
-  \caption{First 8 letter values. Ideal \texttt{tail area} is $2 ^{-i}$, $i =
+  \caption{First 8 letter values. \texttt{Ideal tail area} is $2 ^{-i}$, $i =
   1, ..., 8$. \texttt{rough}\% rounds $2 ^{-i} \times 100$\% to the first 1
   or 2 nonzero digits. \texttt{odds} expresses tail area as \texttt{1 in}
   $2^i$. \texttt{SEfactor} gives the factor for the asymptotic standard
@@ -475,15 +476,16 @@ k_{1-\alpha} = \lfloor \log_2 (n) \rfloor - \lfloor \log_2
 \hh{Interestingly, using a 95\% confidence interval, this rules leads to } labeling 5--8 of the most extreme observations on each side, surprisingly consistent with many of the displays in \citet{eda}.
 
 \item[(iv)]{\bf Maximal standard error}:
-this fourth rule gives us the maximum letter value, for which the standard error is fixed to be below a relative upper limit. 
+this fourth rule gives us the maximum letter value for which the standard error is fixed to be below a relative upper limit. 
 
-For a sample from a Normal distribution, the asymptotic standard error is given as 
+For a sample from a Normal distribution, the asymptotic standard error of the $i$th letter value is given as 
 \begin{equation}
 SE(LV_i) \approx \sigma \sqrt{p_i \cdot (1 - p_i)/ n} / \phi(\Phi^{-1}(p_i)) 
- = (SEfactor) \sigma / \sqrt{n},
+ = (\text{SEfactor}) \sigma / \sqrt{n},
 \label{SELV}
 \end{equation}
-where $p_i = 2^{-i}$, $i = 1, ..., \log_2n$.
+where $p_i = 2^{-i}$, $i = 1, ..., \log_2n$, \texttt{SEfactor} =
+  $\sqrt{p_i (1-p_i)} / \phi(\Phi^{-1}(p_i))$ and $\phi, \Phi$ are density and distribution of the standard Normal distribution.
 As sample size $n$ increases, we can increase the number of letter values shown while keeping the same standard error. Figure \ref{fig:lv-error} gives an overview of  the situation.
 
 
@@ -527,7 +529,10 @@ k_{1-\alpha} = \lfloor \log_2 n \rfloor - \lfloor \log_2 (2 z_{1-\alpha/2}^2) \r
 % 
 
 
-\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side). Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3. Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
+\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side). 
+%Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3. 
+
+%Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
 
 % KK: I think we need more discussion about the differences 
 % between rules 2 and 3, esp since they give diff answers
@@ -537,16 +542,34 @@ k_{1-\alpha} = \lfloor \log_2 n \rfloor - \lfloor \log_2 (2 z_{1-\alpha/2}^2) \r
 
 \begin{figure}[hbtp]
   \centering
-  \includegraphics[width=0.65\linewidth]{letter-val-errors}
-
+%  \includegraphics[width=0.65\linewidth]{letter-val-errors}
+<<letter-val, echo=FALSE, warning=FALSE, message=FALSE, fig.width=6, fig.height=4.75, out.width='0.6\\linewidth'>>=
+library(ggplot2)
+library(scales)
+res <- data.frame(expand.grid(factor=c(0.1,0.2,0.25, 0.5), k=seq(1,20, by=0.1)))
+res$pi <- 2^-res$k
+res$sefactor <- with(res, sqrt(pi*(1-pi)) / dnorm(qnorm(pi)))
+res$n <- with(res, (2*sefactor/factor)^2)
+res$factor <- factor(res$factor)
+highres <- res
+res <- highres[highres$k %in%1:20, ]
+qplot(x=k, y=n, data=res, shape=factor, colour=factor, size=I(3.5)) + 
+  theme_bw() + scale_colour_brewer(palette="Set2") + 
+  geom_line(aes(group=factor, colour=factor, linetype=factor), data=highres) +
+  theme(legend.position="bottom") + 
+  scale_y_log10("Number of Observations, n",
+        breaks = trans_breaks("log10", function(x) 10^x),
+        labels = trans_format("log10", math_format(10^.x))) +
+  xlab("Letter Value k")
+@
   \caption{Plot of letter value vs. number of observations (on log-scale) needed for a 2-SD uncertainty of no more than 0.50, 0.25, 0.20 and 0.10 $\sigma$. }
   \label{fig:lv-error} 
 \end{figure}
 
-The different rules provide the user with choices depending on the desired precision in the letter values shown. Our current implementation of the letter-value plot display uses rule 3 as a default.
+The different rules provide the user with choices depending on the desired precision in the letter values shown. Our current implementation of the letter-value plot display uses rule 3 \hh{based on a 95\% confidence level }as a default.
 
 \section{Examples}\label{examples}
-This first example demonstrates the behavior of letter value boxplots in situations with contaminated -- or rather -- heterogenous data.
+This first example demonstrates the behavior of letter value boxplots in situations with contaminated/heterogenous data.
 The plots in Figure \ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $N(0,1)$, we replace values randomly by a set of points sampled  from $N(4,1)$. We start with a contamination of 1\% (of the original sample size $n$) and end at  30\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots for this data.  
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
