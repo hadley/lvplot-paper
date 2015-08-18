@@ -683,7 +683,7 @@ Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect
 \label{sec:summary}
 
 Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data. Like boxplots, they show only actual data values, rather than smoothed values or estimated densities. Letter-value plots convey further information about tail behavior beyond the whiskers. Simple stopping rules that depend on neither the number of points nor on their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: stopping rule 3 ensures that a box for quartiles is drawn only if there are at least 16 data points. This rule is sensible in situations where we are dealing with groups of very different sizes. Additionally, for large data situations, fewer observations will be labeled as as ``outliers'' compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%. 
-Using location depths, introduced by \citet{tukey75}, letter values could be extended to two dimensions, which would allow to include letter-values in  bagplots \citep{bagplots, aplpack}.
+Using location depths, introduced by \citet{tukey75}, letter values could be extended to bivariate situations, which would allow to include letter-values in  bagplots \citep{bagplots, aplpack}.
 
 %%%% KK: 16 data points??? would you trust an eighth in a sample of only n=16?
 %%%% Presumably it should be much more?
