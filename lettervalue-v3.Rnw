@@ -212,7 +212,8 @@ legend( x = 15.5, y= 13.5, legend=1:14, fill=c("grey50", rev(cols)[-1]),
 
   \label{fig:taxi-lv} 
 \end{figure}
-One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure 2 shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap the successive letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Sections~\ref{sec:bivariate} and~\ref{sec:summary}.
+One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure 2 shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap the successive letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~\%ref{sec:bivariate} and~
+\ref{sec:summary}.
 
 Our implementation of letter-value plots is available in the R package, \texttt{lvplot}. The online supplementary material contains all code and data used for the plots in this paper.
 
@@ -490,7 +491,7 @@ SE(LV_i) \approx \sigma \sqrt{p_i \cdot (1 - p_i)/ n} / \phi(\Phi^{-1}(p_i))
 \end{equation}
 where $p_i = 2^{-i}$, $i = 1, ..., \log_2n$, \texttt{SEfactor} =
   $\sqrt{p_i (1-p_i)} / \phi(\Phi^{-1}(p_i))$ and $\phi, \Phi$ are density and distribution of the standard Normal distribution.
-As sample size $n$ increases, we can increase the number of letter values shown while keeping the same standard error. Figure \ref{fig:lv-error} gives an overview of  the situation.
+As sample size $n$ increases, we can increase the number of letter values shown while keeping the same standard error. Figure \ref{fig:lv-error} gives an overview of  the situation. We see that the logarithm of the sample size is approximately linear in the letter value. This rule is very similar to rule (1) when the desired uncertainty in the letter value does not exceed 0.25$\sigma$.
 
 
 
@@ -665,8 +666,7 @@ Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect
 % Figure~\ref{counties-bag} shows a side-by side comparison of a standard bagplot (left, \citet{bagplots}, implemented in \citet{aplpack}) of average temperatures in January by degree latitude of each of 3,068 US counties and a letter-value bagplot on the right.
 % The asymmetry of the bivariate display around the principal axis,
 % and the cluster of points above the upper right edge of the final contour,
-% are much more evident in the letter value bagplot.  (These points
-% correspond to ... ???)
+% are much more evident in the letter value bagplot.All of these points correspond to counties in the northern West of the United States, the state of Washington, some counties in the northern part of Oregon and in the East of Montana.
 % %%% KK: HW or HH: can you identify those points?
 % %%% KK: single sentence should not be a paragraph on its own; add to former.
 % Algorithms for fast computation of bivariate letter values for a bivariate letter-value plot are currently under development.
