@@ -198,11 +198,15 @@ square-root transformations) and far fewer labeled outliers. We will describe th
 
 \begin{figure}[hbtp]
   \centering
-<<fig-taxi-2, dependon='taxi-data', echo=FALSE, fig.width=10, fig.height=5, out.width='\\textwidth', message=FALSE>>=
+<<fig-taxi-2, dependon='taxi-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='\\textwidth', message=FALSE>>=
+par(mar=c(3,3,1,5))
 with(ot, LVboxplot(sqrt(TaxiOut+TaxiIn)~UniqueCarrier, 
                    col=cols, horizontal=FALSE,  xlab="Carrier", 
                    ylab="Square Root of Taxi Time (in minutes)",
                    median.col="grey50"))
+legend( x = 15.5, y= 13.5, legend=1:14, fill=c("grey50", rev(cols)[-1]), 
+              title="LV", xpd=TRUE, x.intersp=0.25)
+
 @
   \caption{Letter-value plots of (sqrt-transformed) taxi time for 478,755 national flights in January 2015 by airline carriers. Colored bands among the grey-shades help to keep track of the same letter value across groups.}
 
