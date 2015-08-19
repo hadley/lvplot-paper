@@ -637,18 +637,27 @@ legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]),
    \centering
 %   \includegraphics[width=.8\linewidth]{carrier-lv} 
 <<carrier-lv, dependson='taxi-data', echo=FALSE, out.width='.8\\linewidth', fig.height=5, fig.width=10, message=FALSE>>=
-par(mar=c(3,4,0,0))
+par(mar=c(3,4,0,5))
 with(ot, LVboxplot(sqrt(CarrierDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Carrier Delay (in minutes)", median.col="grey50"))
+legend( x = 15.25, y= 35, legend=1:11, fill=c("grey50", rev(cols)[-(1:4)]), 
+              title="LV", xpd=TRUE, x.intersp=0.25)
+
 @
 %   \includegraphics[width=.8\linewidth]{nas-lv} 
 <<nas-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
-par(mar=c(3,4,0,0))
+par(mar=c(3,4,0,5))
 with(ot, LVboxplot(sqrt(NASDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of NAS Delay (in minutes)", median.col="grey50"))
+
+legend( x = 15.25, y= 23, legend=1:12, fill=c("grey50", rev(cols)[-(1:3)]), 
+              title="LV", xpd=TRUE, x.intersp=0.25)
 @
 %   \includegraphics[width=.8\linewidth]{weather-lv} 
 <<weather-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
-par(mar=c(3,4,0,0))
+par(mar=c(3,4,0,5))
 with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="grey50"))
+legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey50", rev(cols)[-(1:4)]), 
+              title="LV", xpd=TRUE, x.intersp=0.25)
+
 @
    \caption{Letter value plots of different types of delays by airline carriers: carrier delay (top), NAS delays (middle), and weather related delays (bottom). }
    \label{fig:xpl:delays}
