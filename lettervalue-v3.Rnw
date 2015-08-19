@@ -622,9 +622,12 @@ qplot(data=dframe, factor(k), x, geom="boxplot", group=k) + xlab("Amount of cont
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
 %   \includegraphics[width=.8\linewidth]{xpl-lvplot} 
-<<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5, out.width='0.8\\linewidth'>>=
-par(mar=c(4,2,1,1))
+<<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='0.8\\linewidth'>>=
+par(mar=c(4,2,1,5))
 LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)", ylab="")
+legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]), 
+              title="LV", xpd=TRUE, x.intersp=0.25)
+
 @   
    \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values - indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
    \label{fig:xpl:lvplot}
