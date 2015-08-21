@@ -44,8 +44,9 @@
 \if0\blind
 {
 \title{\bf Letter-value plots: Boxplots for large data}
-  \author{Heike Hofmann\thanks{
-    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+  \author{Heike Hofmann\\
+  %\thanks{
+  %  The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
     Department of Statistics, Iowa State University\\
     and \\
     Hadley Wickham \\
