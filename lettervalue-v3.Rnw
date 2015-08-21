@@ -111,7 +111,7 @@ into the tails.
 For very small number of values, boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.
 
 <<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
-ot <- read.csv("data/On_Time_On_Time_Performance_2015_1.csv.gz")
+ot <- read.csv("code-data/On_Time_On_Time_Performance_2015_1.csv.gz")
 ot$UniqueCarrier <- with(ot, reorder(UniqueCarrier, UniqueCarrier, function(x) -length(x)))
 bycarrier <- ot %>% group_by(UniqueCarrier) %>% summarize(
   n=n(),
@@ -761,6 +761,25 @@ Using location depths, introduced by \citet{tukey75}, letter values could be ext
 %   all letter values using significance level as specified in {\tt alpha}.
 % \item[outliers] list all identified points (outliers in standard boxplot).
 % \end{itemize}
+
+\bigskip
+\begin{center}
+{\large\bf SUPPLEMENTARY MATERIAL}
+\end{center}
+
+\begin{description}
+
+%\item[Title:] Brief description. (file type)
+
+\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. The package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
+
+\item[lettervalue.R:] R code to reproduce all of the figures in the paper. Note that the data has to be stored in a folder called code-data at the same level as the code file. (.R file)
+
+\item[January `15 flights data] Data set detailing on-time performance of national US flights in January 2015. This data is used for figures~\ref{fig:taxi-bp}, \ref{fig:taxi-lv} and~\ref{fig:xpl:delays}; it is provided by the US Department of Transportation and is available for download from \url{http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time}. (GNU zipped csv file)
+
+\item[county data] This data consists of  populations of the 3068 counties in the United States in 1980. (.csv file)
+
+\end{description}
 
 \bibliographystyle{asa}
 \bibliography{references}
