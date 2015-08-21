@@ -1,10 +1,10 @@
 % zip letter-value-plot.zip *.tex *.bib code-data images
-\documentclass[oneside]{article}
-\usepackage{fullpage}
+\documentclass[12pt]{article}
+%\usepackage{fullpage}
 
 \usepackage{hyperref}
 \usepackage{booktabs}
-\usepackage[format=plain,font=small]{caption}
+%\usepackage[format=plain,font=small]{caption}
 \usepackage[small]{titlesec}
 \usepackage[round,sectionbib]{natbib}
 \usepackage{setspace}
@@ -19,22 +19,56 @@
 \graphicspath{{images/}}
 
 \usepackage[table]{xcolor}
-\newcommand{\hh}[1]{{\color{magenta} #1}}
 
-\title{Letter-value plots: Boxplots for large data}
-\author{\begin{tabular}[t]{c c c }
-  Heike Hofmann         & Hadley Wickham        & Karen Kafadar\\
-  Dept of Statistics    &                       & Dept of Statistics \\
-  Iowa State University & RStudio               & University of Virginia  \\
-  Ames, IA              & Houston, TX           & Charlottesville, VA
-\end{tabular}}
+%\pdfminorversion=4
+% NOTE: To produce blinded version, replace "0" with "1" below.
+\newcommand{\blind}{0}
 
-\pdfminorversion=4
+% DON'T change margins - should be 1 inch all around.
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\evensidemargin}{-.5in}%
+\addtolength{\textwidth}{1in}%
+\addtolength{\textheight}{1.3in}%
+\addtolength{\topmargin}{-.8in}%
+
 \begin{document}
-\maketitle
 
+%\bibliographystyle{natbib}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if0\blind
+{
+\title{\bf Letter-value plots: Boxplots for large data}
+  \author{Heike Hofmann\thanks{
+    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+    Department of Statistics, Iowa State University\\
+    and \\
+    Hadley Wickham \\
+    Rstudio\\
+    and \\
+    Karen Kafadar \\
+    Department of Statistics, University of Virginia}
+  \maketitle
+} \fi
+
+\if1\blind
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf  Letter-value plots: Boxplots for large data}
+\end{center}
+  \medskip
+} \fi
+
+\bigskip
 \begin{abstract}
-
   Conventional boxplots \citep{eda} are useful displays for conveying rough
   information about the central 50\% and the extent of data. For small-sized
   data sets ($n < 200$), detailed estimates of tail behavior beyond the
@@ -56,12 +90,16 @@
   (univariate and bivariate) that demonstrate their usefulness, particularly
   for large and, as a side-effect, very small data sets. All graphics are created using R \citep{R2011}, and
   code and data are available in the supplementary materials.
+  \end{abstract}
 
-  \textbf{Key words}: boxplots, quantiles, letter value display,
-  fourths, order statistics, tail area, location depth.
+\noindent%
+{\it Keywords:} order statistics, quantiles, 
+  fourths, tail area, location depth.
 
-\end{abstract}
+\vfill
 
+\newpage
+\spacingset{1.45} % DON'T change the spacing!
 \section{Introduction}
 <<setup, echo=FALSE, cache=FALSE, results='hide', message=FALSE, warning=FALSE>>=
 #' library(devtools)
