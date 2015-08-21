@@ -1,5 +1,5 @@
 % zip letter-value-plot.zip *.tex *.bib code-data images
-\documentclass[12pt,oneside]{article}
+\documentclass[oneside]{article}
 \usepackage{fullpage}
 
 \usepackage{hyperref}
