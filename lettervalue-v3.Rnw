@@ -70,27 +70,9 @@
 
 \bigskip
 \begin{abstract}
-  Conventional boxplots \citep{eda} are useful displays for conveying rough
-  information about the central 50\% and the extent of data. For small-sized
-  data sets ($n < 200$), detailed estimates of tail behavior beyond the
-  quartiles may not be trustworthy, so the information provided by boxplots is
-  appropriately somewhat vague beyond the quartiles, and the expected number
-  of ``outliers'' of size $n$ is often less than 10 \citep{dchbox}. Larger
-  data sets ($n \approx 10,000$--$100,000$) afford more precise estimates of
-  quantiles beyond the quartiles, but conventional boxplots do not show this
-  information about the tails, and, in addition, show large numbers of
-  extreme, but not unexpected, observations.
+Conventional boxplots \citep{eda} are useful displays for conveying rough information about the central 50\% and the extent of data. For small-sized data sets, detailed estimates of tail behavior beyond the quartiles may not be trustworthy, so the information provided by boxplots is appropriately somewhat vague beyond the quartiles, and the expected number of ``outliers" of size $n$ is often less than 10 \citep{dchbox}. Larger data sets afford more precise estimates of quantiles beyond the quartiles; however, conventional boxplots do not show this information about the tails, but instead present large numbers of extreme, though not unexpected, observations.
 
-  The letter-value plot addresses both these shortcomings: (1) it conveys more
-  detailed information in the tails using letter values, but only to the
-  depths where the letter values are reliable estimates of their corresponding
-  quantiles and (2) ``outliers'' are labeled as those observations beyond the
-  most extreme letter value. All features shown on the letter-value plot are
-  actual observations, thus remaining faithful to the principles that governed
-  Tukey's original boxplot. We illustrate letter-value plots on real data
-  (univariate and bivariate) that demonstrate their usefulness, particularly
-  for large and, as a side-effect, very small data sets. All graphics are created using R \citep{R2011}, and
-  code and data are available in the supplementary materials.
+Letter-value plots address both these shortcomings: (1) they convey more detailed information in the tails using letter values, to the depths where the letter values are reliable estimates of their corresponding quantiles and (2) outliers are labeled as those observations beyond the most extreme letter value. All features shown on letter-value plots are actual observations, thus remaining faithful to the principles that governed Tukey's original boxplot. We illustrate letter-value plots on real data that demonstrate their usefulness for large  data sets. All graphics are created using R, code and data are available in the supplementary materials.
   \end{abstract}
 
 \noindent%
