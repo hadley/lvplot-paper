@@ -24,8 +24,8 @@
 \title{Letter-value plots: Boxplots for large data}
 \author{\begin{tabular}[t]{c c c }
   Heike Hofmann         & Hadley Wickham        & Karen Kafadar\\
-  Dept of Statistics    & Dept of Statistics    & Dept of Statistics \\
-  Iowa State University & Rice University       & University of Virginia  \\
+  Dept of Statistics    &                       & Dept of Statistics \\
+  Iowa State University & RStudio               & University of Virginia  \\
   Ames, IA              & Houston, TX           & Charlottesville, VA
 \end{tabular}}
 
