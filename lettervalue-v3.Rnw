@@ -50,7 +50,7 @@
     Department of Statistics, Iowa State University\\
     and \\
     Hadley Wickham \\
-    Rstudio\\
+    RStudio\\
     and \\
     Karen Kafadar \\
     Department of Statistics, University of Virginia}
@@ -70,13 +70,14 @@
 
 \bigskip
 \begin{abstract}
-Conventional boxplots \citep{eda} are useful displays for conveying rough information about the central 50\% and the extent of data. For small-sized data sets, detailed estimates of tail behavior beyond the quartiles may not be trustworthy, so the information provided by boxplots is appropriately somewhat vague beyond the quartiles, and the expected number of ``outliers" of size $n$ is often less than 10 \citep{dchbox}. Larger data sets afford more precise estimates of quantiles beyond the quartiles; however, conventional boxplots do not show this information about the tails, but instead present large numbers of extreme, though not unexpected, observations.
+Conventional boxplots \citep{eda} are useful displays for conveying rough information about the central 50\% and the extent of data. For small-sized data sets, detailed estimates of tail behavior beyond the quartiles may not be trustworthy, so the information provided by boxplots is appropriately somewhat vague beyond the quartiles, and the expected number of ``outliers" %of size $n$
+is often less than 10 \citep{dchbox}. Larger data sets afford more precise estimates of quantiles beyond the quartiles; however, conventional boxplots do not show this information about the tails, but instead present large numbers of extreme, though not unexpected, observations.
 
 Letter-value plots address both these shortcomings: (1) they convey more detailed information in the tails using letter values, to the depths where the letter values are reliable estimates of their corresponding quantiles and (2) outliers are labeled as those observations beyond the most extreme letter value. All features shown on letter-value plots are actual observations, thus remaining faithful to the principles that governed Tukey's original boxplot. We illustrate letter-value plots on real data that demonstrate their usefulness for large  data sets. All graphics are created using R, code and data are available in the supplementary materials.
   \end{abstract}
 
 \noindent%
-{\it Keywords:} order statistics, quantiles, 
+{\it Keywords:} order statistics, quantiles,
   fourths, tail area, location depth.
 
 \vfill
@@ -108,7 +109,7 @@ the sample size and (2) estimates of tail behavior are not displayed, despite
 the fact that larger sample sizes allow more reliable estimates further out
 into the tails.
 
-For very small number of values, boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.
+For very small number of values boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.
 
 <<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
 ot <- read.csv("code-data/On_Time_On_Time_Performance_2015_1.csv.gz")
@@ -378,7 +379,7 @@ Letter-value plots are based on the letter values, with one box for each pair of
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
-Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (top = standard Gaussian, middle = exponential with mean 1, bottom = standard uniform), first using  the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. For both the sample from the $t_2$- and the $t_3$-distribution the difference from a Gaussian distribution is easy to see from the peak around the median in the letter-value plots, which emphasizes the relatively light middle of the distribution compared to the long tails of the $t$-distribution.  
+Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (top = standard Gaussian, middle = exponential with mean 1, bottom = standard uniform), first using  the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. For both the sample from the $t_2$- and the $t_3$-distribution the difference from a Gaussian distribution is easy to see from the peak around the median in the letter-value plots, which emphasizes the relatively light middle of the distribution compared to the long tails of the $t$-distribution.
 
 \begin{figure}[hbtp]
   \centering
