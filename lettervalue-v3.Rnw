@@ -243,7 +243,7 @@ Our implementation of letter-value plots is available in the R package, \texttt{
 \section{Letter values}
 \label{sec:letter-values}
 
-Let $X_{(1)}$, ... $X_{(n)}$ denote the order statistics from a sample of size $n$. Per conventional notation, let $\lfloor y \rfloor$ and $\lceil y \rceil$ denote the largest integer below $y$ and the smallest integer above $y$, respectively. The letter values are  order statistics with specific depths, defined recursively starting with the median:
+Let $X_{(1)}$, ... $X_{(n)}$ denote the order statistics from a sample of size $n$. Per conventional notation, let $\lfloor y \rfloor$ and $\lceil y \rceil$ denote the largest integer not greater than $y$ and the smallest integer not less than $y$, respectively. The letter values are  order statistics with specific depths, defined recursively starting with the median:
 the depth of the median, $d_1$ or $d_M$, of a sample of size $n$ is defined as $d_1 = (1 + n )/2$; the depths of successive letter values (F = fourths, E = eighths, D = sixteenths, C = thirty-seconds, ...) are defined recursively as $d_i = (1 + \lfloor d_{i-1} \rfloor)/2$. We also will use the letter value itself as the subscript to the notation for depth; e.g., both $d_2$ and $d_F$ denote the depth of the fourths.
 
 If the depth is an integer plus $\frac{1}{2}$,  the corresponding letter value is defined as the average of the two adjacent order statistics, $X_{(\lfloor d_i \rfloor)}$ and $X_{(\lceil d_i \rceil)}$ for the lower, and similarly for the upper letter value.
@@ -256,8 +256,8 @@ The ``labeled outlier rule'' for conventional boxplots relies on the fourths bec
 
 The breakdown point of these boxplots is 25\%; i.e., only if 25\% or more of the data values, all located in one of the tails, are contaminated, will the summary statistics and outlier identification change. This high breakdown is one of the valuable features of boxplots. In section~\ref{examples} we see that even though  letter value boxplots  perform differently with highly contaminated data, we gain a different set of valuable features.
 
-The relatively low uncertainty in the fourths as estimates of the quartiles argues for using the fourths in the rule for labeling outliers: the standard deviation of the fourths in a Gaussian population equals roughly $[(0.25 \cdot 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$ = $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for Gaussian samples of size 120~\citep{ha.order}. Estimates of the population quantiles beyond the quartiles, when based on order statistics, are increasingly variable; e.g., for the same $n = 120$ sample, the 2-SD uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.29 \sigma$ and $ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.36 \sigma$, respectively. Table~\ref{tbl:letter-values} shows these factors for the standard error formula, \texttt{SEfactor}, for the first eight letter values, as well as the factor in increase in sample size needed for successive letter values to have the same uncertainty as the fourth.
-For example, the fourths in a sample of size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of size 1.4$\cdot$120 = 168 for the eighth to have this same level of uncertainty.
+The relatively low uncertainty in the fourths as estimates of the quartiles argues for using the fourths in the rule for labeling outliers: the standard deviation of the fourths in a Gaussian population equals roughly $[(0.25 \times 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$ = $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for Gaussian samples of size 120~\citep{ha.order}. Estimates of the population quantiles beyond the quartiles, when based on order statistics, are increasingly variable; e.g., for the same $n = 120$ sample, the 2-SD uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.29 \sigma$ and $ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.36 \sigma$, respectively. Table~\ref{tbl:letter-values} shows these factors for the standard error formula, \texttt{SEfactor}, for the first eight letter values, as well as the factor in increase in sample size needed for successive letter values to have the same uncertainty as the fourth.
+For example, the fourths in a sample of size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of size 1.4$\times$120 = 168 for the eighth to have this same level of uncertainty.
 For small samples, then, restricting attention to estimates of only the population median and quartiles, with some general indication of the tail length beyond the quartiles, is likely to be about all the information that the data can reliably support.
 
 \begin{table}[htpb]
@@ -380,7 +380,7 @@ Letter-value plots are based on the letter values, with one box for each pair of
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
-Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (top = standard Gaussian, middle = exponential with mean 1, bottom = standard uniform), first using  the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. For both the sample from the $t_2$- and the $t_3$-distribution the difference from a Gaussian distribution is easy to see from the peak around the median in the letter-value plots, which emphasizes the relatively light middle of the distribution compared to the long tails of the $t$-distribution.
+Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (left = standard Gaussian, middle = exponential with mean 1, right = standard uniform), first using  the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. For both the sample from the $t_2$- and the $t_3$-distribution the difference from a Gaussian distribution is easy to see from the peak around the median in the letter-value plots, which emphasizes the relatively light middle of the distribution compared to the long tails of the $t$-distribution.
 
 \begin{figure}[hbtp]
   \centering
@@ -493,7 +493,7 @@ k_p = \lfloor \log_2 n \rfloor - \lfloor \log_2 (np) \rfloor.
 This criterion results in the same rule as the previous rule for the samples in Figure~\ref{stackbox} ($n = 10,000$) when $p$ lies between 0.0004 and 0.0007 (0.04--0.07\%), and in Figure~\ref{lvpops} ($n = 3068$) when $p$ lies between 0.0014 and 0.0026 (0.14--0.26\%).
 
 \item[(iii)] {\bf  `Trustworthiness':}
-to assess the ``trustworthiness'' of the $k^{th}$ letter value we interpret the values as an estimate of the corresponding population quantile. We can ``trust''  a given letter value, if  its approximate 95\% confidence does not overlap the subsequent letter value.
+to assess the ``trustworthiness'' of the $k^{th}$ letter value we interpret the values as an estimate of the corresponding population quantile. We can ``trust''  a given letter value, if  its approximate $100(1-\alpha)$\% confidence does not overlap the subsequent letter value.
 This leads to a straightforward rule for $k$ given as (see below for a proof):
 \begin{equation}
 k_{1-\alpha} = \lfloor \log_2 (n) \rfloor - \lfloor \log_2
@@ -523,7 +523,8 @@ As sample size $n$ increases, we can increase the number of letter values shown 
 
 
 \begin{proof} for (iii):
-Consider the upper $k^{th}$ letter value, $LV_k$. We can view this value  as the median between the extreme and the previous letter value, $LV_{k-1}$. An approximate $1-\alpha$ confidence interval for the median of $m$ values (with $m > 10$) as approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on both sides of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution~\citep[p.161]{ha.order}.
+Consider the upper $k^{th}$ letter value, $LV_k$. We can view this value  as the median between the extreme and the previous letter value, $LV_{k-1}$. An approximate $(1-\alpha)$100\% confidence interval for the median of $m$ values (with $m > 10$) contains approximately $0.5 \sqrt{m} z_{1-\alpha/2}$ observations on %both sides
+each side of the sample median (rounding to the nearest integer), where $z_{1-\alpha/2}$ is the ${1-\alpha/2}$ quantile of a standard Gaussian distribution~\citep[p.161]{ha.order}.
 
 The $k$th letter value is approximately the median of $2d_k$ values, its $(1-\alpha)100$\% confidence interval therefore encompasses approximately $0.5 \sqrt{2d_k} z_{1-\alpha/2}$ values on each side.
 
@@ -555,7 +556,8 @@ k_{1-\alpha} = \lfloor \log_2 n \rfloor - \lfloor \log_2 (2 z_{1-\alpha/2}^2) \r
 %
 
 
-\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side).
+\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. \hh{XXXX sample size dependency needs to be re-worded}
+Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side).
 %Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3.
 
 %Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
