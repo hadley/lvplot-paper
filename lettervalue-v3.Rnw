@@ -169,7 +169,7 @@ typically $k = 1.5$.
 
 Despite the name, these outliers may be either (a)
 genuine, but extreme, observations from the same distribution as the bulk of
-the data; or (b) true outliers, observations from a different distribution.
+the data; or (b) true outliers, i.e.\ observations from a different distribution.
 The boxplot tends to display too many outliers, as judged by looking at
 boxplots of Gaussian data. There the expected number of outlier grows
 approximately linearly with $n$,
@@ -194,9 +194,9 @@ that can be reliably estimated to provide more information about the tails.
 %%% KK: the "history" section which HW placed near the end of Sec 1
 %%% seemed better placed here, before we introduce LV plots.
 
-Alternative displays have been proposed to better illustrate tail behavior,
-such as vase~\citep{vase}, violin~\citep{violin}, and box-percentile plots
-\citep{box.percentiles}. These displays provide more detailed information
+Alternative displays have been proposed to illustrate further details of the distribution, such as multi-modality. The overview paper by \citet{wickham:2012} discusses these alternatives, in particular
+ vase~\citep{vase}, violin~\citep{violin},  box-percentile
+\citep{box.percentiles}, and high-density region~\citep{hyndman1996} box plots. These displays provide more detailed information
 about the distributions, through the use of nonparametric density estimates,
 which is especially useful for larger sample sizes. However, as~\citet{vase}
 acknowledged, these displays depend on the specific estimation procedure
@@ -226,8 +226,8 @@ par(mar=c(3,3,1,5))
 with(ot, LVboxplot(sqrt(TaxiOut+TaxiIn)~UniqueCarrier,
                    col=cols, horizontal=FALSE,  xlab="Carrier",
                    ylab="Square Root of Taxi Time (in minutes)",
-                   median.col="grey50"))
-legend( x = 15.5, y= 13.5, legend=1:14, fill=c("grey50", rev(cols)[-1]),
+                   median.col="grey90"))
+legend( x = 15.5, y= 13.5, legend=1:14, fill=c("grey90", rev(cols)[-1]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
@@ -659,24 +659,24 @@ legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]),
 %   \includegraphics[width=.8\linewidth]{carrier-lv}
 <<carrier-lv, dependson='taxi-data', echo=FALSE, out.width='.8\\linewidth', fig.height=5, fig.width=10, message=FALSE>>=
 par(mar=c(3,4,0,5))
-with(ot, LVboxplot(sqrt(CarrierDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Carrier Delay (in minutes)", median.col="grey50"))
-legend( x = 15.25, y= 35, legend=1:11, fill=c("grey50", rev(cols)[-(1:4)]),
+with(ot, LVboxplot(sqrt(CarrierDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Carrier Delay (in minutes)", median.col="grey90"))
+legend( x = 15.25, y= 35, legend=1:11, fill=c("grey90", rev(cols)[-(1:4)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
 %   \includegraphics[width=.8\linewidth]{nas-lv}
 <<nas-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
 par(mar=c(3,4,0,5))
-with(ot, LVboxplot(sqrt(NASDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of NAS Delay (in minutes)", median.col="grey50"))
+with(ot, LVboxplot(sqrt(NASDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of NAS Delay (in minutes)", median.col="grey90"))
 
-legend( x = 15.25, y= 23, legend=1:12, fill=c("grey50", rev(cols)[-(1:3)]),
+legend( x = 15.25, y= 23, legend=1:12, fill=c("grey90", rev(cols)[-(1:3)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 @
 %   \includegraphics[width=.8\linewidth]{weather-lv}
 <<weather-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
 par(mar=c(3,4,0,5))
-with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="grey50"))
-legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey50", rev(cols)[-(1:4)]),
+with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="grey90"))
+legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey90", rev(cols)[-(1:4)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
