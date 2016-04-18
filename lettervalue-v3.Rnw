@@ -31,6 +31,9 @@
 \addtolength{\textheight}{1.3in}%
 \addtolength{\topmargin}{-.8in}%
 
+\newcommand{\hh}[1]{{\color{magenta} #1}}
+
+
 \begin{document}
 
 %\bibliographystyle{natbib}
@@ -112,7 +115,9 @@ into the tails.
 For very small number of values boxplots start to deteriorate -- while it is possible to draw a boxplot based on fewer than five points, the information gained from statistics such as the quartiles is highly suspect.
 
 <<taxi-data, echo=FALSE, cache=TRUE, results='hide'>>=
-ot <- read.csv("code-data/On_Time_On_Time_Performance_2015_1.csv.gz")
+#ot <- read.csv("code-data/On_Time_On_Time_Performance_2015_1.csv.gz")
+data(ontime)
+ot <- ontime
 ot$UniqueCarrier <- with(ot, reorder(UniqueCarrier, UniqueCarrier, function(x) -length(x)))
 bycarrier <- ot %>% group_by(UniqueCarrier) %>% summarize(
   n=n(),
@@ -172,7 +177,7 @@ genuine, but extreme, observations from the same distribution as the bulk of
 the data; or (b) true outliers, i.e.\ observations from a different distribution.
 The boxplot tends to display too many outliers, as judged by looking at
 boxplots of Gaussian data. There the expected number of outlier grows
-approximately linearly with $n$,
+approximately linearly with the number of observations $n$,
 %: the theoretical fourths from a sample of
 %independent Gaussian observations are $\pm 0.6745\sigma$, yielding an
 %interquartile range of 1.35$\sigma$, and inner fences at $\pm (0.675 + 1.5
@@ -180,7 +185,7 @@ approximately linearly with $n$,
 %99.3\% of the distribution,
 %leaving
 with about 0.7\% of the points  labeled as
-outliers (cf.~\citet{dchlv}). The probability of getting at
+outliers \citep[cf.]{dchlv}. The probability of getting at
 least one outlier for Gaussian data exceeds 30\% for samples of size 50,
 and rises to 97\% for samples of size 500~\citep[pg. 1148]{dchbox}. The approach of~\citet{dchbi} (``fixed outside rate'')  labels a fixed
 number of outliers  using a rule based
@@ -215,7 +220,8 @@ sets, and make letter-value plots useful over a much wider range of data
 sizes. Letter-value plots remain true to the spirit of boxplots by displaying
 only actual observations from the sample, and remaining free of tuning
 parameters. Figure~\ref{fig:taxi-lv} shows  a
-letter-value plot of the same taxi in and out times of Figure~\ref{fig:taxi-bp}. The different number of values in each group results in the use of different number of letter values. For better comparison across groups, every fourth letter value box is filled by a contrasting hue. Note the very compact distribution of taxi times for Hawaiian airlines (HA) -- less than 1/128th of the values are larger than 36 minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+letter-value plot of the same taxi in and out times of Figure~\ref{fig:taxi-bp}. The different number of values in each group results in the use of different number of letter values. For better comparison across groups, every fourth letter value box is filled by a contrasting hue.
+%Note the very compact distribution of taxi times for Hawaiian airlines (HA) -- less than 1/128th of the values are larger than 36 minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
 Letter value boxplots are better suited to show the  skewed tails (even with the
 square-root transformations) and far fewer labeled outliers. We will describe these plots in more detail in Section~\ref{sec:lv-boxplots}.
 
@@ -682,13 +688,13 @@ legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey90", rev(cols)[-(1:4)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
-   \caption{Letter value plots of different types of delays by airline carriers: carrier delay (top), NAS delays (middle), and weather related delays (bottom). }
+   \caption{Letter value plots of different types of delays by airline carriers: carrier delay (top), National Air System (NAS) delays (middle), and weather related delays (bottom). }
    \label{fig:xpl:delays}
 \end{figure}
 
 
-The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{nrow(subset(ot, ArrDelay > 15 | DepDelay > 15))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National airport security (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
-Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Airline Security (NAS), as we can see from the letter value boxplots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS, whereas the small carrier Spirit Airlines (NK)  seems to be affected by NAS delays often and long.
+The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{nrow(subset(ot, ArrDelay > 15 | DepDelay > 15))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
+Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter value boxplots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS, whereas the small carrier Spirit Airlines (NK)  seems to be affected by NAS delays often and long.
 Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines), on the other hand, is affected the most by weather delays.
 
 
@@ -775,11 +781,11 @@ Using location depths, introduced by~\citet{tukey75}, letter values could be ext
 
 %\item[Title:] Brief description. (file type)
 
-\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. The package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
+\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. Version 0.1.1 of the package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
 
 \item[lettervalue.R:] R code to reproduce all of the figures in the paper. Note that the data has to be stored in a folder called code-data at the same level as the code file. (.R file)
 
-\item[January `15 flights data] Data set detailing on-time performance of national US flights in January 2015. This data is used for figures~\ref{fig:taxi-bp}, \ref{fig:taxi-lv} and~\ref{fig:xpl:delays}; it is provided by the US Department of Transportation and is available for download from \url{http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time}. (GNU zipped csv file)
+%\item[January `15 flights data] Data set detailing on-time performance of national US flights in January 2015. This data is used for figures~\ref{fig:taxi-bp}, \ref{fig:taxi-lv} and~\ref{fig:xpl:delays}; it is provided by the US Department of Transportation and is available for download from \url{http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time}. (GNU zipped csv file)
 
 \item[county data] This data consists of  populations of the 3068 counties in the United States in 1980. (.csv file)
 
