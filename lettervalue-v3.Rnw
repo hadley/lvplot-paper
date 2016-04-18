@@ -194,7 +194,7 @@ that can be reliably estimated to provide more information about the tails.
 %%% KK: the "history" section which HW placed near the end of Sec 1
 %%% seemed better placed here, before we introduce LV plots.
 
-Alternative displays have been proposed to illustrate further details of the distribution, such as multi-modality. The overview paper by \citet{wickham:2012} discusses these alternatives, in particular
+Alternative displays have been proposed to illustrate further details of the distribution, such as multi-modality. The overview paper by \citet{wickham2012} discusses these alternatives, in particular
  vase~\citep{vase}, violin~\citep{violin},  box-percentile
 \citep{box.percentiles}, and high-density region~\citep{hyndman1996} box plots. These displays provide more detailed information
 about the distributions, through the use of nonparametric density estimates,
