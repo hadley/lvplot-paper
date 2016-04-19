@@ -200,8 +200,8 @@ that can be reliably estimated to provide more information about the tails.
 %%% seemed better placed here, before we introduce LV plots.
 
 Alternative displays have been proposed to illustrate further details of the distribution, such as multi-modality. The overview paper by \citet{wickham2012} discusses these alternatives, in particular
- vase~\citep{vase}, violin~\citep{violin},  box-percentile
-\citep{box.percentiles}, and high-density region~\citep{hyndman1996} box plots. These displays provide more detailed information
+ vase~\citep{vase}, violin~\citep{violin}, bean~\cite{kampstra2008}, box-percentile
+\citep{box.percentiles}, and high-density region~\citep{hyndman1996}  plots. These displays provide more detailed information
 about the distributions, through the use of nonparametric density estimates,
 which is especially useful for larger sample sizes. However, as~\citet{vase}
 acknowledged, these displays depend on the specific estimation procedure
@@ -228,7 +228,7 @@ square-root transformations) and far fewer labeled outliers. We will describe th
 \begin{figure}[hbtp]
   \centering
 <<fig-taxi-2, dependon='taxi-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='\\textwidth', message=FALSE>>=
-par(mar=c(3,3,1,5))
+par(mar=c(3,4,1,5))
 with(ot, LVboxplot(sqrt(TaxiOut+TaxiIn)~UniqueCarrier,
                    col=cols, horizontal=FALSE,  xlab="Carrier",
                    ylab="Square Root of Taxi Time (in minutes)",
@@ -244,7 +244,7 @@ legend( x = 15.5, y= 13.5, legend=1:14, fill=c("grey90", rev(cols)[-1]),
 One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure~\ref{fig:taxi-lv} shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap the successive letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~% \ref{sec:bivariate} and~
 \ref{sec:summary}.
 
-Our implementation of letter-value plots is available in the R package, \texttt{lvplot}. The online supplementary material contains all code and data used for the plots in this paper.
+Our implementation of letter-value plots is available in the R package, \texttt{lvplot}. The package also contains the data sets used here. The online supplementary material contains all code to reproduce the plots in this paper.
 
 \section{Letter values}
 \label{sec:letter-values}
@@ -382,7 +382,10 @@ Letter values are particularly useful for large data sets, because (a) much of t
 \section{Letter-value plots}
 \label{sec:lv-boxplots}
 
-Letter-value plots are based on the letter values, with one box for each pair of lower and upper letter values. The median is shown by a vertical line segment, and the innermost box is drawn at the lower and upper fourths, as in the conventional boxplot. An incrementally narrower box is drawn between the lower and upper eighths, and a still narrower one at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section. Boxes with matching heights (for horizontally drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots.
+Letter-value plots are based on the letter values, with one box for each pair of lower and upper letter values. The median is shown by a vertical line segment, and the innermost box is drawn at the lower and upper fourths, as in the conventional boxplot. An incrementally narrower box is drawn between the lower and upper eighths, and a still narrower one at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section. Boxes with matching heights (for horizontally drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+
+
+
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
@@ -450,7 +453,8 @@ Figure~\ref{lvpops} shows letter-value plots and boxplots for the 1980 populatio
 %  \includegraphics[scale=.5]{counties-lvpop-b.pdf}
 %  \includegraphics[scale=.5]{counties-lvpop-d.pdf}
 <<countypop, echo=FALSE, fig.width=8, fig.height=3.5, out.width='0.9\\linewidth'>>=
-census <- read.csv("code-data/counties.csv")
+#census <- read.csv("code-data/counties.csv")
+data(census)
 
 #pdf("../images/counties-qq.pdf", width = 6, height = 4)
 par(mfrow = c(2,2), mar=c(4.1,.5,2,0.5))#mar = c(4.1, 3, 2, 1))
@@ -604,7 +608,7 @@ The different rules provide the user with choices depending on the desired preci
 
 \section{Examples}\label{examples}
 This first example demonstrates the behavior of letter value boxplots in situations with contaminated/heterogenous data.
-The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $N(0,1)$, we replace values randomly by a set of points sampled  from $N(4,1)$. We start with a contamination of 2\% (of the original sample size $n$) and end at  25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots for this data.
+The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $N(0,1)$, we replace values randomly by a set of points sampled  from $N(4,1)$. We start with a contamination of 1\% (of the original sample size $n$) and end at  25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show a comparison of boxplots versus letter value plots for this data.
 <<simu-data, echo=FALSE, results='hide', cache=TRUE>>=
 frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
 frame$n2 <- with(frame, n1/100*k)
@@ -622,8 +626,11 @@ for (i in 1:10) {
    \centering
 %   \includegraphics[width=.9\linewidth]{xpl-histogram}
 <<sim-hist, dependson='simu-data', echo=FALSE, fig.width=12, fig.height=6, out.width='0.9\\linewidth'>>=
+dframe$klabel <- sprintf("Contamination: %d%%", dframe$k)
+dframe$klabel <- factor(dframe$klabel)
+dframe$klabel <- reorder(dframe$klabel, dframe$k)
 qplot(data=dframe, x, geom="histogram", binwidth=0.25) +
-  facet_wrap(facets=~k, ncol=5) +
+  facet_wrap(facets=~klabel, ncol=5) +
   theme_bw()
 #ggsave("images/xpl-histogram.pdf", width=12, height=6)
 @
@@ -633,9 +640,9 @@ qplot(data=dframe, x, geom="histogram", binwidth=0.25) +
 
 
 
-In the boxplots, we see that up to 5\% of contamination in the upper tail area goes unnoticed in the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. At 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised.
+In the boxplots, we see that up to 5\% of contamination in the upper tail area goes unnoticed in the median and the fourths of the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. At 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised.
 The letter value plots are more sensitive, and thereby are able to give a better summary of the actual underlying distribution.
-With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the  three outmost letter values are shifted upward - indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 25\% contamination, we see that the upper eighth is shifted into the mean of the second mode.
+With 1\% of contamination (that is fifteen additional points from a normal distribution with mean 4), we see that the  three outmost letter values are shifted upward -- indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 25\% contamination, we see that the upper eighth is shifted into the mean of the second mode.
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
 %   \includegraphics[width=.8\linewidth]{xpl-boxplot}
@@ -651,14 +658,14 @@ qplot(data=dframe, factor(k), x, geom="boxplot", group=k) + xlab("Amount of cont
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
 %   \includegraphics[width=.8\linewidth]{xpl-lvplot}
-<<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='0.8\\linewidth'>>=
+<<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='0.8\\linewidth', warning=FALSE>>=
 par(mar=c(4,2,1,5))
-LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)", ylab="")
+LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)", ylab="", width=1.5, width.method="area")
 legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
-   \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values - indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
+   \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values -- indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
    \label{fig:xpl:lvplot}
 \end{figure}
 
@@ -683,8 +690,8 @@ legend( x = 15.25, y= 23, legend=1:12, fill=c("grey90", rev(cols)[-(1:3)]),
 %   \includegraphics[width=.8\linewidth]{weather-lv}
 <<weather-lv, dependson='taxi-data', out.width='.8\\linewidth', echo=FALSE, fig.height=5, fig.width=10, message=FALSE>>=
 par(mar=c(3,4,0,5))
-with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="grey90"))
-legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey90", rev(cols)[-(1:4)]),
+with(ot, LVboxplot(sqrt(WeatherDelay)~UniqueCarrier, col=cols, horizontal=FALSE,  xlab="Carrier", ylab="Square Root of Weather Delay (in minutes)", median.col="black"))
+legend( x = 15.25, y= 24.5, legend=1:11, fill=c("black", rev(cols)[-(1:4)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
 
 @
@@ -693,9 +700,9 @@ legend( x = 15.25, y= 24.5, legend=1:11, fill=c("grey90", rev(cols)[-(1:4)]),
 \end{figure}
 
 
-The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{nrow(subset(ot, ArrDelay > 15 | DepDelay > 15))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA), where the median delay is close to 25=5$^2$ minutes, even though this carrier is one of the smallest, it shows some of the most extreme delays, indicating a potential organizational problem.
-Not surprisingly, all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter value boxplots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS, whereas the small carrier Spirit Airlines (NK)  seems to be affected by NAS delays often and long.
-Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines), on the other hand, is affected the most by weather delays.
+The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{nrow(subset(ot, ArrDelay > 15 | DepDelay > 15))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated,  delays of  less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide. From the letter value boxplots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA) and United Airlines (UA), where the median delay is close to 25=5$^2$ minutes. HA is one of the smallest carriers, yet shows some of the most extreme delays, indicating a potential organizational problem.
+With the exception of Spirit Airlines (NK), all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter value boxplots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS. The small carrier Spirit Airlines (NK)  seems to be affected by NAS delays surprisingly often and long.
+Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines) and Virgin America (VX) on the other hand, are affected the most by weather delays, and United Airlines (UA) has also a particularly long tail, indicating that some of its flights are affected very severely by weather events.
 
 
 % \section{Bivariate letter value plots}
@@ -728,7 +735,7 @@ Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect
 \label{sec:summary}
 
 Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data. Like boxplots, they show only actual data values, rather than smoothed values or estimated densities. Letter-value plots convey further information about tail behavior beyond the whiskers. Simple stopping rules that depend on neither the number of points nor on their distribution, allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: stopping rule 3 ensures that a box for quartiles is drawn only if there are at least 16 data points. This rule is sensible in situations where we are dealing with groups of very different sizes. Additionally, for large data situations, fewer observations will be labeled as as ``outliers'' compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%.
-Using location depths, introduced by~\citet{tukey75}, letter values could be extended to bivariate situations, which would allow to include letter-values in  bagplots~\citep{bagplots, aplpack}.
+Using location depths, introduced by~\citet{tukey75}, letter values could be extended to bivariate situations, which would permit the inclusion of  letter-values in bagplots~\citep{bagplots, aplpack}.
 
 %%%% KK: 16 data points??? would you trust an eighth in a sample of only n=16?
 %%%% Presumably it should be much more?
@@ -781,13 +788,14 @@ Using location depths, introduced by~\citet{tukey75}, letter values could be ext
 
 %\item[Title:] Brief description. (file type)
 
-\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. Version 0.1.1 of the package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
+\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. All datasets used for this paper are also included in the package. Version 0.1.1 of the package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
 
-\item[lettervalue.R:] R code to reproduce all of the figures in the paper. Note that the data has to be stored in a folder called code-data at the same level as the code file. (.R file)
+\item[lettervalue.R:] R code to reproduce all of the figures in the paper. %Note that the data has to be stored in a folder called code-data at the same level as the code file.
+(.R file)
 
 %\item[January `15 flights data] Data set detailing on-time performance of national US flights in January 2015. This data is used for figures~\ref{fig:taxi-bp}, \ref{fig:taxi-lv} and~\ref{fig:xpl:delays}; it is provided by the US Department of Transportation and is available for download from \url{http://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=236&DB_Short_Name=On-Time}. (GNU zipped csv file)
 
-\item[county data] This data consists of  populations of the 3068 counties in the United States in 1980. (.csv file)
+%\item[county data] This data consists of  populations of the 3068 counties in the United States in 1980. (.csv file)
 
 \end{description}
 
