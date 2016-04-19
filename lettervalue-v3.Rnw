@@ -388,7 +388,7 @@ $2^{i+1} \left| LV_{i} - LV_{i+1} \right|$.
 \item[{\tt height}:] the width/height of each box represents the percentage of points in it. This makes the box for letter value $LV_{i+1}$ half as wide/high as the box for letter value $LV_{i}$.
 \end{description}
 
-\hh{XXX needs some more discussion of the width}
+\hh{XXX needs some more discussion of the width XXX}
 
 We draw incrementally narrower boxes between the lower and upper eighths, and a still narrower one at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section. For options (1) and (3) boxes with matching heights (for horizontally drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
 
