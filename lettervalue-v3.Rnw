@@ -4,7 +4,9 @@
 
 \usepackage{hyperref}
 \usepackage{booktabs}
-%\usepackage[format=plain,font=small]{caption}
+\usepackage[font=small,skip=5pt]{caption}
+\usepackage{subcaption}
+
 \usepackage[small]{titlesec}
 \usepackage[round,sectionbib]{natbib}
 \usepackage{setspace}
@@ -131,7 +133,7 @@ bycarrier <- ot %>% group_by(UniqueCarrier) %>% summarize(
 %during the session. See~\citet{kw06} for further details about the data and
 %transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
 %to 7865 (Box \#13), with a median sample size of 4238.
-Figure~ \ref{fig:taxi-bp} illustrates both of the large-data problems. The plot showes (square root) taxi-ing times for \Sexpr{comma(nrow(ot))} US flights in January 2015, broken down carrier. Carriers are ordered by the total number of flights from left (largest) to right (smallest). The largest three carriers, WN (Southwest), DL (Delta), and EV (ExpressJet) show striking differences in the median taxi times: Southwest's median taxi time of \Sexpr{comma(sqrt(bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt))}$^2$ = \Sexpr{bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt} minutes is well below the overall median of \Sexpr{with(ot, median(TaxiIn+TaxiOut, na.rm=T))}, whereas Delta has a median taxi time of 25 minutes, significantly above the overall median.
+Figure~ \ref{fig:taxi-bp} illustrates both of the large-data problems. The plot showes (square root) taxi-ing times for \Sexpr{comma(nrow(ontime))} US flights in January 2015, broken down carrier. Carriers are ordered by the total number of flights from left (largest) to right (smallest). The largest three carriers, WN (Southwest), DL (Delta), and EV (ExpressJet) show striking differences in the median taxi times: Southwest's median taxi time of \Sexpr{comma(sqrt(bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt))}$^2$ = \Sexpr{bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt} minutes is well below the overall median of \Sexpr{with(ot, median(TaxiIn+TaxiOut, na.rm=T))}, whereas Delta has a median taxi time of 25 minutes, significantly above the overall median.
 
 The sample sizes in the fifteen groups vary between \Sexpr{comma(min(bycarrier$n))} flights by VX (Virgin America) and over one million flights by WN (Southwest).
 With so many observations in each group, the number of labeled outliers is huge, far too many to investigate individually, making it difficult to distinguish
@@ -375,32 +377,69 @@ Letter values are particularly useful for large data sets, because (a) much of t
 \section{Letter-value plots}
 \label{sec:lv-boxplots}
 
-Letter-value plots are based on the letter values, with one box for each pair of lower and upper letter values. The median is shown by a vertical line segment, and the innermost box is drawn at the lower and upper fourths, as in the conventional boxplot. An incrementally narrower box is drawn between the lower and upper eighths, and a still narrower one at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section. Boxes with matching widths (for vertically drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+Letter-value plots are based on the letter values,  with one box between each  pair of adjacent letter values.
+The median is shown by a vertical line segment, and two boxes between the median and the upper and lower fourths are drawn as in the conventional boxplot.
+
+Assuming we draw a vertical letter value boxplot, the top and bottom location of the boxes represent letter values. For the width of these boxes, we have several options, all of which are implemented in the parameter options for {\tt width.method} in the package {\tt lvplot}:
+\begin{description}
+\item[{\tt linear}:] starting from a maximal width for the median, the boxes for successive letter values  $LV_i$ are decreased linearly in $i$, with the step size determined by the overall width and the highest letter value shown.
+\item[{\tt area}:] the area of each box represents the percentage of points in it. Because number of observations between letter values $LV_i$ and $LV_{i+1}$ is roughly $1/2^{i+1}$ of the total, the width of the $i$th box (counting from the median out) is inversely proportional to
+$2^{i+1} \left| LV_{i} - LV_{i+1} \right|$.
+\item[{\tt height}:] the width/height of each box represents the percentage of points in it. This makes the box for letter value $LV_{i+1}$ half as wide/high as the box for letter value $LV_{i}$.
+\end{description}
+
+\hh{XXX needs some more discussion of the width}
+
+We draw incrementally narrower boxes between the lower and upper eighths, and a still narrower one at the lower and upper sixteenths. We continue in this fashion until we reach a box that corresponds to a stopping rule described in the following section. For options (1) and (3) boxes with matching heights (for horizontally drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
 Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (left = standard Gaussian, middle = exponential with mean 1, right = standard uniform), first using the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. In the letter-value plots, it is easy to see the difference from a Gaussian distribution for both the $t_2$- and the $t_3$-distributions due to the peak around the median, which emphasizes the relatively light middle of the distribution compared to the long tails.
 
 \begin{figure}[hbtp]
-  \centering
+%  \centering
 %  \includegraphics[width = \linewidth]{boxplots}
-<<boxplots, echo=FALSE, fig.width=6, fig.height=2, out.width='\\linewidth'>>=
+
+<<boxplots-random, echo=FALSE, fig.width=6, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
 #pdf("../images/boxplots.pdf", width = 6, height = 2)
-par(mfrow = c(2,3), mar = c(4.1, 1, 0, 1))
 n <- 10000
 
 rn <- rnorm(n)
 re <- rexp(n)
 ru <- runif(n)
+@
+\begin{subfigure}[t]{\textwidth}
+  \caption{Boxplots of a Gaussian, Exponential, and Uniform sample of size 10,000.}
+<<bp-1, dependson='boxplots-random', echo=FALSE, fig.width=6, fig.height=1, out.width='\\linewidth', warning=FALSE>>=
+par(mfrow = c(1,3), mar = c(4.1, 1, 0, 1))
+
 boxplot(rn, xlab="", horizontal=TRUE)
 boxplot(re, xlab="", horizontal=TRUE)
 boxplot(ru, xlab="", horizontal=TRUE)
-LVboxplot(rn, xlab="Gaussian, n=10,000", horizontal=TRUE, col=cols)
-LVboxplot(re, xlab="Exponential, n=10,000", horizontal=TRUE, col=cols)
-LVboxplot(ru, xlab="Uniform, n=10,000", horizontal=TRUE, col=cols)
 @
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+  \caption{Linearly tapered box heights}
+<<lv-1, dependson='boxplots-random', echo=FALSE, fig.width=6, fig.height=1, out.width='\\linewidth', warning=FALSE>>=
+par(mfrow = c(1,3), mar = c(4.1, 1, 0, 1))
 
-  \caption{Standard boxplots (top row) and letter-value plots (bottom row) for
+LVboxplot(rn, xlab="", horizontal=TRUE, col=cols)
+LVboxplot(re, xlab="", horizontal=TRUE, col=cols)
+LVboxplot(ru, xlab="", horizontal=TRUE, col=cols)
+@
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+  \caption{Area-adjusted box heights}
+<<lv-2, dependson='boxplots-random', echo=FALSE, fig.width=6, fig.height=1, out.width='\\linewidth', warning=FALSE>>=
+par(mfrow = c(1,3), mar = c(4.1, 1, 0, 1))
+LVboxplot(rn, xlab="Gaussian, n=10,000", horizontal=TRUE, col=cols, width.method="area")
+LVboxplot(re, xlab="Exponential, n=10,000", horizontal=TRUE, col=cols, width.method="area")
+LVboxplot(ru, xlab="Uniform, n=10,000", horizontal=TRUE, col=cols, width.method="area")
+@
+\end{subfigure}
+
+\caption{Standard boxplots (top row) and letter-value plots (middle and bottom row)   for
   data from three different distributions. Each plot shows 10,000 data points.
   From left to right, samples come from $\mbox{N}(0,1)$, $\mbox{Exp}(1)$, and
   $\mbox{U}[0,1]$. }
@@ -553,8 +592,9 @@ k_{1-\alpha} = \lfloor \log_2 n \rfloor - \lfloor \log_2 (2 z_{1-\alpha/2}^2) \r
 %
 
 
-\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution. \hh{XXXX sample size dependency needs to be re-worded}
-Neither the overall sample size, nor any distribution-related characteristic such as skewness or kurtosis, affects the rule. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side).
+\noindent The third stopping rule has the obvious advantage that it provides a simple, distribution-free solution.
+The sample size determines the number of letter values to be used, and therefore has only a small effect on the number of outliers. When $\alpha = 0.05$ (95\% point-wise confidence), the rule leads to showing only those letter values whose depths are at least 10 (i.e., labeling 5--8 observations on each side).
+No other distribution-related characteristic such as skewness or kurtosis, affects the rule.
 %Because the first rule is a special case of this third rule, we will consider the use of only stopping rules 2 and 3.
 
 %Note that $k = 7$ when $n$ is between 492 and 983, which corresponds to letter value A (Gaussian tail area 0.78\%). When $n$ is between 984 and 1966, $k = 8$, corresponding to letter value Z (Gaussian tail area 0.39\%), which is very close to the expected percentage of outliers from a Gaussian sample that are labeled by the conventional boxplot rule (Gaussian tail area 0.35\%).
@@ -721,8 +761,8 @@ Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect
 %
 \section{Conclusions}
 \label{sec:summary}
-
 Letter-value plots provide a natural extension of boxplots in situations where we are dealing with large amounts of data. Like boxplots, they show only actual data values, rather than smoothed values or estimated densities. Letter-value plots convey more information about the tail, beyond the whiskers. Simple stopping rules that depend on neither the number of points nor on their distribution allow us to construct reliable plots that are less prone to over-interpretation when dealing with small number of points: stopping rule 3 ensures that a box for quartiles is drawn only if there are at least 16 data points. This rule is sensible in situations where we are dealing with groups of very different sizes. Additionally, for large data situations, fewer observations will be labeled as as ``outliers'' compared to a conventional boxplot, where there is a fixed rate of outliers -- for a normal distribution it is approximately 0.7\%.
+
 Using location depths, introduced by~\citet{tukey75}, letter values could be extended to bivariate situations, which would permit the inclusion of  letter-values in bagplots~\citep{bagplots, aplpack}.
 
 %%%% KK: 16 data points??? would you trust an eighth in a sample of only n=16?
