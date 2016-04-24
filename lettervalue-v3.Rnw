@@ -702,9 +702,9 @@ legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]),
 \begin{subfigure}[t]{\textwidth}
   \caption{Area-adjusted Letter-value boxplots.}
 \centering
-<<sim-xpl-lv-2, dependson='simu-data', echo=FALSE, fig.width=10, fig.height=5.5, out.width='0.8\\linewidth', warning=FALSE>>=
+<<sim-xpl-lv-2, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
 par(mar=c(4,2,0,5))
->>>>>>> discussion of widths
+
 LVboxplot(dframe$x~dframe$k, col=cols, horizontal=FALSE, xlab="Amount of contaminated data (in percent)", ylab="", width=1.5, width.method="area")
 legend( x = 11.25, y= 4.5, legend=1:8, fill=c("black", rev(cols)[-(1:7)]),
               title="LV", xpd=TRUE, x.intersp=0.25)
