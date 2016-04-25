@@ -245,7 +245,7 @@ ggplot(data=ot, aes(x=UniqueCarrier, y=TaxiOut+TaxiIn)) +
   \label{fig:taxi-lv}
 \end{figure}
 
-One consideration for letter value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure~\ref{fig:taxi-lv} shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap with the adjacent letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~\ref{sec:summary}.
+One consideration for letter-value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure~\ref{fig:taxi-lv} shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap with the adjacent letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~\ref{sec:summary}.
 
 Our implementation of letter-value plots is available in the R package, \texttt{lvplot}. The package also contains the data sets used here. The online supplementary material contains all code to reproduce the plots in this paper.
 
@@ -388,20 +388,21 @@ Letter values are particularly useful for large data sets, because (a) much of t
 Letter-value plots are based on the letter values,  with one box between each  pair of adjacent letter values.
 The median is shown by a vertical line segment, and two boxes between the median and the upper and lower fourths are drawn as in the conventional boxplot.
 
-Assuming we draw a vertical letter value boxplot, the top and bottom location of the boxes represent letter values. For the width of these boxes, we have several options, all of which are implemented in the parameter options for {\tt width.method} in the package {\tt lvplot}:
+Assuming we draw a vertical letter-value plot, the top and bottom positions are given by the letter values. For the width of these boxes, we have three options:
 
-For the width of these boxes, we have several options, all of which are implemented as options for parameter {\tt width.method} in the package {\tt lvplot}:
 \begin{description}
-\item[{\tt linear}:] the width of each box is inversely proportional to the letter value it represents, i.e.\ starting with the fourths, each successive box is one step narrower than the previous box, where the step size depends on the overall width of the plot and the deepest letter value shown.
-\item[{\tt area}:] the area of each box represents the percentage of points in it. Because number of observations between letter values $LV_i$ and $LV_{i+1}$ is roughly $1/2^{i+1}$ of the total, the width of the $i$th box (counting from the median out) is inversely proportional to
+\item[{\tt linear}:] make the width of each box inversely proportional to the letter value it represents, i.e.\ starting with the fourths, each successive box is one step narrower than the previous box, where the step size depends on the overall width of the plot and the deepest letter value shown.
+
+\item[{\tt area}:] make the \emph{area} of each box proportion to the number of points in it. Because number of observations between letter values $LV_i$ and $LV_{i+1}$ is roughly $1/2^{i+1}$ of the total, the width of the $i$th box (counting from the median out) is inversely proportional to
 $2^{i+1} \left| LV_{i} - LV_{i+1} \right|$.
-\item[{\tt height}:] the width of each box (or height for horizontal LV boxplots) is drawn according to the percentage of values the box represents, i.e.\ the box of the $i$th letter value has a (relative) width of $2^{-i}$.
+
+\item[{\tt height}:] make the \emph{width} of each box proportional to the number of points in it, i.e.\ the box of the $i$th letter value has a (relative) width of $2^{-i}$.
 \end{description}
 
-
 Area-adjusted widths ensure that the overall area is close to one, or more precisely, if $k$ letter values are shown, the overall area will be proportional to $1-2^{-(k+1)}$. This makes an area-adjusted letter value boxplot a representation of the variable's density. Side-by-side versions of these plots show conditional densities, i.e\ while they do not explicitly contain the number of values (sample size is shown indirectly by the number of letter values chosen), the boxes of corresponding letter values have the same size.
-For options (1) and (3)
-boxes with matching heights (for horizontally drawn plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density. The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
+For options (1) and (3) boxes with matching heights (for horizontal plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density.
+
+The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
@@ -547,7 +548,7 @@ we can choose the extent of the letter-value plot display so that the last set o
 k = \lfloor \log_2 n \rfloor - 2.
 \end{equation}
 %
-Note that for small sample sizes    the letter value plot simplifies under this rule to a dotplot ($n < 8$) or a dotplot with a median ($8 \le n < 16$).
+Note that for small sample sizes the letter-value plot simplifies under this rule to a dotplot ($n < 8$) or a dotplot with a median ($8 \le n < 16$).
 
 \noindent Tukey identified 5--8 extreme points  in many of the displays in \textit{Exploratory Data Analysis}.
 %, since
@@ -747,7 +748,7 @@ ggplot(data=dframe, aes(x=factor(k), y=x)) + geom_lv(aes(fill=..LV..)) + scale_f
 ggplot(data=dframe, aes(x=factor(k), y=x)) + geom_lv(aes(fill=..LV..), width.method="area", width=2) + scale_fill_lv() + xlab("Amount of contaminated data (in percent)") + ylab("") + theme_bw()
 @
 \end{subfigure}
-   \caption{Letter value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values -- indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing pinpointing as to where the source of the contamination sits.}
+   \caption{Letter-value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values -- indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing one to pinpoint the source of the contamination.}
    \label{fig:xpl:lvplot}
 \end{figure}
 
