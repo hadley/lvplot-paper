@@ -75,8 +75,7 @@
 
 \bigskip
 \begin{abstract}
-Conventional boxplots~\citep{eda} are useful displays for conveying rough information about the central 50\% and the extent of data. For small-sized data sets, detailed estimates of tail behavior beyond the quartiles may not be trustworthy, so the information provided by boxplots is appropriately somewhat vague beyond the quartiles, and the expected number of ``outliers" %of size $n$
-is often less than 10~\citep{dchbox}. Larger data sets afford more precise estimates of quantiles beyond the quartiles; however, conventional boxplots do not show this information about the tails, but instead present large numbers of extreme, though not unexpected, observations.
+Conventional boxplots~\citep{eda} are useful displays for conveying rough information about the central 50\% and the extent of data. For small-sized data sets, detailed estimates of tail behavior beyond the quartiles may not be trustworthy, so the information provided by boxplots is appropriately somewhat vague, and the expected number of ``outliers" is often less than 10~\citep{dchbox}. Larger data sets afford more precise estimates of quantiles beyond the quartiles; but boxplots do not show this information about the tails, instead presenting large numbers of extreme, though not unexpected, observations.
 
 Letter-value plots address both these shortcomings: (1) they convey more detailed information in the tails using "letter values", extending to the depth where the letter values are no longer reliable estimates of the corresponding quantiles, and (2) outliers are labeled as those observations beyond the most extreme letter value. All features shown on letter-value plots are actual observations, thus remaining faithful to the principles that governed Tukey's original boxplot. We illustrate letter-value plots on real data that demonstrate their usefulness for large  data sets. All graphics are created using R, code and data are available in the supplementary materials.
   \end{abstract}
@@ -263,7 +262,7 @@ Because each depth is roughly half the previous depth, the letter values approxi
 
 The ``labeled outlier rule'' for conventional boxplots relies on the fourths because the rule is then ``unlikely to be adversely affected by extreme observations'' and ``to minimize the difficulties of masking''~\citep[pg. 992]{dchbox}.
 
-The breakdown point of these boxplots is 25\%; i.e., only if 25\% or more of the data values, all located in one of the tails, are contaminated, will the summary statistics and outlier identification change. This high breakdown is one of the valuable features of boxplots. In section~\ref{examples} we see that even though letter value boxplots perform differently with highly contaminated data, we still gain a set of valuable features.
+The breakdown point of these boxplots is 25\%; i.e., only if 25\% or more of the data values, all located in one of the tails, are contaminated, will the summary statistics and outlier identification change. This high breakdown is one of the valuable features of boxplots. In section~\ref{examples} we see that even though letter-value plots perform differently with highly contaminated data, we still gain a set of valuable features.
 
 The relatively low uncertainty in the fourths as estimates of the quartiles argues for using the fourths in the rule for labeling outliers: the standard deviation of the fourths in a Gaussian population equals roughly $[(0.25 \times 0.75) / (n \phi(\Phi^{-1}(0.25)))]^{1/2} \sigma$ = $1.362 \sigma / \sqrt{n}$ or a 2-SD uncertainty of roughly 0.25$\sigma$ for Gaussian samples of size 120~\citep{ha.order}. Estimates of the population quantiles beyond the quartiles, when based on order statistics, are increasingly variable; e.g., for the same $n = 120$ sample, the 2-SD uncertainty in the eighths (depth = 13) and sixteenths (depth = 7) is approximately $ 2 \times 1.607 \sigma / \sqrt{n}$ = $0.29 \sigma$ and $ 2 \times 1.968 \sigma / \sqrt{n}$ = $0.36 \sigma$, respectively. Table~\ref{tbl:letter-values} shows these factors for the standard error formula, \texttt{SEfactor}, for the first eight letter values, as well as the relative increase in sample size needed for successive letter values to have the same uncertainty as the fourth.
 For example, the fourths in a sample of size 120 have a 2-SD uncertainty of 0.25$\sigma$; we would need a sample of size 1.4$\times$120 = 168 for the eighth to have this same level of uncertainty.
@@ -399,7 +398,7 @@ $2^{i+1} \left| LV_{i} - LV_{i+1} \right|$.
 \item[{\tt height}:] make the \emph{width} of each box proportional to the number of points in it, i.e.\ the box of the $i$th letter value has a (relative) width of $2^{-i}$.
 \end{description}
 
-Area-adjusted widths ensure that the overall area is close to one, or more precisely, if $k$ letter values are shown, the overall area will be proportional to $1-2^{-(k+1)}$. This makes an area-adjusted letter value boxplot a representation of the variable's density. Side-by-side versions of these plots show conditional densities, i.e\ while they do not explicitly contain the number of values (sample size is shown indirectly by the number of letter values chosen), the boxes of corresponding letter values have the same size.
+Area-adjusted widths ensure that the overall area is close to one, or more precisely, if $k$ letter values are shown, the overall area will be proportional to $1-2^{-(k+1)}$. This makes an area-adjusted letter-value plot a representation of the variable's density. Side-by-side versions of these plots show conditional densities, i.e\ while they do not explicitly contain the number of values (sample size is shown indirectly by the number of letter values chosen), the boxes of corresponding letter values have the same size.
 For options (1) and (3) boxes with matching heights (for horizontal plots) correspond to the same depths. We also shade more heavily the innermost boxes, to indicate a higher data density.
 
 The use of color stripes, as shown in Figure~\ref{fig:taxi-lv} also helps with identifying corresponding boxes across different plots. Note for example the very compact distribution of taxi times for Hawaiian airlines (HA) -- the top of the second red band above the median indicates the seventh letter value located at about 6.5. Therefore only $2^{-7} = 1/128$th of the values (or 0.8\%) are larger than $6.5^2  \approx 42$ minutes. The only airline carrier that comes close to that performance is Southwest (WN), which also exhibits a much longer tail area.
@@ -670,7 +669,7 @@ qplot(x=k, y=n, data=res, shape=factor, colour=factor, size=I(3.5)) +
 The different rules provide the user with choices depending on the desired precision of the displayed letter values. Our implementation defaults to rule 3 based on a 95\% confidence level.
 
 \section{Examples}\label{examples}
-This first example demonstrates the behavior of letter value boxplots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show boxplots versus letter-value plots for this data.
+This first example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation:  starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show boxplots versus letter-value plots for this data.
 
 <<simu-data, echo=FALSE, results='hide', cache=TRUE>>=
 frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
@@ -720,7 +719,7 @@ qplot(data=dframe, factor(k), x, geom="boxplot", group=k) + xlab("Amount of cont
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
 \begin{subfigure}[t]{\textwidth}
-  \caption{Letter-value boxplots with increasing amount of contamination.}
+  \caption{Letter-value plots with increasing amount of contamination.}
    \centering
 %   \includegraphics[width=.8\linewidth]{xpl-lvplot}
 <<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
@@ -736,7 +735,7 @@ ggplot(data=dframe, aes(x=factor(k), y=x)) + geom_lv(aes(fill=..LV..)) + scale_f
 \vspace{0.1in}\hfill\newline
 %
 \begin{subfigure}[t]{\textwidth}
-  \caption{Area-adjusted Letter-value boxplots.}
+  \caption{Area-adjusted Letter-value plots.}
 \centering
 <<sim-xpl-lv-2, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
 # par(mar=c(4,2,0,5))
@@ -804,10 +803,10 @@ ggplot(data=ot, aes(y=WeatherDelay, x = UniqueCarrier)) +
 \end{figure}
 
 
-The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{comma(nrow(subset(ot, ArrDelay > 15 | DepDelay > 15)))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated, delays of less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter value boxplots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide.
+The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{comma(nrow(subset(ot, ArrDelay > 15 | DepDelay > 15)))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated, delays of less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter-value plots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide.
 
-From the letter value boxplots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA) and United Airlines (UA), where the median delay is close to 25=5$^2$ minutes. HA is one of the smallest carriers, yet shows some of the most extreme delays, indicating a potential organizational problem.
-With the exception of Spirit Airlines (NK), all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter value boxplots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS. The small carrier Spirit Airlines (NK)  seems to be affected by NAS delays surprisingly often and long.
+From the letter-value plots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA) and United Airlines (UA), where the median delay is close to 25=5$^2$ minutes. HA is one of the smallest carriers, yet shows some of the most extreme delays, indicating a potential organizational problem.
+With the exception of Spirit Airlines (NK), all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter-value plots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS. The small carrier Spirit Airlines (NK)  seems to be affected by NAS delays surprisingly often and long.
 Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines) and Virgin America (VX) on the other hand, are affected the most by weather delays, and United Airlines (UA) has also a particularly long tail, indicating that some of its flights are affected very severely by weather events.
 
 
