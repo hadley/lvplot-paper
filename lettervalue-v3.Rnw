@@ -394,12 +394,12 @@ Letter values are particularly useful for large data sets, because (a) much of t
 Letter-value plots are based on the letter values, with a line displaying the median, and one box for each pair of adjacent letter values. Assuming we draw a vertical letter-value plot, the height of a box is fixed by the letter values, but we have three options for the width:
 
 \begin{description}
-\item[{\tt linear}:] make the width of each box inversely proportional to the letter value it represents, i.e.\ starting with the fourths, each successive box is one step narrower than the previous box, where the step size depends on the overall width of the plot and the deepest letter value shown.
+\item[1. {\tt linear}:] make the width of each box inversely proportional to the letter value it represents, i.e.\ starting with the fourths, each successive box is one step narrower than the previous box, where the step size depends on the overall width of the plot and the deepest letter value shown.
 
-\item[{\tt area}:] make the \emph{area} of each box proportion to the number of points in it. Because number of observations between letter values $LV_i$ and $LV_{i+1}$ is roughly $1/2^{i+1}$ of the total, the width of the $i$th box (counting from the median out) is inversely proportional to
+\item[2. {\tt area}:] make the \emph{area} of each box proportion to the number of points in it. Because number of observations between letter values $LV_i$ and $LV_{i+1}$ is roughly $1/2^{i+1}$ of the total, the width of the $i$th box (counting from the median out) is inversely proportional to
 $2^{i+1} \left| LV_{i} - LV_{i+1} \right|$.
 
-\item[{\tt height}:] make the \emph{width} of each box proportional to the number of points in it, i.e.\ the box of the $i$th letter value has a (relative) width of $2^{-i}$.
+\item[3. {\tt height}:] make the \emph{width} of each box proportional to the number of points in it, i.e.\ the box of the $i$th letter value has a (relative) width of $2^{-i}$.
 \end{description}
 
 Area-adjusted widths ensure that the overall area is close to one, or more precisely, if $k$ letter values are shown, the overall area will be proportional to $1-2^{-(k+1)}$. This makes an area-adjusted letter-value plot a representation of the variable's density. Side-by-side versions of these plots show conditional densities, i.e\ while they do not explicitly contain the number of values (sample size is shown indirectly by the number of letter values chosen), the boxes of corresponding letter values have the same size. For options (1) and (3) boxes with matching heights (for horizontal plots) correspond to the same depths.
