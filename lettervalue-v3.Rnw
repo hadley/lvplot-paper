@@ -106,8 +106,8 @@ comma <- function(x) format(x, big.mark = ",", digits = 2)
 
 set.seed(14101979)
 
-lv_horiz <- function(x, xlab = "", ...) {
-  LVboxplot(x, xlab = xlab, horizontal = TRUE, col = cols)
+lv_horiz <- function(x, xlab = "", width.method="linear", ...) {
+  LVboxplot(x, xlab = xlab, horizontal = TRUE, col = cols, width.method=width.method)
 }
 bp_horiz <- function(x, xlab = "", ...) {
   bcp <- boxplot.stats(x)
