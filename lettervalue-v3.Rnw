@@ -98,16 +98,22 @@ library(dplyr)
 library(ggplot2)
 library(scales)
 
-cols <- c("white",brewer.pal(9, "Greys"), "Red", "Pink")
-reds <- brewer.pal(5, "Reds")[-1]
-cols <- c(cols[1:3], reds[1], cols[4:6], reds[2], cols[7:9], reds[3], cols[10:11])
+greys <- rev(RColorBrewer::brewer.pal(9, "Greys"))
+oranges <- RColorBrewer::brewer.pal(3, "Oranges")
+colors <- c("white", greys[2:4], oranges[3], greys[4:6], oranges[2],
+      greys[6:8], oranges[1], greys[8:9])
+
+#cols <- c("white",brewer.pal(9, "Greys"), "Red", "Pink")
+#reds <- brewer.pal(5, "Reds")[-1]
+#cols <- c(cols[1:3], reds[1], cols[4:6], reds[2], cols[7:9], reds[3], cols[10:11])
+cols <- colors
 
 comma <- function(x) format(x, big.mark = ",", digits = 2)
 
 set.seed(14101979)
 
-lv_horiz <- function(x, xlab = "", width.method="linear", ...) {
-  LVboxplot(x, xlab = xlab, horizontal = TRUE, col = cols, width.method=width.method)
+lv_horiz <- function(x, xlab = "", width.method="linear", median.col="white", ...) {
+  LVboxplot(x, xlab = xlab, horizontal = TRUE, col = cols, width.method=width.method, median.col = median.col)
 }
 bp_horiz <- function(x, xlab = "", ...) {
   bcp <- boxplot.stats(x)
@@ -174,7 +180,7 @@ ggplot(ontime, aes(UniqueCarrier, TaxiOut + TaxiIn)) +
   ylab("Taxi Time (in minutes)") +
   theme_bw()
 @
-  \caption{Boxplots of (sqrt-transformed) taxi in and out times grouped by
+  \caption{Boxplots of square root-transformed taxi in and out times grouped by
   airline carrier for flights in January 2015. Airline carriers are ordered
   left to right in decreasing number of flights served.}
 
@@ -265,7 +271,7 @@ ggplot(ontime, aes(UniqueCarrier, TaxiOut + TaxiIn)) +
   \label{fig:taxi-lv}
 \end{figure}
 
-One consideration for letter-value plots involves the number of letter values to display (i.e., when to stop displaying letter values and start showing individual observations). Figure~\ref{fig:taxi-lv} shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap with the adjacent letter values. This varies based on the size of the group, so different carriers show different letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~\ref{sec:summary}.
+One consideration for letter-value plots involves the number of letter values to display, i.e.\ when to stop displaying letter values and start showing individual observations. Figure~\ref{fig:taxi-lv} shows only those letter values whose approximate ``95\% confidence intervals'' do not overlap with the adjacent letter values. This varies based on the size of the group, so different carriers show different letter values. Section~\ref{sec:extent} discusses three other rules to select the letter values based on the sample size. Some proposals for multivariate data and final discussion appears in Section~\ref{sec:summary}.
 
 Our implementation of letter-value plots is available in the R package, \texttt{lvplot}. The package also contains the data sets used here. The online supplementary material contains all code to reproduce the plots in this paper.
 
