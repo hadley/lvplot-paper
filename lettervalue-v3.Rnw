@@ -408,8 +408,7 @@ The box colors are chosen to aid comparison across groups. The innermost boxes a
 
 Beyond the most extreme box, all observations are identified individually. With this definition, the expected proportion of the outliers (roughly $1/2^i$) equals the expected proportion between this end and the end of the next bigger box (i.e., roughly $1/2^{i-1} - 1/2^i$ = $(1/2^{i-1})(1 - 2^{-1})$ = $1 / 2^i$). When the depth, $d_i$, reaches 1, the letter values are the extremes (minimum and maximum).
 
-Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (left = standard Gaussian, middle = exponential with mean 1, right = standard uniform), first using the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails. This phenomenon is shown more forcefully in Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. In the letter-value plots, it is easy to see the difference from a Gaussian distribution for both the $t_2$- and the $t_3$-distributions due to the peak around the median, which emphasizes the relatively light middle of the distribution compared to the long tails.
-
+Letter-value plots for three different distributions are shown in Figure~\ref{stackbox}. Each panel displays a sample of 10,000 data points (left = standard Gaussian, middle = exponential with mean 1, right = standard uniform), first using the conventional boxplot (top row) and then with the proposed letter-value plot up to letter Y, corresponding roughly to tail area $2^{-9}$ = 1/512 (bottom row). Comparing the left (Gaussian) and right (Uniform) letter-value plot, overall \textit{more heavily shaded} displays correspond to distributions with \textit{lighter} tails.
 \begin{figure}[hbtp]
 %  \centering
 %  \includegraphics[width = \linewidth]{boxplots}
@@ -458,52 +457,6 @@ lv_horiz(ru, xlab = "Uniform, n=10,000", width.method = "area")
   \label{stackbox}
 \end{figure}
 
-\begin{figure}[hbtp]
-  \centering
-%  \includegraphics[width = \linewidth]{t-dist}
-<<t-dist, echo=FALSE, fig.width=6, fig.height=2, out.width='\\linewidth'>>=
-par(mfrow = c(2,3), mar = c(4.1, 1, 0, 1))
-n <- 10000
-t2 <- rt(n, df = 2)
-t3 <- rt(n, df = 3)
-t9 <- rt(n, df = 9)
-
-bp_horiz(t2)
-bp_horiz(t3)
-bp_horiz(t9)
-lv_horiz(t2, "t distribution, df=2, n=10,000")
-lv_horiz(t3, "t distribution, df=3, n=10,000")
-lv_horiz(t9, "t distribution, df=9, n=10,000")
-@
-  \caption{Letter-value plots and standard boxplots for samples of 10,000
-  for $t$ distributions on 2, 3, 9 degrees of freedom. Top row:  Conventional boxplots. Bottom row: Letter-value plots. }
-  \label{t-dist}
-\end{figure}
-
-Figure~\ref{lvpops} shows letter-value plots and boxplots for the 1980 populations and log populations of the 3068 counties in the United States. While the skewness in the distribution of the populations is evident from both the letter-value plot and the conventional boxplot, the former shows more clearly that the right tail of the log populations above the median is somewhat more extended than the left tail below the median (i.e., the boxes to the right of the median are slightly longer than those to the left of the median).
-
-\begin{figure}[hbtp]
-  \centering
-%  \includegraphics[scale=.5]{counties-lvpop-a.pdf}
-%  \includegraphics[scale=.5]{counties-lvpop-c.pdf}
-%  \includegraphics[scale=.5]{counties-lvpop-b.pdf}
-%  \includegraphics[scale=.5]{counties-lvpop-d.pdf}
-<<countypop, echo=FALSE, fig.width=8, fig.height=3.5, out.width='0.9\\linewidth'>>=
-
-#pdf("../images/counties-qq.pdf", width = 6, height = 4)
-par(mfrow = c(2,2), mar = c(4.1,.5,2,0.5))#mar = c(4.1, 3, 2, 1))
-
-bp_horiz(census$totalpop / 1e6, "total population (millions)")
-bp_horiz(log(census$totalpop), "(log) total population")
-
-lv_horiz(census$totalpop  / 1e6, "total population (millions)")
-lv_horiz(log(census$totalpop), "(log) total population")
-@
-  \caption{Letter-value plots and standard boxplots for the 1980
-  populations and log populations of 3068 counties in the continental United
-  States.}
-  \label{lvpops}
-\end{figure}
 
 \section{How far out? --- Stopping rules}
 \label{sec:extent}
@@ -644,10 +597,63 @@ ggplot(res, aes(k, n, colour = factor)) +
 The different rules provide the user with choices depending on the desired precision of the displayed letter values. Our implementation defaults to rule 3 based on a 95\% confidence level.
 
 \section{Examples}\label{examples}
+\subsection{Heavy-tailed distributions and populations}
+This first example highlights the behavior of letter-value plots in data and distributions with heavy tails.
+%This phenomenon is shown more forcefully in
+Figure~\ref{t-dist} which shows three decreasingly heavy-tailed $t$ distributions with 2, 3, and 9 degrees of freedom. In the letter-value plots, it is easy to see the difference from a Gaussian distribution for both the $t_2$- and the $t_3$-distributions due to the peak around the median, which emphasizes the relatively light middle of the distribution compared to the long tails.
+
+\begin{figure}[hbtp]
+  \centering
+%  \includegraphics[width = \linewidth]{t-dist}
+<<t-dist, echo=FALSE, fig.width=6, fig.height=2, out.width='\\linewidth'>>=
+par(mfrow = c(2,3), mar = c(4.1, 1, 0, 1))
+n <- 10000
+t2 <- rt(n, df = 2)
+t3 <- rt(n, df = 3)
+t9 <- rt(n, df = 9)
+
+bp_horiz(t2)
+bp_horiz(t3)
+bp_horiz(t9)
+lv_horiz(t2, "t distribution, df=2, n=10,000")
+lv_horiz(t3, "t distribution, df=3, n=10,000")
+lv_horiz(t9, "t distribution, df=9, n=10,000")
+@
+  \caption{Letter-value plots and standard boxplots for samples of 10,000
+  for $t$ distributions on 2, 3, 9 degrees of freedom. Top row:  Conventional boxplots. Bottom row: Letter-value plots. }
+  \label{t-dist}
+\end{figure}
+
+Figure~\ref{lvpops} shows letter-value plots and boxplots for the 1980 populations and log populations of the 3068 counties in the United States. While the skewness in the distribution of the populations is evident from both the letter-value plot and the conventional boxplot, the former shows more clearly that the right tail of the log populations above the median is somewhat more extended than the left tail below the median (i.e., the boxes to the right of the median are slightly longer than those to the left of the median).
+
+\begin{figure}[hbtp]
+  \centering
+%  \includegraphics[scale=.5]{counties-lvpop-a.pdf}
+%  \includegraphics[scale=.5]{counties-lvpop-c.pdf}
+%  \includegraphics[scale=.5]{counties-lvpop-b.pdf}
+%  \includegraphics[scale=.5]{counties-lvpop-d.pdf}
+<<countypop, echo=FALSE, fig.width=8, fig.height=3.5, out.width='0.9\\linewidth'>>=
+
+#pdf("../images/counties-qq.pdf", width = 6, height = 4)
+par(mfrow = c(2,2), mar = c(4.1,.5,2,0.5))#mar = c(4.1, 3, 2, 1))
+
+bp_horiz(census$totalpop / 1e6, "total population (millions)")
+bp_horiz(log(census$totalpop), "(log) total population")
+
+lv_horiz(census$totalpop  / 1e6, "total population (millions)")
+lv_horiz(log(census$totalpop), "(log) total population")
+@
+  \caption{Letter-value plots and standard boxplots for the 1980
+  populations and log populations of 3068 counties in the continental United
+  States.}
+  \label{lvpops}
+\end{figure}
+
+
 
 \subsection{Contaminated data}
 
-This first example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:contaminated} show boxplots and letter-value plots for this data.
+The second example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:contaminated} show boxplots and letter-value plots for this data.
 
 <<simu-data, echo=FALSE, results='hide', cache=TRUE>>=
 frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
@@ -687,7 +693,7 @@ In the area-adjusted letter-value plots of Figure~\ref{fig:xpl:lvplot:area} the 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
 \begin{subfigure}[t]{\textwidth}
 \caption{\label{fig:xpl:boxplot} Boxplots of contaminated data. Boxplots are robust towards contamination of less than 25\%.}
-<<sim-xpl-box, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='.9\\linewidth'>>=
+<<sim-xpl-box, dependson='simu-data', echo=FALSE, fig.width=8.8, fig.height=3.3, out.width='.9\\linewidth'>>=
 ggplot(dframe, aes(factor(k), x)) +
   geom_boxplot() +
   xlab("Amount of contaminated data (in percent)") +
@@ -763,7 +769,7 @@ ggplot(ontime, aes(UniqueCarrier, WeatherDelay)) +
 
 \subsection{Zero-inflated data}
 
-The second example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{comma(nrow(subset(ontime, ArrDelay > 15 | DepDelay > 15)))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated, delays of less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter-value plots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide.
+The third example shows again an aspect of flight data: Figure~\ref{fig:xpl:delays} displays all \Sexpr{comma(nrow(subset(ontime, ArrDelay > 15 | DepDelay > 15)))} delayed flights in January 2015. As soon as a flight is delayed, FAA guidelines require airline carriers to report a reason for the delay. The three most common reasons for delays are inclement weather, carrier delays, and National Air System (NAS). While the different sources of delay have to be stated, delays of less than 15 minutes can be reported as zero, leading to highly zero-inflated  distributions for these types of delays. Zero-inflations lead to letter-value plots that are seemingly `cut off' -- indicating that a lot of the lower letter values coincide.
 
 From the letter-value plots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA) and United Airlines (UA), where the median delay is close to 25=5$^2$ minutes. HA is one of the smallest carriers, yet shows some of the most extreme delays, indicating a potential organizational problem.
 With the exception of Spirit Airlines (NK), all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter-value plots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS. The small carrier Spirit Airlines (NK)  seems to be affected by NAS delays surprisingly often and long.
