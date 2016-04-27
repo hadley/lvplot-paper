@@ -647,7 +647,7 @@ The different rules provide the user with choices depending on the desired preci
 
 \subsection{Contaminated data}
 
-This first example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:boxplot} and \ref{fig:xpl:lvplot} show boxplots versus letter-value plots for this data.
+This first example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:contaminated} show boxplots and letter-value plots for this data.
 
 <<simu-data, echo=FALSE, results='hide', cache=TRUE>>=
 frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
@@ -679,15 +679,15 @@ qplot(data=dframe, x, geom="histogram", binwidth=0.25) +
 \end{figure}
 
 
-In the boxplots, we see that up to 5\% of contamination in the upper tail area goes unnoticed in the median and the fourths of the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. At 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised.
-The letter-value plots are more sensitive, and thereby are able to give a better summary of the actual underlying distribution.
-With 1\% of contamination (i.e. 15 additional points from $\mbox{N}(4, 1)$), we see that the three outmost letter values are shifted upward -- indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 25\% contamination, we see that the upper eighth is shifted into the mean of the second mode.
-
+In the boxplots (see Figure~\ref{fig:xpl:boxplot}), we see that up to 5\% of contamination in the upper tail area goes unnoticed in the median and the fourths of the boxplots.  Up to 20\% of contamination raises the median slightly and increases the inter-quartile range some at the cost of some of the outliers. At 25\% the number of outliers becomes much smaller, while the upper whisker is extended to beyond the second mode and the upper quartile is raised.
+The letter-value plots of Figure~\ref{fig:xpl:lvplot} are more sensitive, and thereby are able to give a better summary of the actual underlying distribution.
+With 1\% of contamination (i.e.\ 15 additional points from $\mbox{N}(4, 1)$), we see that the three outmost letter values are shifted upward -- indicating an asymmetry in the data, that is restricted to the outer tail area. As the percentage of contaminated points gets higher, letter values at a higher depth are affected. For 25\% contamination, we see that the upper eighth is shifted into the mean of the second mode.
+In the area-adjusted letter-value plots of Figure~\ref{fig:xpl:lvplot:area} the second mode in the data  becomes  visible for a 20\% contamination in an increase of the widths of boxes associated with the letter-values of the upper tail.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
-   \centering
-%   \includegraphics[width=.8\linewidth]{xpl-boxplot}
-<<sim-xpl-box, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth'>>=
+\begin{subfigure}[t]{\textwidth}
+\caption{\label{fig:xpl:boxplot} Boxplots of contaminated data. Boxplots are robust towards contamination of less than 25\%.}
+<<sim-xpl-box, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='.9\\linewidth'>>=
 ggplot(dframe, aes(factor(k), x)) +
   geom_boxplot() +
   xlab("Amount of contaminated data (in percent)") +
@@ -696,13 +696,8 @@ ggplot(dframe, aes(factor(k), x)) +
 
 # ggsave("images/xpl-boxplot.pdf", width=10, height=5)
 @
-   \caption{Boxplots of contaminated data. Boxplots are robust towards contamination of less than 25\%.}
-   \label{fig:xpl:boxplot}
-\end{figure}
 
-\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
-\begin{subfigure}[t]{\textwidth}
-  \caption{Letter-value plots with increasing amount of contamination.}
+  \caption{\label{fig:xpl:lvplot}Letter-value plots with increasing amount of contamination.}
    \centering
 <<sim-xpl-lv, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
 ggplot(dframe,
@@ -718,7 +713,7 @@ ggplot(dframe,
 \vspace{0.1in}\hfill\newline
 %
 \begin{subfigure}[t]{\textwidth}
-  \caption{Area-adjusted Letter-value plots.}
+  \caption{\label{fig:xpl:lvplot:area}Area-adjusted Letter-value plots.}
 \centering
 <<sim-xpl-lv-2, dependson='simu-data', echo=FALSE, fig.width=8, fig.height=3, out.width='\\linewidth', warning=FALSE>>=
 ggplot(dframe, aes(factor(k), x)) +
@@ -728,8 +723,8 @@ ggplot(dframe, aes(factor(k), x)) +
   ylab("") + theme_bw()
 @
 \end{subfigure}
-   \caption{Letter-value plots of contaminated data. Even small contaminations in the data can be seen in the outermost letter values -- indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing one to pinpoint the source of the contamination.}
-   \label{fig:xpl:lvplot}
+   \caption{\label{fig:xpl:contaminated} Boxplots and Letter-value plots of contaminated data. %Even small contaminations in the data can be seen in the outermost letter values -- indicating changes from a standard normal situation. As the contamination becomes larger, more of the inner letter values are reacting to the changes, allowing one to pinpoint the source of the contamination.
+   }
 \end{figure}
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
