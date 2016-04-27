@@ -77,7 +77,7 @@
 \begin{abstract}
 Boxplots~\citep{eda} are useful displays that convey rough information about the distribution of a variable. Boxplots were designed to be drawn by hand and work best for small data sets, where detailed estimates of tail behavior beyond the quartiles may not be trustworthy. Larger data sets afford more precise estimates of tail behaviour, but boxplots do not take advantage of this precision, instead presenting large numbers of extreme, though not unexpected, observations.
 
-Letter-value plots address this problem by including more detailed information about the tails using ``letter values'', an order statistics defined by Tukey. Boxplots display the first two letter values (the median and quartiles); letter-value plots display further letter values until they are no longer reliable estimates of their corresponding quantiles. We illustrate letter-value plots with real data that demonstrate their usefulness for large data sets.
+Letter-value plots address this problem by including more detailed information about the tails using ``letter values'', an order statistic defined by Tukey. Boxplots display the first two letter values (the median and quartiles); letter-value plots display further letter values so far as they are reliable estimates of their corresponding quantiles. We illustrate letter-value plots with real data that demonstrate their usefulness for large data sets.
 
 All graphics are created using the R package \texttt{lvplot}, and code and data are available in the supplementary materials.
 \end{abstract}
@@ -149,11 +149,20 @@ bycarrier <- ontime %>% group_by(UniqueCarrier) %>% summarize(
 %during the session. See~\citet{kw06} for further details about the data and
 %transformations. The sample sizes in the 32 boxes range from 1341 (box \#32)
 %to 7865 (Box \#13), with a median sample size of 4238.
-Figure~\ref{fig:taxi-bp} illustrates both of the large-data problems. The plot showes (square root) taxi-ing times for \Sexpr{comma(nrow(ontime))} US flights in January 2015, broken down carrier. Carriers are ordered by the total number of flights from left (largest) to right (smallest). The largest three carriers, WN (Southwest), DL (Delta), and EV (ExpressJet) show striking differences in the median taxi times: Southwest's median taxi time of \Sexpr{comma(sqrt(bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt))}$^2$ = \Sexpr{bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt} minutes is well below the overall median of \Sexpr{median(ontime$TaxiIn+ontime$TaxiOut, na.rm=T)}, whereas Delta has a median taxi time of 25 minutes, significantly above the overall median.
+Figure~\ref{fig:taxi-bp} illustrates both problems of conventional boxplots
+for the square roots of taxi times of 469,968 U.S. domestic flights in
+January 2015 stratified by 15 U.S. airline carriers.
+ Carriers are ordered by the total number of flights from left (largest) to right (smallest). The largest three carriers, WN (Southwest), DL (Delta), and EV (ExpressJet) show striking differences in the median taxi times: the median taxi time for Southwest of \Sexpr{comma(sqrt(bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt))}$^2$ = \Sexpr{bycarrier[bycarrier$UniqueCarrier=="WN",]$medtt} minutes is  below the overall median of \Sexpr{median(ontime$TaxiIn+ontime$TaxiOut, na.rm=T)} minutes, while Delta has a median taxi time of 25 minutes.
 
-The sample sizes in the fifteen groups vary between \Sexpr{comma(min(bycarrier$n))} flights by VX (Virgin America) and over one million flights by WN (Southwest).
-With so many observations in each group, the number of labeled outliers is huge, far too many to investigate individually, making it difficult to distinguish
-between extreme values and `true' outliers.
+The sample sizes in the fifteen carriers vary between \Sexpr{comma(min(bycarrier$n))} flights by VX (Virgin America) and over one million flights by WN (Southwest).
+Recall that roughly 0.7\% of the
+observations for a sample from a Gaussian distribution can be
+expected to be labeled as ``out'' or ``far out'' in a boxplot
+(Hoaglin, Mosteller, Tukey 1983, p.34).
+Thus, with so many
+flights for each airline, the number of labeled outliers in
+Figure~1 is huge, far too many to investigate individually and
+to distinguish between expected extreme values and `true’ outliers.
 
 \begin{figure}[hbtp]
   \centering
@@ -172,10 +181,13 @@ ggplot(ontime, aes(UniqueCarrier, TaxiOut + TaxiIn)) +
   \label{fig:taxi-bp}
 \end{figure}
 
-The definition of boxplots is based around a set of order statistics called letter values, in particular, the median, $M$, and the fourths, $F$.
+The construction of a boxplot is based on a set of order statistics
+called letter values, specifically the sample median M and the lower
+and upper fourths $L_F$ and $U_F$, called ``hinges'' in~\citet{eda}.
 In \textit{Exploratory Data Analysis},~\citet{eda} recommended the use of order statistics as estimates for the fourths, specifically, the $(\lfloor n/2\rfloor + 1)/2$-th and $(n + 1 - (\lfloor n/2 \rfloor + 1)/2)$-th order statistics for lower and upper fourths for a sample size of $n$.
-Similarly, the definition of ``outside value'' (which we will denote here
-simply as ``outlier'') depends on the range between the fourths:
+
+Similarly, the definition of ``outside value'', which we will denote here
+simply as ``outlier'', depends on the range between the fourths:
 %
 an observation is labelled as an ``outside value''
 %simply as ``outlier'')
