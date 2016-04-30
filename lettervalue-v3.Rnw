@@ -75,7 +75,7 @@
 
 \bigskip
 \begin{abstract}
-Boxplots~\citep{eda} are useful displays that convey rough information about the distribution of a variable. Boxplots were designed to be drawn by hand and work best for small data sets, where detailed estimates of tail behavior beyond the quartiles may not be trustworthy. Larger data sets afford more precise estimates of tail behaviour, but boxplots do not take advantage of this precision, instead presenting large numbers of extreme, though not unexpected, observations.
+Boxplots~\citep{eda} are useful displays that convey rough information about the distribution of a variable. Boxplots were designed to be drawn by hand and work best for small data sets, where detailed estimates of tail behavior beyond the quartiles may not be trustworthy. Larger data sets afford more precise estimates of tail behavior, but boxplots do not take advantage of this precision, instead presenting large numbers of extreme, though not unexpected, observations.
 
 Letter-value plots address this problem by including more detailed information about the tails using ``letter values'', an order statistic defined by Tukey. Boxplots display the first two letter values (the median and quartiles); letter-value plots display further letter values so far as they are reliable estimates of their corresponding quantiles. We illustrate letter-value plots with real data that demonstrate their usefulness for large data sets.
 
@@ -232,7 +232,7 @@ that can be reliably estimated to provide more information about the tails.
 Alternative displays have been proposed to illustrate further details of the distribution, such as multi-modality. The overview paper by \citet{wickham2012} discusses these alternatives, in particular
  vase~\citep{vase}, violin~\citep{violin}, bean~\cite{kampstra2008}, box-percentile
 \citep{box.percentiles}, and high-density region~\citep{hyndman1996}  plots. These displays provide more detailed information
-about the distributions, through the use of nonparametric density estimates,
+about the distributions, through the use of non-parametric density estimates,
 which are especially useful for larger sample sizes. However, as~\citet{vase}
 acknowledged, these displays depend on the specific estimation procedure
 (e.g., kernel density estimate) as well as on additional smoothing
@@ -671,7 +671,7 @@ lv_horiz(log(census$totalpop), "(log) total population")
 
 \subsection{Contaminated data}
 
-The second example demonstrates the behavior of letter-value plots in situations with contaminated/heterogenous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bimodal distribution. Figures \ref{fig:xpl:contaminated} show boxplots and letter-value plots for this data.
+The second example demonstrates the behavior of letter-value plots in situations with contaminated/heterogeneous data. The plots in Figure~\ref{fig:xpl:histogram} give an overview of the situation: starting with a sample of size 1,500 from a standard normal distribution, $\mbox{N}(0,1)$, we replace values randomly by a set of points sampled  from $\mbox{N}(4,1)$. We start with 1\% contamination (of the original sample size $n$) and end at 25\%, which gives an essentially bi-modal distribution. Figures \ref{fig:xpl:contaminated} show boxplots and letter-value plots for this data.
 
 <<simu-data, echo=FALSE, results='hide', cache=TRUE>>=
 frame <- data.frame(expand.grid(k=c(0:5, 5*(2:10)), n1=1500))
@@ -791,7 +791,7 @@ The third example shows again an aspect of flight data: Figure~\ref{fig:xpl:dela
 
 From the letter-value plots in the top row of Figure~\ref{fig:xpl:delays} we see that most airline carriers have median delay times due to carrier delays close to zero, with the notable exception of Hawaiian Airlines (HA) and United Airlines (UA), where the median delay is close to 25=5$^2$ minutes. HA is one of the smallest carriers, yet shows some of the most extreme delays, indicating a potential organizational problem.
 With the exception of Spirit Airlines (NK), all airline carriers seem to be affected similarly by delays due to National Air System (NAS), as we can see from the letter-value plots in the middle of Figure~\ref{fig:xpl:delays}. There are some exceptions: Hawaiian Airlines has almost no problems due to NAS delays, Southwest (WN) and Virgin America  (VX) have a median of zero delay due to NAS. The small carrier Spirit Airlines (NK)  seems to be affected by NAS delays surprisingly often and long.
-Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Haiwaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines) and Virgin America (VX) on the other hand, are affected the most by weather delays, and United Airlines (UA) has also a particularly long tail, indicating that some of its flights are affected very severely by weather events.
+Weather delays, as shown in the bottom row of Figure~\ref{fig:xpl:delays} affect different airline carriers differently, most likely due to different routes serviced. Hawaiian Airlines (HA) is not likely to be affected by inclement weather in January, and therefore delays due to weather are minimal. Envoy Air (MQ, formerly American Eagle Airlines) and Virgin America (VX) on the other hand, are affected the most by weather delays, and United Airlines (UA) has also a particularly long tail, indicating that some of its flights are affected very severely by weather events.
 
 
 % \section{Bivariate letter value plots}
@@ -877,7 +877,7 @@ Using location depths, introduced by~\citet{tukey75}, letter values could be ext
 
 %\item[Title:] Brief description. (file type)
 
-\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. All datasets used for this paper are also included in the package. Version 0.1.1 of the package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
+\item[R-package lvplot:] R-package lvplot consists of the implementation of letter-value plots as described in the paper. All data sets used for this paper are also included in the package. Version 0.1.1 of the package was used for all letter-value plots in the paper and is available from CRAN. (GNU zipped tar file)
 
 \item[lettervalue.R:] R code to reproduce all of the figures in the paper. %Note that the data has to be stored in a folder called code-data at the same level as the code file.
 (.R file)
